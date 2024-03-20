@@ -1,29 +1,29 @@
 <template>
-  <a-button
+  <button
     :disabled="isDisabled"
     :style="{ '--select-color': buttonColor }"
-    :class="{ '--is-active': isActive }"
-    class="app-configurable-product-default-switch app-default-switch"
+    :class="{ '--is-active': isActive, '--is-color': buttonColor }"
+    class="app-product-default-switch app-default-switch"
     @click="selectOption"
   >
-    <span class="app-default-switch__label">
-      {{ optionData.label }}
+    <span v-if="!buttonColor" class="app-default-switch__label">
+      {{ optionData.name }}
     </span>
-  </a-button>
+  </button>
 </template>
 
 <script setup lang="ts">
 // Types & Interfaces
 import type { TConfigurableProductOptions } from '~/api/product/configurable/shred.types'
 interface Props {
-  optionLabel: TConfigurableProductOptions['optionLabel'],
+  optionLabel: TConfigurableProductOptions['name'],
   optionData: TConfigurableProductOptions['values'][0],
   isActive: boolean,
   isDisabled?: boolean,
 }
 
 interface Emits {
-  (name: 'optionSelected', optionData: Props['optionData']): () => void,
+  (name: 'optionSelected', optionData: Props['optionData']): void,
 }
 
 const emits = defineEmits<Emits>()
@@ -34,7 +34,6 @@ const buttonColor = computed(() => {
   if (optionLabel.value.toLowerCase() === 'color') {
     return optionData.value.value
   }
-  return '#000'
 })
 
 const selectOption = () => {
@@ -47,18 +46,38 @@ const selectOption = () => {
 </script>
 
 <style lang="scss">
-.app-configurable-product-default-switch {
-  transition: background-color 0.3s ease 0s, color 0.3s ease 0s;
+.app-product-default-switch {
+  transition-property: background-color, color;
+  transition-duration: 300ms;
+  transition-timing-function: ease-in;
+  padding: 10rem;
 
   .app-default-switch__label {
-    color: var(--select-color);
+    color: map-get($theme-colors, 'primary-color');
+  }
+
+  &[disabled] {
+    backdrop-filter: brightness(0.8);
+    opacity: 0.6;
   }
 
   &.--is-active {
-    background-color: var(--select-color);
+    background-color: map-get($gray-color-palette, 'gray-3');
+    color: map-get($theme-colors, 'primary-color');
 
     .app-default-switch__label {
-      color: #fff;
+      color: map-get($white-color-palette, 'white');
+    }
+  }
+
+  &.--is-color {
+    padding: 0;
+    width: 40rem;
+    height: 40rem;
+    background-color: var(--select-color);
+
+    &.--is-active {
+      border: 3rem solid map-get($gray-color-palette, 'gray-3');
     }
   }
 }

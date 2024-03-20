@@ -1,9 +1,9 @@
 export type TConfigurableProductOptions = {
-  optionId: number
-  optionLabel: string
+  id: number
+  name: string
   values: {
-    label: string
-    optionId: number
+    id: number
+    name: string
     value: string
   }[]
 }

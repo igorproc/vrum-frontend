@@ -5,9 +5,6 @@ import type {
 import type {
   TProductBrand
 } from '~/api/brand/shared.types'
-import type {
-  TAdditionalDataGroup
-} from '~/api/product/additionalData/shared.types'
 
 export enum EAddProductTypes {
   'base' = 'BASE',
@@ -23,8 +20,8 @@ export type TProduct = {
   price: number
   productImage: string
   configurable?: {
-    productOptions?: TConfigurableProductOptions[]
-    productVariants?: TConfigurableProductVariants[]
+    options?: TConfigurableProductOptions[]
+    variants?: TConfigurableProductVariants[]
   }
   createdAt: string
   updatedAt: string

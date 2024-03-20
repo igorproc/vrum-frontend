@@ -70,7 +70,5 @@ const linkParams = computed(() => {
     font-weight: bold;
     font-size: 16rem;
   }
-
-
 }
 </style>

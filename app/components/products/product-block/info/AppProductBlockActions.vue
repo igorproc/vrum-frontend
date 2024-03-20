@@ -1,25 +1,39 @@
 <template>
   <div class="app-product-block-actions">
-    <ui-button
-      :disabled="addToCartActionIsDisabled"
-      background-color="#000"
-      variant="outlined"
-      label="Add To Cart"
-    />
-    <ui-button
-      :disabled="addToWishlistActionIsDisabled"
-      background-color="#000"
-      variant="outlined"
-      label="Wishlist"
-      prepend-icon="user/heart"
-      @click="addProductToWishlist"
-    />
+    <div
+      v-if="product.__typename === 'CONFIGURABLE'"
+      class="app-product-block-actions__switches"
+    >
+      <AppConfigurableProductSwitchGroup
+        :product-options="product.configurable?.options || []"
+        :product-variants="product.configurable?.variants || []"
+      />
+    </div>
+
+    <div class="app-product-block-actions__product">
+      <ui-button
+        :disabled="addToCartActionIsDisabled"
+        background-color="#000"
+        variant="outlined"
+        label="Add To Cart"
+      />
+      <ui-button
+        :disabled="addToWishlistActionIsDisabled"
+        background-color="#000"
+        variant="outlined"
+        label="Wishlist"
+        prepend-icon="user/heart"
+        @click="addProductToWishlist"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 // Types & Interfaces
 import type { TProduct } from '~/api/product/shared.types'
+import AppConfigurableProductSwitchGroup
+  from '~/components/products/product-tile/swith/AppConfigurableProductSwitchGroup.vue'
 
 interface Props {
   product: TProduct,
@@ -73,25 +87,38 @@ watch(variantId, newVal => {
 
 <style lang="scss">
 .app-product-block-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 
-  .ui-button {
-    border-radius: 15rem;
+  &__product {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .ui-button {
+      border-radius: 15rem;
+    }
   }
 
   @media #{map-get($display-rules, 'md')} {
-    gap: 16rem;
-    justify-content: center;
+    &__switches {
+      width: fit-content;
+    }
+
+    &__product {
+      margin-top: 8rem;
+      gap: 16rem;
+      justify-content: center;
+    }
   }
 
   @media #{map-get($display-rules, 'xl')} {
-    justify-content: flex-start;
+    &__product {
+      justify-content: flex-start;
 
-    .ui-button {
-      padding: 17rem 48rem;
+      .ui-button {
+        padding: 17rem 48rem;
+      }
     }
+
   }
 }
 </style>

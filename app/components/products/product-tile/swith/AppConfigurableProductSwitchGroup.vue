@@ -2,19 +2,24 @@
   <div class="app-configurable-product-switch-list product-switch-list">
     <div
       v-for="optionGroup in productOptions"
-      :key="optionGroup.optionId"
-      class="product-switch-list__group group-list"
+      :key="optionGroup.id"
+      class="product-switch-list__group group-item"
     >
-      <AppConfigurableProductDefaultSwitch
-        v-for="optionItem in optionGroup.values"
-        :key="optionItem.optionId"
-        :option-label="optionGroup.optionLabel"
-        :option-data="optionItem"
-        :is-active="isActiveOption(optionItem.optionId)"
-        :is-disabled="isDisabledOption(optionItem.optionId)"
-        class="group-list__item"
-        @option-selected="selectOption"
-      />
+      <span class="group-item__title">
+        {{ optionGroup.name }}
+      </span>
+
+      <div class="group-item__options">
+        <AppConfigurableProductDefaultSwitch
+          v-for="optionItem in optionGroup.values"
+          :key="optionItem.id"
+          :option-label="optionGroup.name"
+          :option-data="optionItem"
+          :is-active="isActiveOption(optionItem.id)"
+          :is-disabled="isDisabledOption(optionItem.id)"
+          @option-selected="selectOption"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -56,24 +61,24 @@ const allViableOptionsFromVariants = computed(() => {
   productVariants.value.forEach(productVariant => {
     productVariant.attributes.forEach(variantItem => {
       const productOptionGroupCandidate = productOptions.value
-        .find(optionItem => optionItem.optionLabel === variantItem.code)
+        .find(optionItem => optionItem.name === variantItem.code)
       if (!productOptionGroupCandidate) {
         return
       }
 
       const productOptionCandidate = productOptionGroupCandidate
-        .values.find(optionItem => optionItem.optionId === variantItem.valueId)
+        .values.find(optionItem => optionItem.id === variantItem.valueId)
       if (!productOptionCandidate) {
         return
       }
       if (!idsList[productVariant.product.id]) {
-        idsList[productVariant.product.id] = [productOptionCandidate.optionId]
+        idsList[productVariant.product.id] = [productOptionCandidate.id]
         return
       }
 
       idsList[productVariant.product.id] = [
         ...Object.values(idsList[productVariant.product.id]),
-        productOptionCandidate.optionId,
+        productOptionCandidate.id,
       ]
     })
   })
@@ -134,27 +139,34 @@ const isDisabledOption = (optionId: number) => {
     .includes(optionId) && !selectedOptionIds.value.includes(optionId)
 }
 const selectOption = (optionData: TConfigurableProductOptions['values'][0]) => {
-  if (!selectedOptionIds.value.includes(optionData.optionId)) {
-    selectedOptionIds.value.push(optionData.optionId)
+  if (!selectedOptionIds.value.includes(optionData.id)) {
+    selectedOptionIds.value.push(optionData.id)
     return
   }
-  selectedOptionIds.value = selectedOptionIds.value.filter(id => id !== optionData.optionId)
+  selectedOptionIds.value = selectedOptionIds.value.filter(id => id !== optionData.id)
 }
 </script>
 
 <style lang="scss">
 .app-configurable-product-switch-list {
-  margin-top: 0.25rem;
+  margin-top: 8rem;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 16rem;
 
   .product-switch-list__group {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 0.25rem;
+
+    .group-item__options {
+      margin-top: 8rem;
+      display: flex;
+      align-items: center;
+      gap: 16rem;
+    }
   }
 }
 </style>
