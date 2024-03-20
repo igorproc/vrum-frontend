@@ -59,7 +59,6 @@ import { object, string, number } from 'yup'
 // Ui Components
 import AppAdminModalAddProductImage from '~/components/admin/products/modal/AppAdminModalAddProductImage.vue'
 // Pinia Stores
-import { useProductStore } from '~/store/product'
 import { useConditionStore } from '~/store/condition'
 // Api Methods
 import { addProduct } from '~/api/product/addProduct'
@@ -78,7 +77,6 @@ const productTypes: { label: string, value: string }[] = [
 ]
 
 const conditionStore = useConditionStore()
-const productStore = useProductStore()
 const validationForm = useForm({
   validationSchema: toTypedSchema(
     object({
@@ -126,7 +124,6 @@ const submit = async () => {
     }
 
     validationForm.resetForm()
-    productStore.addToProductList(productIsCreated)
     conditionStore.closeAdminAddProductModal()
     isDisabled.value = false
   } catch (error) {

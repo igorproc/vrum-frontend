@@ -4,6 +4,6 @@ export async function createWishlist() {
   const asyncQuery = useAsyncQuery()
   return await asyncQuery<TWishlistData>(
     'POST',
-    '/api/user/wishlist/create',
+    '/api/wishlist/createCart',
   )
 }

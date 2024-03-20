@@ -3,48 +3,45 @@
     <div class="main-page__slider">
       <AppMainSlider />
     </div>
-    <div class="main-page__personality-slider">
-      <AppPersonalitySlider />
+    <div v-if="data" class="main-page__personality-slider">
+      <AppPersonalitySlider :brands="data.brands" />
     </div>
     <div v-if="data" class="main-page__showcase">
       <AppShowcaseList :product-list="data.products" />
-    </div>
-    <div class="main-page__example-slider">
-      <AppMainExampleSlider />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-// Pinia Stores
-import { useProductStore } from '~/store/product'
 // Api Methods
 import { getProductPage } from '~/api/product/getProductPage'
+import { getBrandList } from '~/api/brand/getBrandList'
 // Components
 import AppMainSlider from '~/components/main/AppMainSlider.vue'
 import AppShowcaseList from '~/components/products/showcase/AppShowcaseList.vue'
-import AppMainExampleSlider from '~/components/main/AppMainExampleSlider.vue'
 import AppPersonalitySlider from '~/components/personality/AppPersonalitySlider.vue'
 
-const productStore = useProductStore()
+async function onLoad() {
+  const [showcase, brands] = await Promise.all([
+    getProductPage(1, 8),
+    getBrandList(1, 12)
+  ])
 
-const onLoad = async () => {
-  const productsData = await getProductPage({ page: 1, size: 8 })
-
-  productStore.productList = productsData?.products || []
-  return productsData
+  return {
+    products: showcase?.products || [],
+    brands: brands?.brands || [],
+  }
 }
 
 const { data } = useLazyAsyncData(
-  'main-showcase-list',
+  'index-page-data',
   async () => await onLoad()
 )
 </script>
 
 <style lang="scss">
 .app-main-page {
-  .main-page__slider,
-  .main-page__example-slider {
+  .main-page__slider,{
     margin: -10rem -15rem;
   }
 
@@ -54,9 +51,8 @@ const { data } = useLazyAsyncData(
   }
 
   @media #{map-get($display-rules, 'xl')} {
-    .main-page__slider,
-    .main-page__example-slider {
-      margin: 0 -65rem;
+    .main-page__slider {
+      margin: -30rem -65rem;
     }
 
     .main-page__showcase,
@@ -66,9 +62,8 @@ const { data } = useLazyAsyncData(
   }
 
   @media #{map-get($display-rules, 'xxl')} {
-    .main-page__slider,
-    .main-page__example-slider {
-      margin: 0 -185rem;
+    .main-page__slider, {
+      margin: -30rem -185rem;
     }
   }
 }

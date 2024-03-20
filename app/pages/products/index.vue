@@ -2,26 +2,23 @@
   <AppProductsPage
     v-model:filters="pageFilters"
     :products-is-loaded="productsIsLoaded"
-    :total-products="pageData.totalProducts"
+    :total-products="pageData.products.length"
   />
 </template>
 
 <script setup lang="ts">
 // Components
 import AppProductsPage from '~/components/products/AppProductListPage.vue'
-// Pinia Stores
-import { useProductStore } from '~/store/product'
 // Api Methods
 import { getProductPage } from '~/api/product/getProductPage'
 // Types & Interfaces
 import type { TGetProductPageInput, TProductPage } from '~/api/product/getProductPage'
 
-const productStore = useProductStore()
 const route = useRoute()
 const router = useRouter()
 
 const pageFilters = ref<TGetProductPageInput>({ page: 1, size: 8, filters: {} })
-const pageData = ref<TProductPage>({ products: [], totalProducts: 0 })
+const pageData = ref<TProductPage>({ products: [] })
 const productsIsLoaded = ref(false)
 
 const getFiltersFromLink = () => {
@@ -59,15 +56,13 @@ const onUpdateFilters = async () => {
 }
 const onLoad = async () => {
   productsIsLoaded.value = true
-  const productsData = await getProductPage(pageFilters.value)
+  const productsData = await getProductPage()
 
   if (!productsData) {
     productsIsLoaded.value = false
     return null
   }
 
-  productStore.productList = productsData.products
-  pageData.value.totalProducts = productsData.totalProducts
   pageData.value.products = productsData.products
   productsIsLoaded.value = false
 

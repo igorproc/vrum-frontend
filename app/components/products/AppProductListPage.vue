@@ -11,7 +11,7 @@
     <AppProductList
       :is-loading="productsIsLoaded"
       :page-size="filters.size"
-      :product-list="productStore.productList"
+      :product-list="productList"
       class="products__list"
     />
 
@@ -31,12 +31,12 @@
 import AppProductList from '~/components/products/product-list/AppProductList.vue'
 import AppProductListFilters from '~/components/products/product-list/AppProductListFilters.vue'
 import AppProductListPagination from '~/components/products/product-list/AppProductListPagination.vue'
-// Pinia Stores
-import { useProductStore } from '~/store/product'
 // Types & Interfaces
 import type { TGetProductPageInput } from '~/api/product/getProductPage'
+import type { TProduct } from '~/api/product/shared.types'
 
 interface Props {
+  productList: TProduct[]
   totalProducts: number,
   filters: TGetProductPageInput,
   productsIsLoaded: boolean,
@@ -46,10 +46,8 @@ interface Emits {
   (name: 'update:filters', filters: TGetProductPageInput): void
 }
 
-const productStore = useProductStore()
-
 const props = defineProps<Props>()
-const { totalProducts, filters } = toRefs(props)
+const { productList, totalProducts, filters } = toRefs(props)
 const emit = defineEmits<Emits>()
 
 const updatePageSize = async (providedPageSize: number) => {

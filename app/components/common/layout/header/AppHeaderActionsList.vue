@@ -44,7 +44,7 @@ const actionsList: ActionsListItem[] = [
     icon: 'user/heart',
     action: {
       isLink: true,
-      link: 'user/wishlist'
+      link: 'user/wishlist',
     },
   },
   {
@@ -79,6 +79,12 @@ const getItemAction = async (actionData: IListItemAction) => {
 
     .nuxt-icon {
       font-size: 20rem !important;
+    }
+  }
+
+  @media #{map-get($display-rules, 'lg')} {
+    .actions-list__item .nuxt-icon {
+      font-size: 24rem !important;
     }
   }
 }

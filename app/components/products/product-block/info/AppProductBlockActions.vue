@@ -19,18 +19,18 @@
 
 <script setup lang="ts">
 // Types & Interfaces
-import { EAddProductTypes } from '~/api/product/shared.types'
+import type { TProduct } from '~/api/product/shared.types'
 
 interface Props {
-  typename: EAddProductTypes
-  productId: number
-  variantId?: number
+  product: TProduct,
+  variantId?: number,
 }
 
 const props = defineProps<Props>()
-const { typename, productId, variantId } = toRefs(props)
+const { product, variantId } = toRefs(props)
 const {
   productIsAddedToWishlist,
+  configurableProductVariant,
   productIsAddedToCart,
   operationWithWishlistIsProcessing,
   operationWithCartIsProcessing,
@@ -39,20 +39,20 @@ const {
   addToCart,
   removeFromCart,
   addProductVariant,
-} = useProduct(productId.value)
+} = useProduct(product.value)
 
 const addToCartActionIsDisabled = computed(() => {
   if (operationWithCartIsProcessing.value) {
     return true
   }
-  return typename.value === 'CONFIGURABLE' && !variantId.value
+  return product.value.__typename === 'CONFIGURABLE' && !configurableProductVariant.value
 })
 
 const addToWishlistActionIsDisabled = computed(() => {
   if (operationWithWishlistIsProcessing.value) {
     return true
   }
-  return typename.value === 'CONFIGURABLE' && !variantId.value
+  return product.value.__typename === 'CONFIGURABLE' && !configurableProductVariant.value
 })
 
 const addProductToWishlist = async () => {
@@ -75,13 +75,19 @@ watch(variantId, newVal => {
 .app-product-block-actions {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   .ui-button {
     border-radius: 15rem;
   }
 
+  @media #{map-get($display-rules, 'md')} {
+    gap: 16rem;
+    justify-content: center;
+  }
+
   @media #{map-get($display-rules, 'xl')} {
-    gap: 18rem;
+    justify-content: flex-start;
 
     .ui-button {
       padding: 17rem 48rem;

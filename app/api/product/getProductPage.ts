@@ -1,3 +1,6 @@
+// Constants
+import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '~/shared/const/pagination'
+// Types & Interfaces
 import type { TProduct } from '~/api/product/shared.types'
 
 export type TProductPageFilters = {
@@ -12,28 +15,14 @@ export type TGetProductPageInput = {
 }
 
 export type TProductPage = {
-  products: TProduct[],
-  totalProducts: number,
+  products: TProduct[]
 }
 
-export async function getProductPage(
-  pageData: TGetProductPageInput
-) {
+export async function getProductPage(currentPage?: number, pageSize?: number) {
   const asyncQuery = useAsyncQuery()
-
-  const filtersUrl = () => {
-    let filterUrl = ''
-    if (pageData.filters?.brand) {
-      filterUrl += `&brand=${pageData.filters.brand}`
-    }
-    if (pageData.filters?.sortBy) {
-      filterUrl += `&sortBy=${pageData.filters.sortBy}`
-    }
-    return filterUrl
-  }
 
   return await asyncQuery<TProductPage>(
     'GET',
-    `/api/product/list?page=${pageData.page}&size=${pageData.size}${filtersUrl()}`,
+    `/api/product/list?page=${currentPage || DEFAULT_PAGE_NUMBER}&size=${pageSize || DEFAULT_PAGE_SIZE}`,
   )
 }

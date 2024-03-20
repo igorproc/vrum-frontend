@@ -79,13 +79,13 @@ const {
   addToWishlist,
   removeFromWishlist,
   removeFromCart,
-} = useProduct(product.value.pid)
+} = useProduct(product.value)
 
 const productPrice = computed(() => {
   return formattedPrice(product.value.price)
 })
 
-const productUrl = computed(() => `${runtimeConfig.public.appUrl}/product/${product.value.pid}`)
+const productUrl = computed(() => `${runtimeConfig.public.appUrl}/product/${product.value.id}`)
 
 const addProductToWishlist = () => {
   if (operationWithWishlistIsProcessing.value) {
@@ -128,6 +128,7 @@ const shareProductUrl = () => {
 
   .base-product__image-container {
     height: 300rem;
+    padding: 8rem;
 
     .ui-image {
       height: 100%;

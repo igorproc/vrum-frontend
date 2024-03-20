@@ -5,9 +5,9 @@
     </h1>
 
     <div class="showcase-list__products products">
-      <AppBaseProductTile
+      <AppProductTilesResolver
         v-for="product in productList"
-        :key="product.pid"
+        :key="product.id"
         :product="product"
         class="products__item"
       />
@@ -25,10 +25,10 @@
 </template>
 
 <script setup lang="ts">
+// Components
+import AppProductTilesResolver from '~/components/products/product-tile/Resolver.vue'
 // Types & Interfaces
 import type { TProduct } from '~/api/product/shared.types'
-// Components
-import AppBaseProductTile from '~/components/products/product-tile/_Base.vue'
 
 interface Props {
   productList: TProduct[]

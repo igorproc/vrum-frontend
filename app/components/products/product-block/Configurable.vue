@@ -1,5 +1,5 @@
 <template>
-  <section class="app-product-block product-block --base">
+  <section class="app-product-block product-block --configurable">
     <div class="product-block__image-container product-image-container">
       <ui-image
         :alt="product.name"
@@ -29,6 +29,7 @@
 <script setup lang="ts">
 // Components
 import AppProductBlockActions from '~/components/products/product-block/info/AppProductBlockActions.vue'
+import AppProductDescriptionResolver from '~/components/products/product-block/info/AppDescriptionResolver.vue'
 // Utils
 import { formattedPrice } from '~/utils/getCurrencyFormat.util'
 // Types & Interfaces
@@ -46,13 +47,21 @@ const productPrice = computed(() => formattedPrice(product.value.price))
 
 <style lang="scss">
 .app-product-block {
-  &.--base {
+  &.--configurable {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
 
     .product-block__content-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16rem;
+
       .product-content-container__information {
+        text-align: center;
+
         .content-information__title,
         .content-information__price,
         .content-information__description {
@@ -66,19 +75,30 @@ const productPrice = computed(() => formattedPrice(product.value.price))
       }
     }
 
-    @media #{map-get($display-rules, 'xl')} {
-      gap: 105rem;
+    @media #{map-get($display-rules, 'md')} {
+      flex-direction: row;
 
       .product-block__image-container {
+        width: 40%;
+
         .product-image-container__image {
-          width: 420rem;
-          height: 500rem;
+          height: 40%;
         }
+      }
+    }
+
+    @media #{map-get($display-rules, 'xl')} {
+      .product-block__image-container .product-image-container__image {
+        width: 500rem;
+        height: 500rem;
       }
 
       .product-block__content-container {
+        gap: 32rem;
         width: 610rem;
+
         .product-content-container__information {
+          text-align: start;
           max-width: 420rem;
 
           .content-information__title {
@@ -87,16 +107,11 @@ const productPrice = computed(() => formattedPrice(product.value.price))
 
           .content-information__price {
             font-size: 24rem;
-            margin-bottom: 18rem;
           }
 
           .content-information__description {
             max-width: 420rem;
           }
-        }
-
-        .product-content-container__actions {
-          margin-top: 32rem;
         }
       }
     }

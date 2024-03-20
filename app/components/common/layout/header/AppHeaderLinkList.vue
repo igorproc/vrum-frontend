@@ -48,5 +48,11 @@ const linkList = [
     font-weight: bold;
     color: map-get($theme-colors, 'primary-color')
   }
+
+  @media #{map-get($display-rules, 'xl')} {
+    .link-list__item {
+      font-size: 18rem;
+    }
+  }
 }
 </style>

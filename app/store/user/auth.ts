@@ -20,6 +20,7 @@ export const loginUser = async (loginData: TUserLoginInput) => {
 
     if (cookieTokenValue.value) {
       userStore.isGuest = true
+
       if (!userStore.userData) {
         const userData = await getUserData(cookieTokenValue.value as string)
         if (!userData) {
@@ -36,7 +37,7 @@ export const loginUser = async (loginData: TUserLoginInput) => {
       return
     }
 
-    cookieTokenValue.value = userIsLogin.token
+    cookieTokenValue.value = `Bearer ${userIsLogin.token}`
     userStore.isGuest = false
     userStore.userData = userIsLogin.userData
 

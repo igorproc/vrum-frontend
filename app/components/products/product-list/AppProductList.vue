@@ -6,11 +6,10 @@
       :key="generateRandomId() + index"
     />
 
-    <component
+    <AppProductTilesResolver
       v-else
       v-for="product in productList"
-      :key="product.pid"
-      :is="getComponent(product.__typename)"
+      :key="product.id"
       :product="product"
       class="product-list__item"
     />
@@ -19,8 +18,7 @@
 
 <script setup lang="ts">
 // Components
-import AppBaseProductTile from '~/components/products/product-tile/_Base.vue'
-import AppConfigurableProductTile from '~/components/products/product-tile/Configurable.vue'
+import AppProductTilesResolver from '~/components/products/product-tile/Resolver.vue'
 // Types & Interfaces
 import type { TProduct } from '~/api/product/shared.types'
 import AppProductListFilters from '~/components/products/product-list/AppProductListFilters.vue'
@@ -34,16 +32,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
 const { productList } = toRefs(props)
-
-const getComponent = (productType: TProduct['__typename']) => {
-  if (productType === 'CONFIGURABLE') {
-    return AppConfigurableProductTile
-  }
-  return AppBaseProductTile
-}
-
 </script>
 
 <style lang="scss">

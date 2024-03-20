@@ -12,6 +12,13 @@ export const useAsyncQuery = () => {
 
   const apiUrl = ref(runtimeConfig.public.apiUrl)
   const requestInstance = ref<AxiosInstance | null>(null)
+  const authToken = useCookie(
+    'authorization',
+    {
+      watch: 'shallow',
+      path: `.${runtimeConfig.public.appUrl}`
+    }
+  )
 
   const showError = (errorMessage: string) => {
     useClientOnly(() => {
@@ -37,11 +44,16 @@ export const useAsyncQuery = () => {
     const instance = axios.create()
 
     instance.defaults.baseURL = apiUrl.value
+    instance.defaults.headers['Content-Type'] = 'application/json'
+    if (authToken.value) {
+      instance.defaults.headers['Authorization'] = authToken.value
+    }
+
     instance.interceptors.response.use(
       response => response,
       error => showError(error.message),
     )
-    instance.defaults.headers['Content-Type'] = 'application/json'
+
 
     return instance
   }

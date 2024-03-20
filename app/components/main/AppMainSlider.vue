@@ -21,9 +21,6 @@
           <h5 class="item__content-title">
             {{ slide.title }}
           </h5>
-          <h3 v-if="slide.subtitle" class="item__content-subtitle">
-            {{ slide.subtitle }}
-          </h3>
           <span v-if="slide.description" class="item__content-description">
           {{ slide.description }}
         </span>
@@ -66,9 +63,8 @@ type TOfferItem = {
 const items: TOfferItem[] = [
   {
     id: 1,
-    title: 'New Arrival',
-    subtitle: 'Discover Our \nNew Collection',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.',
+    title: 'Original winter wheel assembly',
+    description: 'safe on the road in the cold season. Buy winter wheel assemblies at favourable prices right now.',
     image: 'offers/slider-1.jpg',
     action: {
       actionTitle: 'buy now',
@@ -78,10 +74,9 @@ const items: TOfferItem[] = [
   },
   {
     id: 2,
-    title: 'New Arrival',
-    subtitle: 'Discover Our \nNew Collection',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.',
-    image: 'offers/slider-1.jpg',
+    title: 'Original autumn wheel',
+    description: 'drive on wet roads with complete confidence. Buy autumn wheel assemblies at favourable prices right now.',
+    image: 'offers/slider-2.jpg',
     action: {
       actionTitle: 'buy now',
       isLink: true,
@@ -129,7 +124,7 @@ const getAction = async (actionData: IOfferItemAction) => {
     .item__content {
       max-width: 200rem;
       padding: 20rem 15rem;
-      background-color: #fff3e3;
+      background-color: map-get($theme-colors, 'surface-color');
       position: absolute;
       top: 5%;
       right: 0;
@@ -139,21 +134,14 @@ const getAction = async (actionData: IOfferItemAction) => {
 
       .item__content-title {
         font-family: $poppins-font-family;
-        color: map-get($theme-colors, 'primary-color');
-        font-size: 14rem;
-        font-weight: bold;
-      }
-
-      .item__content-subtitle {
-        font-family: $poppins-font-family;
-        color: map-get($theme-colors, 'accent-color');
+        color: map-get($white-color-palette, 'white');
         font-size: 18rem;
         font-weight: bold;
       }
 
       .item__content-description {
         font-family: $poppins-font-family;
-        color: map-get($theme-colors, 'primary-color');
+        color: map-get($white-color-palette, 'white');
         font-size: 8rem;
         font-weight: bold;
       }
@@ -161,7 +149,7 @@ const getAction = async (actionData: IOfferItemAction) => {
       .item__content-action {
         padding: 3rem 5rem;
         max-width: 50%;
-        background-color: map-get($theme-colors, 'accent-color');
+        background-color: map-get($gray-color-palette, 'gray-3');
         display: flex;
         align-items: center;
         justify-content: center;
@@ -171,7 +159,7 @@ const getAction = async (actionData: IOfferItemAction) => {
 
         .action__label {
           font-family: $poppins-font-family;
-          color: map-get($theme-colors, 'background-color');
+          color: map-get($white-color-palette, 'white');
           font-size: 8rem;
         }
       }
@@ -186,10 +174,6 @@ const getAction = async (actionData: IOfferItemAction) => {
 
         .item__content-title {
           font-size: 18rem;
-        }
-
-        .item__content-subtitle {
-          font-size: 24rem;
         }
 
         .item__content-description {
@@ -213,17 +197,12 @@ const getAction = async (actionData: IOfferItemAction) => {
       .item__content {
         padding: 62rem 43rem 20rem 39rem;
         max-width: unset;
-        width: 548rem;
+        width: 650rem;
         height: auto;
         right: 60rem;
 
         .item__content-title {
-          font-size: 16rem;
-        }
-
-        .item__content-subtitle {
-          margin-top: 4rem;
-          font-size: 52rem;
+          font-size: 24rem;
         }
 
         .item__content-description {
@@ -234,7 +213,7 @@ const getAction = async (actionData: IOfferItemAction) => {
 
         .item__content-action {
           margin-top: 17rem;
-          padding: 25rem 72rem;
+          padding: 20rem 70rem;
 
           .action__label {
             font-size: 16rem;

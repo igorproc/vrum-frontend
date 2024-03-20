@@ -40,7 +40,7 @@ const productPrice = computed(() => {
   return formattedPrice(product.value.price)
 })
 
-const productUrl = computed(() => `${runtimeConfig.public.appUrl}/product/${product.value.pid}`)
+const productUrl = computed(() => `${runtimeConfig.public.appUrl}/product/${product.value.name}`)
 
 const shareProductUrl = () => {
   if (import.meta.server || !window) {
@@ -57,6 +57,7 @@ const shareProductUrl = () => {
 .app-product-tile.--configurable {
 
   .configurable-product__image-container {
+    padding: 8rem;
     height: 300rem;
 
     .ui-image {

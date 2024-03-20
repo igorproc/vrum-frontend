@@ -1,14 +1,14 @@
-import type { IWishlistDataProductId, TWishlistData } from '~/api/user/wishlist/shared.types'
+import type { IWishlistDataProductId } from '~/api/user/wishlist/shared.types'
 
 export type TWishlistDataWishProductIds = {
-  wishlistData: TWishlistData,
+  token: string,
   productIds: IWishlistDataProductId[]
 }
 
-export async function getWishlistShorterData(wishlistToken: string) {
+export async function getWishlistShorterData() {
   const asyncQuery = useAsyncQuery()
   return await asyncQuery<TWishlistDataWishProductIds>(
     'GET',
-    `/api/user/wishlist/wishlistData?wishlistToken=${wishlistToken}`,
+    '/api/wishlist/shortData',
   )
 }

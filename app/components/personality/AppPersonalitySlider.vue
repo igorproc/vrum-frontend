@@ -10,36 +10,29 @@
         :options="{ align: 'prev', circular: true,  }"
         class="wrapper__slider"
       >
-        <nuxt-link
-          v-for="brand in data"
-          :key="brand.bid"
-          :to="{ name: 'products', query: { brand: brand.name } }"
-          class="wrapper__slider-item slider-item"
-        >
-          <ui-image
-            :alt="brand.name"
-            :src="brand.imageUrl"
-            class="slider-item__image"
-          />
-          <span class="slider-item__title">
-            {{ brand.name }}
-          </span>
-        </nuxt-link>
+        <AppPersonalityTile
+          v-for="personality in brands"
+          :key="personality.id"
+          is-link
+          :personality="personality"
+        />
       </Flicking>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-// Node Deps
-import { useLazyAsyncData } from '#app'
-// Api Methods
-import { getBrandList } from '~/api/product/brand/getBrandList'
+// Components
+import AppPersonalityTile from '~/components/personality/tile/AppPersonalityTile.vue'
+// Types & Interfaces
+import type { TBrand } from '~/api/brand/getBrandList'
 
-const { data } = useLazyAsyncData(
-  'app-personality-list',
-  async () => await getBrandList(1, 20),
-)
+interface Props {
+  brands: TBrand[]
+}
+
+const props = defineProps<Props>()
+const { brands } = toRefs(props)
 </script>
 
 <style lang="scss">
@@ -53,23 +46,6 @@ const { data } = useLazyAsyncData(
   .personality-slider {
     &__wrapper {
       width: 100%;
-
-      .slider-item {
-        padding: 15rem 20rem;
-        text-decoration: unset;
-        color: map-get($theme-colors, 'primary-color');
-
-        &__image {
-          width: 180rem;
-          height: 80rem;
-          margin-bottom: 12rem;
-        }
-
-        &__title {
-          font-weight: bold;
-          font-size: 16rem;
-        }
-      }
     }
   }
 }

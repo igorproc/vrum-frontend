@@ -3,16 +3,14 @@
     <div class="header__logo">
       <AppLogo />
     </div>
+
     <div v-if="isTablet" class="header__navigation-trigger">
       <AppNavigationTrigger />
     </div>
+
     <div v-else class="header__content content">
-      <div class="content__link-list">
-        <AppHeaderLinkList />
-      </div>
-      <div class="content__actions-list">
-        <AppHeaderActionsList />
-      </div>
+      <AppHeaderLinkList class="content__link-list" />
+      <AppHeaderActionsList class="content__actions-list" />
     </div>
   </header>
 </template>
@@ -38,19 +36,28 @@ const isTablet = computed(() => width.value <= DEFAULT_BREAKPOINT_SIZES.lg)
   align-items: center;
   justify-content: space-between;
   padding: 10rem 15rem;
+  background-color: map-get($theme-colors, 'primary-color');
 
-  .header__container {
-    width: 100%;
+  .header__logo .app-logo__text {
+    color: map-get($white-color-palette, 'white');
+  }
 
-    .container__logo {
-      height: 64px;
+  .header__content {
+    .content__link-list .link-list__item {
+      color: map-get($white-color-palette, 'white');
     }
 
-    .container__actions {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
+    .content__actions-list {
+      .actions-list__item .ui-icon {
+        color: map-get($white-color-palette, 'white');
+      }
     }
+  }
+
+  .container__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 
   @media #{map-get($display-rules, 'lg')} {
@@ -75,7 +82,7 @@ const isTablet = computed(() => width.value <= DEFAULT_BREAKPOINT_SIZES.lg)
   }
 
   @media #{map-get($display-rules, 'xxl')} {
-    padding: 30rem 185rem;
+    padding: 40rem 140rem;
   }
 }
 </style>

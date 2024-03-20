@@ -6,24 +6,24 @@ import { getWishlistShorterData } from '~/api/user/wishlist/wishlistShortData'
 
 export const initializeWishlist = async () => {
   const wishlistStore = useWishlistStore()
-  const cookieWishlistTokenValue = useCookie('wishlist-id')
+  const wishlistToken = useCookie('wishlist-token')
 
-  if (!cookieWishlistTokenValue.value) {
+  if (!wishlistToken.value) {
     const wishlistData = await createWishlist()
     if (!wishlistData) {
       return
     }
 
-    wishlistStore.wishlistToken = wishlistData.wishlistToken
-    cookieWishlistTokenValue.value = wishlistData.wishlistToken
+    wishlistStore.wishlistToken = wishlistData.token
+    wishlistToken.value = wishlistData.token
     return
   }
 
-  const wishlistData = await getWishlistShorterData(cookieWishlistTokenValue.value)
+  const wishlistData = await getWishlistShorterData()
   if (!wishlistData) {
     return
   }
 
-  wishlistStore.wishlistToken = wishlistData.wishlistData.wishlistToken
+  wishlistStore.wishlistToken = wishlistData.token
   wishlistStore.idsList = wishlistData.productIds
 }

@@ -1,8 +1,7 @@
 export type TWishlistData = {
-  wishlistId: number,
-  isGuestCart: boolean,
+  isGuest: boolean,
   userId: number,
-  wishlistToken: string,
+  token: string,
 }
 
 export type TWishlistOperationWithProductInput = {
@@ -12,7 +11,7 @@ export type TWishlistOperationWithProductInput = {
 }
 
 export interface IWishlistDataProductId {
-  itemId: number,
+  id: number,
   productId: number,
   variantId?: number,
 }
