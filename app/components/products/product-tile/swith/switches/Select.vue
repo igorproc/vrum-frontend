@@ -51,6 +51,7 @@ const selectOption = () => {
   transition-duration: 300ms;
   transition-timing-function: ease-in;
   padding: 10rem;
+  border: 1rem solid map-get($gray-color-palette, 'gray-3');
 
   .app-default-switch__label {
     color: map-get($theme-colors, 'primary-color');

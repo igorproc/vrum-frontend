@@ -23,6 +23,8 @@ export type TProduct = {
     options?: TConfigurableProductOptions[]
     variants?: TConfigurableProductVariants[]
   }
-  createdAt: string
-  updatedAt: string
+  times: {
+    updatedAt: string
+    createdAt: string
+  }
 }

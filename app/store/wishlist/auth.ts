@@ -1,8 +1,8 @@
 // Pinia Stores
 import { useWishlistStore } from '~/store/wishlist/index'
 // Api Methods
-import { getWishlistShorterData } from '~/api/user/wishlist/wishlistShortData'
-import { createWishlist } from '~/api/user/wishlist/createWishlist'
+import { getWishlistShorterData } from '~/api/wishlist/getShortData'
+import { create } from '~/api/wishlist/create'
 
 export const wishlistOnLoginUser = async (token: string) => {
   try {
@@ -15,12 +15,12 @@ export const wishlistOnLoginUser = async (token: string) => {
     wishlistTokenValue.value = token
     wishlistStore.wishlistToken = token
 
-    const idsList = await getWishlistShorterData(token)
+    const idsList = await getWishlistShorterData()
     if (!idsList) {
       return
     }
 
-    wishlistStore.idsList = idsList.productIds
+    wishlistStore.idsList = idsList.items
     wishlistStore.productList = []
   } catch (error) {
     throw error
@@ -34,12 +34,12 @@ export const wishlistOnLogoutUser = async () => {
       { maxAge: 60 * 60 * 24 * 14 },
     )
 
-    const newGuestWishlistToken = await createWishlist()
+    const newGuestWishlistToken = await create()
     if (!newGuestWishlistToken) {
       return
     }
 
-    wishlistTokenValue.value = newGuestWishlistToken.wishlistToken
+    wishlistTokenValue.value = newGuestWishlistToken.token
   } catch (error) {
     throw error
   }

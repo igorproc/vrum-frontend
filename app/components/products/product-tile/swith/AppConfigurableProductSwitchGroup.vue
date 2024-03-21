@@ -44,9 +44,7 @@ interface Props {
 }
 
 interface Emits {
-  (name: 'productVariantIsSelected', variantId: number): () => void,
-
-  (name: 'productVariantIsNotSelected'): () => void,
+  (name: 'productVariantIsSelected', variantId: number | null): () => void,
 }
 
 const emits = defineEmits<Emits>()
@@ -122,7 +120,7 @@ const viableVariantsAndOptionsIdsListBySelected = computed(() => {
   ) {
     emits('productVariantIsSelected', Number(variantsList[0]))
   } else {
-    emits('productVariantIsNotSelected')
+    emits('productVariantIsSelected', null)
   }
 
   return {
@@ -166,6 +164,19 @@ const selectOption = (optionData: TConfigurableProductOptions['values'][0]) => {
       display: flex;
       align-items: center;
       gap: 16rem;
+    }
+  }
+
+  @media #{map-get($display-rules, 'md')} {
+    align-items: center;
+
+    .product-switch-list__group {
+      width: 100%;
+
+      .group-item__options {
+        flex-wrap: wrap;
+        max-width: 70%;
+      }
     }
   }
 }

@@ -24,7 +24,7 @@ import AppHeaderActionsList from '~/components/common/layout/header/AppHeaderAct
 // Composables
 import { useSSRWindowSize } from '~/composables/useSSRWisndowSize'
 // Constants
-import { DEFAULT_BREAKPOINT_SIZES } from '~/const/app'
+import { DEFAULT_BREAKPOINT_SIZES } from '~/shared/const/breakpoints'
 
 const { width } = useSSRWindowSize()
 const isTablet = computed(() => width.value <= DEFAULT_BREAKPOINT_SIZES.lg)
@@ -64,7 +64,7 @@ const isTablet = computed(() => width.value <= DEFAULT_BREAKPOINT_SIZES.lg)
     padding: 25rem 65rem;
 
     .header__content {
-      max-width: 66%;
+      max-width: 78%;
       width: 100%;
 
       display: flex;
@@ -78,6 +78,12 @@ const isTablet = computed(() => width.value <= DEFAULT_BREAKPOINT_SIZES.lg)
       .content__actions-list {
         width: 150rem;
       }
+    }
+  }
+
+  @media #{map-get($display-rules, 'xl')} {
+    .header__content {
+      max-width: 66%;
     }
   }
 

@@ -7,23 +7,27 @@
       <AppConfigurableProductSwitchGroup
         :product-options="product.configurable?.options || []"
         :product-variants="product.configurable?.variants || []"
+        @product-variant-is-selected="productVariantIsSelected"
       />
     </div>
 
-    <div class="app-product-block-actions__product">
+    <div class="app-product-block-actions__product actions-product">
+      <ui-button
+        :disabled="addToWishlistActionIsDisabled"
+        background-color="#000"
+        prepend-icon="user/heart"
+        class="actions-product__wishlist"
+        @click="addProductToWishlist"
+      />
+
       <ui-button
         :disabled="addToCartActionIsDisabled"
         background-color="#000"
         variant="outlined"
+        prepend-icon="user/cart"
         label="Add To Cart"
-      />
-      <ui-button
-        :disabled="addToWishlistActionIsDisabled"
-        background-color="#000"
-        variant="outlined"
-        label="Wishlist"
-        prepend-icon="user/heart"
-        @click="addProductToWishlist"
+        class="actions-product__cart"
+        @click="addProductToCart"
       />
     </div>
   </div>
@@ -37,11 +41,10 @@ import AppConfigurableProductSwitchGroup
 
 interface Props {
   product: TProduct,
-  variantId?: number,
 }
 
 const props = defineProps<Props>()
-const { product, variantId } = toRefs(props)
+const { product } = toRefs(props)
 const {
   productIsAddedToWishlist,
   configurableProductVariant,
@@ -51,7 +54,6 @@ const {
   addToWishlist,
   removeFromWishlist,
   addToCart,
-  removeFromCart,
   addProductVariant,
 } = useProduct(product.value)
 
@@ -80,31 +82,69 @@ const addProductToWishlist = async () => {
   return await addToWishlist()
 }
 
-watch(variantId, newVal => {
-  addProductVariant(newVal || null)
-})
+const addProductToCart = async () => {
+  if (addToCartActionIsDisabled.value) {
+    return
+  }
+
+  return await addToCart()
+}
+
+const productVariantIsSelected = (variantId: number | null) => {
+  addProductVariant(variantId)
+}
 </script>
 
 <style lang="scss">
 .app-product-block-actions {
 
   &__product {
+    margin-top: 16rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    .ui-button {
-      border-radius: 15rem;
+    .actions-product {
+      &__wishlist {
+        border-radius: 8rem;
+
+        &[disabled] {
+          cursor: default;
+          opacity: 0.6;
+        }
+
+        .ui-icon {
+          font-size: 20rem !important;
+          color: map-get($white-color-palette, 'white');
+        }
+      }
+
+      &__cart {
+        border-radius: 8rem;
+
+        &[disabled] {
+          cursor: default;
+          opacity: 0.6;
+        }
+
+        .ui-icon {
+          font-size: 20rem !important;
+        }
+
+        .button-content__label {
+          font-size: 20rem;
+        }
+      }
     }
   }
 
   @media #{map-get($display-rules, 'md')} {
     &__switches {
-      width: fit-content;
+      width: 100%;
     }
 
     &__product {
-      margin-top: 8rem;
+      margin-top: 32rem;
       gap: 16rem;
       justify-content: center;
     }
@@ -115,10 +155,9 @@ watch(variantId, newVal => {
       justify-content: flex-start;
 
       .ui-button {
-        padding: 17rem 48rem;
+        padding: 10rem 13rem;
       }
     }
-
   }
 }
 </style>

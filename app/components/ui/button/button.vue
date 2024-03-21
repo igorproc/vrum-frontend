@@ -13,11 +13,11 @@
     class="ui-button"
   >
     <div class="ui-button__prepend button-prepend">
-      <UiIcon v-if="prependIcon" :name="prependIcon" />
+      <ui-icon v-if="prependIcon" :name="prependIcon" />
       <slot name="prepend" />
     </div>
 
-    <div class="ui-button__content button-content">
+    <div v-if="label" class="ui-button__content button-content">
       <span class="button-content__label">
         {{ label }}
       </span>
@@ -33,7 +33,7 @@ import type { NuxtLinkProps } from '#app/components/nuxt-link'
 type ButtonType = 'text' | 'outlined'
 
 interface Props {
-  label: string,
+  label?: string,
   variant?: ButtonType,
   link?: NuxtLinkProps | string,
   backgroundColor?: string,
@@ -46,7 +46,7 @@ const props = defineProps<Props>()
 const { variant } = toRefs(props)
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .ui-button {
   padding: 8rem 12rem;
   display: flex;

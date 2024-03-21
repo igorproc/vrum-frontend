@@ -40,7 +40,7 @@ import { useProduct } from '~/composables/useProduct'
 // Utils
 import { formattedPrice } from '~/utils/getCurrencyFormat.util'
 // Types & Interfaces
-import type { TWishlistProduct } from '~/api/user/wishlist/wishlistProducts'
+import type { TWishlistProduct } from '~/api/wishlist/getProducts'
 
 interface Props {
   wishlistItem: TWishlistProduct

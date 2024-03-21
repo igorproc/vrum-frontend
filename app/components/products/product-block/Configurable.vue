@@ -52,6 +52,7 @@ const productPrice = computed(() => formattedPrice(product.value.price))
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+    gap: 80rem;
 
     .product-block__content-container {
       width: 100%;

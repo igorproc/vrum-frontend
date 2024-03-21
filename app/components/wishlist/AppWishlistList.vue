@@ -15,7 +15,7 @@
 import AppBaseWishlistItem from '~/components/wishlist/items/_Base.vue'
 import AppConfigurableWishlistItem from '~/components/wishlist/items/Configurable.vue'
 // Types & Interfaces
-import type { TWishlistProduct } from '~/api/user/wishlist/wishlistProducts'
+import type { TWishlistProduct } from '~/api/wishlist/getProducts'
 
 interface Props {
   wishlistItemsList: TWishlistProduct[]

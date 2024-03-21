@@ -119,6 +119,7 @@ const getAction = async (actionData: IOfferItemAction) => {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      user-select: none;
     }
 
     .item__content {

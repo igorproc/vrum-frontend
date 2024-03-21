@@ -1,6 +1,6 @@
-import type { TWishlistData } from '~/api/user/wishlist/shared.types'
+import type { TWishlistData } from '~/api/wishlist/shared.types'
 
-export async function createWishlist() {
+export async function create() {
   const asyncQuery = useAsyncQuery()
   return await asyncQuery<TWishlistData>(
     'POST',

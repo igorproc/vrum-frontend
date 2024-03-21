@@ -43,6 +43,7 @@ export const useAsyncQuery = () => {
   const createInstance = () => {
     const instance = axios.create()
 
+    instance.defaults.withCredentials = true
     instance.defaults.baseURL = apiUrl.value
     instance.defaults.headers['Content-Type'] = 'application/json'
     if (authToken.value) {
@@ -53,7 +54,6 @@ export const useAsyncQuery = () => {
       response => response,
       error => showError(error.message),
     )
-
 
     return instance
   }

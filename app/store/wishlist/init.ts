@@ -1,29 +1,37 @@
 // Pinia Stores
 import { useWishlistStore } from '~/store/wishlist/index'
 // Api Methods
-import { createWishlist } from '~/api/user/wishlist/createWishlist'
-import { getWishlistShorterData } from '~/api/user/wishlist/wishlistShortData'
+import { create } from '~/api/wishlist/create'
+import { getWishlistShorterData } from '~/api/wishlist/getShortData'
+// Constants
+import { COOKIE_MAX_LIFE } from '~/shared/const/cookies'
 
 export const initializeWishlist = async () => {
   const wishlistStore = useWishlistStore()
-  const wishlistToken = useCookie('wishlist-token')
+  const wishlistToken = useCookie(
+    'wishlist-token',
+    {
+      watch: 'shallow',
+      maxAge: COOKIE_MAX_LIFE,
+    }
+  )
 
   if (!wishlistToken.value) {
-    const wishlistData = await createWishlist()
+    const wishlistData = await create()
     if (!wishlistData) {
       return
     }
 
-    wishlistStore.wishlistToken = wishlistData.token
+    wishlistStore.token = wishlistData.token
     wishlistToken.value = wishlistData.token
     return
   }
 
-  const wishlistData = await getWishlistShorterData()
+  const wishlistData = await getWishlistShorterData(wishlistToken.value)
   if (!wishlistData) {
     return
   }
 
-  wishlistStore.wishlistToken = wishlistData.token
-  wishlistStore.idsList = wishlistData.productIds
+  wishlistStore.token = wishlistData.token || ''
+  wishlistStore.idsList = wishlistData.items
 }
