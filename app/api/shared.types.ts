@@ -1,7 +1,11 @@
-// Global Api Types
+
+interface TResponseErrorMessageItem {
+  [key: string]: Array<string>
+}
+
 export type TResponseError = {
   error: {
     code: number,
-    message: string
+    message: TResponseErrorMessageItem[] | string;
   }
 }

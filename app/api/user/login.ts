@@ -1,9 +1,13 @@
+// Types  & Interfaces
 import type { TUserData } from '~/api/user/shared.types'
+import type { TWishlistProductIds } from '~/api/wishlist/getShortData'
+import type { TCartProductIds } from '~/api/cart/getShortData'
 
 export type TUserLogin = {
+  data: TUserData,
   token: string,
-  wishlistToken: string,
-  userData: TUserData
+  wishlist: TWishlistProductIds,
+  cart: TCartProductIds,
 }
 
 export type TUserLoginInput = {

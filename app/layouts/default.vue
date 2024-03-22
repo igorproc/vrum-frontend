@@ -36,6 +36,7 @@ import AppFooter from '~/components/common/layout/AppFooter.vue'
 
   @media #{map-get($display-rules, 'xxl')} {
     &__main {
+      min-height: 79vh;
       padding: 30rem 185rem;
     }
   }

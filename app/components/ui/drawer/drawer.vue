@@ -1,110 +1,114 @@
 <template>
-  <div
-    :class="{
-      '--is-open': drawerIsOpen,
-    }"
-    :style="{
-      '--animation-speed': animationSpeed,
-      '--provided-color': backgroundColor,
-    }"
-    class="ui-drawer"
-  >
-    <div class="drawer__overlay" />
-    <div
-      ref="target"
-      class="drawer__content"
-      :style="{ maxWidth }"
-    >
-      <slot />
+  <div class="ui-drawer" :class="{ '--is-open': open }">
+    <div class="ui-drawer__overlay" @click="close" />
+
+    <div v-bind="drawerContainerAttributes" class="ui-drawer__wrapper">
+      <div v-if="!withoutHeader" class="ui-drawer__header">
+        <slot name="header">
+          <h4>Drawer</h4>
+        </slot>
+
+        <button
+          class="ui-drawer__header-close-action"
+          @click="close"
+        >
+          <ui-icon name="common/close" />
+        </button>
+      </div>
+
+      <div class="ui-drawer__content">
+        <slot />
+      </div>
     </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue'
-import { onClickOutside } from '@vueuse/core'
-
-interface Emits {
-  (name: 'update:open', optionGroupId: boolean): void
+interface Props {
+  open: boolean,
+  withoutHeader?: boolean,
+  wrapClassName?: string,
+  ariaLabel?: string,
+  ariaDescription?: string,
 }
 
-interface Props {
-  open?: boolean,
-  maxWidth?: string,
-  animationSpeed?: number,
-  backgroundColor?: string,
+interface Emits {
+  (name: 'update:open', open: boolean): void
 }
 
 const props = withDefaults(
   defineProps<Props>(),
   {
-    open: false,
-    maxWidth: '300rem',
-    animationSpeed: 300,
-  },
+    withoutHeader: false,
+  }
 )
 const emit = defineEmits<Emits>()
 
-const target = ref(null)
+const drawerContainerAttributes = computed(() => {
+  const payload: any = {}
 
-const drawerIsOpen = computed(() => props.open)
-
-onMounted(() => {
-  onClickOutside(target.value, () => emit('update:open', false))
+  if (props.ariaDescription) {
+    payload['aria-describedby'] = props.ariaDescription
+  }
+  if (props.ariaLabel) {
+    payload['aria-labelledby'] = props.ariaLabel
+  }
+  if (props.wrapClassName) {
+    payload['class'] = props.wrapClassName
+  }
+  return payload
 })
+
+const close = () => {
+  emit('update:open', false)
+}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .ui-drawer {
-  visibility: hidden;
-  animation-name: slideOutToLeft;
-
-  &__overlay {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 200;
-    opacity: 0;
-    transition-property: opacity;
-    background-color: #000000;
-    user-select: none;
-  }
-
-  &__content {
-    position: fixed;
-    top: 0;
-    right: 0;
-
-    height: 100%;
-    width: 100%;
-    z-index: 100;
-    overflow: auto;
-
-    background-color: map-get($theme-colors, 'surface-color'); /** Backfall */
-    background-color: var(--provided-color);
-
-    animation-name: slideInFromRight;
-    animation-fill-mode: both;
-    animation-duration: var(--animation-speed);
-
-    display: flex;
-    flex-direction: column;
-    transform: translateX(100%);
-  }
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
 
   &.--is-open {
-    visibility: visible;
+    transform: translateX(0);
+  }
 
-    .drawer__overlay {
-      animation-duration: var(--animation-speed);
-      opacity: 0.5;
-    }
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $backdrop-shadow;
+  }
 
-    .drawer__content {
-      transform: translateX(0);
+  &__wrapper {
+    padding: 20rem 24rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 250rem;
+    height: 100%;
+    background-color: #fff;
+    box-sizing: border-box;
+
+    .ui-drawer__header {
+      padding-bottom: 15rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .ui-drawer__header-close-action .ui-icon {
+        font-size: 24rem !important;
+      }
     }
   }
 }

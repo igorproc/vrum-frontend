@@ -1,22 +1,27 @@
+// Types & Interfaces
 import type { TUserData } from '~/api/user/shared.types'
+
+export type TUserRegisterInputWithoutTokens = Omit<TUserRegisterInput, 'cartToken' | 'wishlistToken'>
 
 export type TUserRegisterInput = {
   email: string,
   password: string,
-  birthday: number,
-  role: string
+  role?: string,
+  wishlistToken: string,
+  cartToken: string,
 }
 
-export type TRegisterUser = {
-  userData: TUserData,
+export type TUserRegister = {
+  data: TUserData,
   token: string,
 }
 
-export async function createUser (userData: TUserRegisterInput) {
+export async function createUser(userData: TUserRegisterInput) {
   const asyncQuery = useAsyncQuery()
-  return await asyncQuery<TRegisterUser>(
+
+  return await asyncQuery<TUserRegister>(
     'POST',
     '/api/user/create',
-    { createUserData: userData },
+    { registerData: userData },
   )
 }

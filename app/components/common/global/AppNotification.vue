@@ -39,7 +39,7 @@ const getNotificationData = () => {
     type: TYPE[notificationStore.notificationStatus] || TYPE.INFO,
     position: POSITION[notificationStore.notificationPosition] || POSITION.BOTTOM_RIGHT,
     message: notificationStore.notificationMessage,
-    timeout: 1500,
+    timeout: 3000,
     onClose: notificationStore.closeNotification,
     showCloseButtonOnHover: true,
   }

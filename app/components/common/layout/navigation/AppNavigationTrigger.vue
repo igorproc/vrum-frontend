@@ -23,6 +23,7 @@ const conditionStore = useConditionStore()
 
   .trigger__action {
     .action__icon {
+      color: map-get($theme-colors, 'background-color');
       font-size: 18rem !important;
     }
   }

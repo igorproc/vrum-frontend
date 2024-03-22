@@ -8,7 +8,7 @@ export const useConditionStore = defineStore('condition-store', {
   state: (): IConditionStoreState => {
     return {
       authModalIsOpen: false,
-      navigationDrawerIsOpen: true,
+      navigationDrawerIsOpen: false,
       adminAddProductModalIsOpen: false,
     }
   },

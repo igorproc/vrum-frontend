@@ -15,6 +15,9 @@
 <script setup lang="ts">
 // Components
 import UiIcon from '~/components/ui/icon/icon.vue'
+// Pinia Stores
+import { useUserStore } from '~/store/user'
+import { useConditionStore } from '~/store/condition'
 // Types & Interfaces
 import type { TUiIconNames } from '#build/types/ui-icon'
 
@@ -30,14 +33,30 @@ type ActionsListItem = {
   action: IListItemAction
 }
 
-const actionsList: ActionsListItem[] = [
+const router = useRouter()
+
+const userStore = useUserStore()
+const conditionStore = useConditionStore()
+
+const userAction = computed<IListItemAction>(() => {
+  if (userStore.isGuest) {
+    return {
+      isLink: false,
+      action: conditionStore.openAuthModal
+    }
+  }
+
+  return {
+    isLink: false,
+    action: conditionStore.openNavigationDrawer
+  }
+})
+
+const actionsList: ActionsListItem[] = reactive([
   {
     id: 0,
     icon: 'user/user',
-    action: {
-      isLink: false,
-      action: () => console.log('Cart Modal'),
-    },
+    action: userAction
   },
   {
     id: 1,
@@ -55,12 +74,11 @@ const actionsList: ActionsListItem[] = [
       action: () => console.log('Cart Modal'),
     },
   },
-]
+])
 
-const router = useRouter()
 const getItemAction = async (actionData: IListItemAction) => {
   if (!actionData.isLink && actionData.action) {
-    return actionData.action
+    return actionData.action()
   }
   if (actionData.isLink && actionData.link) {
     return await router.push(actionData.link)

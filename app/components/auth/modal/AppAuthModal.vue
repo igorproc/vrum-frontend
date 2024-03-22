@@ -1,10 +1,14 @@
 <template>
-  <a-modal
+  <ui-modal
     v-model:open="conditionStore.authModalIsOpen"
-    :footer="null"
     wrap-class-name="app-auth-modal"
-    @close="conditionStore.closeAuthModal()"
   >
+    <template #header>
+      <h4>
+        Authorization
+      </h4>
+    </template>
+
     <div class="app-auth-modal__form">
       <AppSignUpForm
         v-if="isRegisterForm"
@@ -17,7 +21,7 @@
         @form-compete="successForm"
       />
     </div>
-  </a-modal>
+  </ui-modal>
 </template>
 
 <script setup lang="ts">
@@ -29,7 +33,7 @@ import { useConditionStore } from '~/store/condition'
 
 const conditionStore = useConditionStore()
 
-const isRegisterForm = ref(true)
+const isRegisterForm = ref(false)
 
 const changeForm = () => {
   isRegisterForm.value = !isRegisterForm.value
@@ -41,12 +45,22 @@ const successForm = () => {
 
 <style lang="scss">
 .app-auth-modal {
-  .ant-modal-content {
-    padding: 1rem;
+  width: 85vw;
 
-    .app-auth-modal__form {
-      padding: 0.5rem;
-    }
+  .modal-content__header .ui-icon {
+    font-size: 24rem !important;
+  }
+
+  @media #{map-get($display-rules, 'md')} {
+    width: 70vw;
+  }
+
+  @media #{map-get($display-rules, 'lg')} {
+    width: 40vw;
+  }
+
+  @media #{map-get($display-rules, 'xl')} {
+    width: 25vw;
   }
 }
 </style>

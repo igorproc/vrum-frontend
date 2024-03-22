@@ -3,8 +3,7 @@ import type { TUserData } from '~/api/user/shared.types'
 interface IUserStoreState {
   isGuest: boolean,
   userData: TUserData | null,
-  cartId: string | null,
-  wishlistId: string | null,
+  token: string | null,
 }
 
 export const useUserStore = defineStore('user-store', {
@@ -12,8 +11,7 @@ export const useUserStore = defineStore('user-store', {
     return {
       isGuest: true,
       userData: null,
-      cartId: null,
-      wishlistId: null,
+      token: null,
     }
   },
   getters: {

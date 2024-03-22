@@ -2,8 +2,10 @@
   <div class="app-global-scope">
     <ClientOnly>
       <AppNotification />
-      <AppNavigationDrawer />
     </ClientOnly>
+
+    <AppNavigationDrawer />
+    <AppAuthModal />
   </div>
 </template>
 
@@ -11,4 +13,5 @@
 // Components
 import AppNotification from '~/components/common/global/AppNotification.vue'
 import AppNavigationDrawer from '~/components/common/layout/navigation/AppNavigationDrawer.vue'
+import AppAuthModal from '~/components/auth/modal/AppAuthModal.vue'
 </script>

@@ -57,6 +57,7 @@ const linkParams = computed(() => {
   color: map-get($theme-colors, 'primary-color');
 
   &__image {
+    user-select: none;
     width: 180rem;
     height: 80rem;
     margin-bottom: 12rem;

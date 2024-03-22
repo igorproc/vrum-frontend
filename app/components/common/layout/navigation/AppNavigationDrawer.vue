@@ -1,40 +1,28 @@
 <template>
-  <UiDrawer
+  <ui-drawer
     v-model:open="conditionStore.navigationDrawerIsOpen"
-    background-color="#000"
-    root-class-name="app-navigation-drawer-container drawer-container"
+    wrap-class-name="app-navigation-drawer"
   >
-<!--    <div class="drawer-container__user-actions">-->
-<!--      <AppUserBadge v-if="userStore.userData && !userStore.isGuest" />-->
-<!--      <AppAuthModalTrigger v-else />-->
-<!--    </div>-->
+    <template #header>
+      <h4>
+        Navigation
+      </h4>
+    </template>
 
-<!--    <a-menu-->
-<!--      id="app-navigation-drawer"-->
-<!--      v-model:selectedKeys="selectedKeys"-->
-<!--      mode="inline"-->
-<!--      class="drawer-container__menu drawer-menu"-->
-<!--    >-->
-<!--      <a-menu-item-->
-<!--        v-for="menuItem in drawerLinksList"-->
-<!--        :key="menuItem.key"-->
-<!--        :disabled="menuItem.disabled"-->
-<!--        class="drawer-menu__link-item"-->
-<!--        @click="selectTab(menuItem)"-->
-<!--      >-->
-<!--        <span>-->
-<!--          {{ menuItem.label }}-->
-<!--        </span>-->
-<!--      </a-menu-item>-->
-<!--    </a-menu>-->
-
-<!--    <div class="drawer-container__logout-action">-->
-<!--      <AppLogout-->
-<!--        v-if="userStore.userData && !userStore.isGuest"-->
-<!--        class=""-->
-<!--      />-->
-<!--    </div>-->
-  </UiDrawer>
+    <div class="app-navigation-drawer__container drawer-container">
+      <nuxt-link
+        v-for="item in drawerLinksList"
+        :key="item.key"
+        :to="item.link"
+        class="drawer-container__item"
+      >
+        <div class="drawer-container__item-icon"></div>
+        <h5 class="drawer-container__item-label">
+          {{ item.label }}
+        </h5>
+      </nuxt-link>
+    </div>
+  </ui-drawer>
 </template>
 
 <script setup lang="ts">
@@ -43,59 +31,46 @@ import UiDrawer from '~/components/ui/drawer/drawer.vue'
 // Components
 import AppLogout from '~/components/auth/AppLogout.vue'
 import AppUserBadge from '~/components/user/AppUserBadge.vue'
-import AppAuthModalTrigger from '~/components/auth/modal/AppAuthModalTrigger.vue'
 // Pinia Stores
 import { useUserStore } from '~/store/user'
 import { useConditionStore } from '~/store/condition'
 // Types & Interfaces
-import type { TNavigationDrawerLinkListItem } from '~/types/global'
+import type { TNavigationDrawerLinkListItem } from '~/shared/types/global'
 
-const router = useRouter()
 const userStore = useUserStore()
 const conditionStore = useConditionStore()
 
-const selectedKeys = ref<string[]>([])
 const itemsIsDisabled = ref(false)
-
-type TSelectTab = {
-  key: string | number,
-  cb: () => Promise<unknown> | unknown
-}
-const selectTab = async (itemInstance: TSelectTab) => {
-  itemsIsDisabled.value = true
-  await itemInstance.cb()
-  itemsIsDisabled.value = false
-}
 
 const defaultLinkList: TNavigationDrawerLinkListItem[] = [
   {
     key: 'all-cart',
-    label: 'Корзина',
+    label: 'Cart',
     disabled: itemsIsDisabled.value,
-    cb: async () => await router.push('user/cart'),
+    link: { name: 'user-cart' },
   },
   {
     key: 'all-wishlist',
-    label: 'Избранные товары',
+    label: 'Wishlist',
     disabled: itemsIsDisabled.value,
-    cb: async () => await router.push('user/wishlist'),
+    link: { name: 'user-wishlist' },
   },
 ]
 const authorizeLinkList: TNavigationDrawerLinkListItem[] = [
   ...defaultLinkList,
   {
     key: 'user-orders',
-    label: 'Заказы',
+    label: 'Orders',
     disabled: itemsIsDisabled.value,
-    cb: async () => await router.push('user/orders'),
+    link: { name: 'user-orders' },
   },
 ]
 const adminLinkList: TNavigationDrawerLinkListItem[] = [
   {
     key: 'admin-product-add',
-    label: 'Добавление товаров',
+    label: 'Admin Zone',
     disabled: itemsIsDisabled.value,
-    cb: async () => await router.push('admin/products'),
+    link: { name: 'index' },
   },
 ]
 
@@ -113,32 +88,26 @@ const drawerLinksList = computed(() => {
 </script>
 
 <style lang="scss">
-.app-navigation-drawer-container {
-  padding: 0.825rem 0;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  .drawer-container__user-actions {
-    padding: 0.5rem;
+.app-navigation-drawer {
+  .ui-drawer__header-close-action {
+    display: none;
   }
 
-  .drawer-container__menu {
-    height: 90%;
-    border: none !important;
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 16rem;
 
-    .drawer-menu__user-actions,
-    .drawer-menu__link-item {
-      padding: 0.5rem !important;
+    .drawer-container__item {
+      color: map-get($theme-colors, 'primary-color');
+      text-decoration: unset;
     }
   }
 
-  .drawer-container__logout-action {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  @media #{map-get($display-rules, 'md')} {
+    .ui-drawer__header-close-action {
+      display: block;
+    }
   }
 }
 </style>
