@@ -63,7 +63,7 @@ const { data } = useLazyAsyncData(
 
   @media #{map-get($display-rules, 'xxl')} {
     .main-page__slider, {
-      margin: -30rem -185rem;
+      margin: -40rem -185rem;
     }
   }
 }

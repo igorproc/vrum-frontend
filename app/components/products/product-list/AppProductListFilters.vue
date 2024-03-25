@@ -9,18 +9,46 @@
     <div class="product-filters__actions filters__actions">
       <div class="filters__actions-show show-action">
         <label
-          :for="pageSizeInputId"
+          :for="changeSizeId"
           class="show-action__label"
         >
           Show
         </label>
         <input
-          :id="pageSizeInputId"
+          :id="changeSizeId"
           :value="pageSize"
           type="number"
           class="showcase-action__input"
           @input="throttleChangePageSize"
         >
+      </div>
+
+      <div class="filters__actions-sort sort-action">
+        <label :for="changeSortId" class="sort-action__label">
+          Sort by
+        </label>
+
+        <ui-menu :id="changeSortId" :open="changeSortMenuIsOpen" class="sort-action__menu">
+          <template #activator>
+            <ui-button
+              variant="text"
+              label="Default"
+              class="sort-action__menu-activator"
+              @click="changeSortMenuIsOpen = true"
+            />
+          </template>
+
+          <div class="sort-action__menu-items-container menu-container">
+            <ui-button
+              v-for="item in changeSortItems"
+              :key="item.id"
+              :label="item.label"
+              variant="text"
+              class="menu-container__item"
+              @click="changeSort(item.value)"
+            />
+          </div>
+        </ui-menu>
       </div>
     </div>
   </div>
@@ -29,6 +57,8 @@
 <script setup lang="ts">
 // Node Deps
 import { useDebounceFn } from '@vueuse/core'
+// Utils
+import { generateRandomId } from '~/utils/generate.util'
 
 interface Props {
   totalProducts: number,
@@ -37,7 +67,8 @@ interface Props {
 }
 
 interface Emits {
-  (name: 'pageSizeUpdated', pageSize: number ): void
+  (name: 'pageSizeUpdated', pageSize: number ): void,
+  (name: 'pageSortUpdated', pageSort: string): void,
 }
 
 const props = defineProps<Props>()
@@ -45,7 +76,22 @@ const emit = defineEmits<Emits>()
 
 const { totalProducts } = toRefs(props)
 
-const pageSizeInputId = useId()
+const changeSizeId = useId()
+const changeSortId = useId()
+const changeSortMenuIsOpen = ref(false)
+
+const changeSortItems = [
+  {
+    id: generateRandomId(),
+    label: 'Asc',
+    value: 'asc',
+  },
+  {
+    id: generateRandomId(),
+    label: 'Desc',
+    value: 'desc',
+  }
+]
 
 const productShowsText = computed(() => {
   let startShowsProducts = 1
@@ -75,6 +121,11 @@ const changePageSize = (e: Event) => {
   emit('pageSizeUpdated', Number(target?.value) || 16)
 }
 
+const changeSort = (value: string) => {
+  changeSortMenuIsOpen.value = false
+  emit('pageSortUpdated', value)
+}
+
 const throttleChangePageSize = useDebounceFn((e: Event) => {
   changePageSize(e)
 }, 300)
@@ -92,13 +143,19 @@ const throttleChangePageSize = useDebounceFn((e: Event) => {
 
   .product-filters__content {
     .filters-content__count-info {
-      font-weight: bold;
+      color: map-get($white-color-palette, 'white');
     }
   }
 
   .product-filters__actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8rem;
+
     .filters__actions-show {
       .show-action__label {
+        color: map-get($white-color-palette, 'white');
         font-size: 20rem;
       }
 
@@ -120,11 +177,38 @@ const throttleChangePageSize = useDebounceFn((e: Event) => {
         }
       }
     }
+
+    .filters__actions-sort {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8rem;
+
+      .sort-action__label {
+        color: map-get($white-color-palette, 'white');
+        font-size: 20rem;
+      }
+      .sort-action__menu-activator {
+        padding: 8rem;
+        border: 1rem solid map-get($theme-colors, 'secondary-color');
+        background-color: $backdrop-shadow;
+
+        .button-content__label {
+          color: map-get($white-color-palette, 'white');
+          font-size: 20rem;
+          font-weight: normal;
+        }
+      }
+    }
   }
 
   @media #{map-get($display-rules, 'md')} {
     align-items: center;
     flex-direction: row;
+
+    .product-filters__actions {
+      gap: 16rem;
+    }
   }
 
   @media #{map-get($display-rules, 'xl')} {

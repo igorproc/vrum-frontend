@@ -1,81 +1,122 @@
 <template>
-  <AppProductsPage
-    v-model:filters="pageFilters"
-    :products-is-loaded="productsIsLoaded"
-    :total-products="pageData.products.length"
-  />
+  <div class="app-products-page">
+    <AppProductListFilters
+      :total-products="data?.totalProducts || 0"
+      :page-size="filterParams.size"
+      :current-page="filterParams.page"
+      class="app-products-page__filters"
+      @page-size-updated="updatePageSize"
+      @page-sort-updated="updateSort"
+    />
+
+    <AppProductList
+      :is-loading="pending"
+      :page-size="filterParams.size"
+      :product-list="data?.products || []"
+      class="app-products-page__list"
+    />
+
+    <AppProductListPagination
+      :is-disabled="pending"
+      :total-pages="data?.totalPages || 0"
+      :current-page="filterParams.page"
+      class="app-products-page__pagination"
+      @update-current-page="updateCurrentPage"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
 // Components
-import AppProductsPage from '~/components/products/AppProductListPage.vue'
+import AppProductListFilters from '~/components/products/product-list/AppProductListFilters.vue'
+import AppProductList from '~/components/products/product-list/AppProductList.vue'
 // Api Methods
 import { getProductPage } from '~/api/product/getProductPage'
+// Constants
+import {
+  DEFAULT_PAGE_NUMBER,
+  DEFAULT_PAGE_SIZE,
+  DEFAULT_PAGE_SORT
+} from '~/shared/const/pagination'
 // Types & Interfaces
-import type { TGetProductPageInput, TProductPage } from '~/api/product/getProductPage'
+import type { TGetProductPageInput, TPageSortCondition } from '~/api/product/getProductPage'
+import AppProductListPagination from '~/components/products/product-list/AppProductListPagination.vue'
 
-const route = useRoute()
 const router = useRouter()
 
-const pageFilters = ref<TGetProductPageInput>({ page: 1, size: 8, filters: {} })
-const pageData = ref<TProductPage>({ products: [] })
-const productsIsLoaded = ref(false)
+const filterParams = reactive<TGetProductPageInput>({
+  page: DEFAULT_PAGE_NUMBER,
+  size: DEFAULT_PAGE_SIZE,
+  sortBy: DEFAULT_PAGE_SORT,
+  brand: null,
+})
 
-const getFiltersFromLink = () => {
-  if (route.query?.page && Number(route.query?.page)) {
-    pageFilters.value.page = Number(route.query?.page)
+const checkRouteParams = () => {
+  const objectMaps = {
+    page: 'page',
+    size: 'size',
+    brand: 'brand',
+    sort: 'sortBy',
   }
-  if (route.query?.size && Number(route.query?.size)) {
-    pageFilters.value.size = Number(route.query?.size)
-  }
-  if (route.query?.brand) {
-    pageFilters.value.filters.brand = route.query.brand.toString()
-  }
-  if (route.query?.sort) {
-    pageFilters.value.filters.sortBy = route.query?.sort.toString()
+  const queries = router.currentRoute.value.query
+
+  for (const [key, value] of Object.entries(queries)) {
+    if (!Object.keys(objectMaps).includes(key)) {
+      continue
+    }
+
+    filterParams[objectMaps[key]] = Number(value) || value
   }
 }
-const onUpdateFilters = async () => {
-  const routerRewrite: {
-    page: string | number,
-    size: string | number,
-    brand?: string,
-    sort?: string,
-  } = {
-    page: pageFilters.value.page,
-    size: pageFilters.value.size,
-  }
-  if (pageFilters.value.filters.brand) {
-    routerRewrite.brand = pageFilters.value.filters.brand
-  }
-  if (pageFilters.value.filters.sortBy) {
-    routerRewrite.sort = pageFilters.value.filters.sortBy
+
+const changeRouteQueries = () => {
+  const a = {
+    page: filterParams.page,
+    size: filterParams.size,
   }
 
-  await router.replace({ query: routerRewrite })
-}
-const onLoad = async () => {
-  productsIsLoaded.value = true
-  const productsData = await getProductPage()
-
-  if (!productsData) {
-    productsIsLoaded.value = false
-    return null
+  if (filterParams.brand) {
+    a.brand = filterParams.brand
+  }
+  if (filterParams.sortBy) {
+    a.sort = filterParams.sortBy
   }
 
-  pageData.value.products = productsData.products
-  productsIsLoaded.value = false
-
-  return productsData
+  router.replace({ query: a })
 }
 
-getFiltersFromLink()
-await onUpdateFilters()
+checkRouteParams()
+const { data, pending } = useLazyAsyncData(
+  'product-page',
+  async () => getProductPage(filterParams),
+  {
+    watch: [filterParams]
+  }
+)
 
-useAsyncData('user-product-list-all', async () => await onLoad())
+const updatePageSize = (size: number) => {
+  filterParams.page = 1
+  filterParams.size = size
+}
 
-watch(pageFilters, async () => {
-  await onUpdateFilters()
-  await onLoad()
-}, { deep: true })
+const updateCurrentPage = (page: number) => {
+  filterParams.page = page
+}
+
+const updateSort = (sort: string) => {
+  filterParams.sortBy =  sort as TPageSortCondition
+}
+
+watch(filterParams, () => changeRouteQueries())
 </script>
+
+<style lang="scss">
+.app-products-page {
+  @media #{map-get($display-rules, 'md')} {
+    &__list,
+    &__pagination {
+      margin-top: 32rem;
+    }
+  }
+}
+</style>

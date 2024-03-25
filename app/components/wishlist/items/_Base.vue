@@ -73,7 +73,7 @@ const productPrice = computed(() => formattedPrice(product.value.product.price))
 
   @media #{map-get($display-rules, 'md')} {
     display: grid;
-    grid-template-columns: 2fr 2fr 1fr 2fr;
+    grid-template-columns: 1fr 1fr 2fr 2fr;
   }
 }
 </style>

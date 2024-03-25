@@ -3,26 +3,44 @@ import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '~/shared/const/paginatio
 // Types & Interfaces
 import type { TProduct } from '~/api/product/shared.types'
 
-export type TProductPageFilters = {
-  brand?: string,
-  sortBy?: string,
+enum EPageSort {
+  'asc' = 'asc',
+  'desc' = 'desc',
 }
+
+export type TPageSortCondition = keyof typeof EPageSort
 
 export type TGetProductPageInput = {
   page: number,
   size: number,
-  filters: TProductPageFilters
+  brand?: string | null,
+  sortBy?: keyof typeof EPageSort,
 }
 
 export type TProductPage = {
-  products: TProduct[]
+  products: TProduct[],
+  totalPages: number,
+  totalProducts: number,
 }
 
-export async function getProductPage(currentPage?: number, pageSize?: number) {
+export async function getProductPage(filters: TGetProductPageInput) {
   const asyncQuery = useAsyncQuery()
+
+  const setFilters = () => {
+    let filterString = `?page=${filters.page || DEFAULT_PAGE_NUMBER}&size=${filters.size || DEFAULT_PAGE_SIZE}`
+
+    if (filters.brand) {
+      filterString += `&brand=${filters.brand}`
+    }
+    if (filters.sortBy) {
+      filterString += `&sort=${EPageSort[filters.sortBy]}`
+    }
+
+    return filterString
+  }
 
   return await asyncQuery<TProductPage>(
     'GET',
-    `/api/product/list?page=${currentPage || DEFAULT_PAGE_NUMBER}&size=${pageSize || DEFAULT_PAGE_SIZE}`,
+    `/api/product/list${setFilters()}`,
   )
 }

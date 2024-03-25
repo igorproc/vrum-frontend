@@ -85,7 +85,7 @@ const productPrice = computed(() => {
   return formattedPrice(product.value.price)
 })
 
-const productUrl = computed(() => `${runtimeConfig.public.appUrl}/product/${product.value.id}`)
+const productUrl = computed(() => `${runtimeConfig.public.appUrl}/product/${product.value.name}`)
 
 const addProductToWishlist = () => {
   if (operationWithWishlistIsProcessing.value) {

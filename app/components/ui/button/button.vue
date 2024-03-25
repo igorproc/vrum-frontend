@@ -1,15 +1,7 @@
 <template>
   <component
     :is="link ? nuxtLinkComponent : 'button'"
-    :to="link"
-    :style="{
-      '--ui-button-background-color': backgroundColor
-    }"
-    :class="{
-      '--is-outlined': variant === 'outlined',
-      '--is-text': variant === 'text',
-      '--custom-background': backgroundColor
-    }"
+    v-bind="buttonState"
     class="ui-button"
   >
     <div class="ui-button__prepend button-prepend">
@@ -35,15 +27,47 @@ type ButtonType = 'text' | 'outlined'
 interface Props {
   label?: string,
   variant?: ButtonType,
+  disabled?: boolean
   link?: NuxtLinkProps | string,
   backgroundColor?: string,
   prependIcon?: TUiIconNames,
 }
 
-const nuxtLinkComponent = defineAsyncComponent(() => import('#app/components/nuxt-link'))
-const props = defineProps<Props>()
+interface IButtonState {
+  to?: NuxtLinkProps['to'],
+  disabled?: boolean,
+  style?: Record<string, unknown>,
+  class?: string,
+}
 
-const { variant } = toRefs(props)
+const nuxtLinkComponent = defineAsyncComponent(() => import('#app/components/nuxt-link'))
+const props = withDefaults(
+  defineProps<Props>(),
+  {
+    disabled: false,
+  },
+)
+
+const { variant, link, backgroundColor, disabled } = toRefs(props)
+
+const buttonState = computed(() => {
+  const state: IButtonState = {
+    class: '',
+  }
+
+  if (backgroundColor.value) {
+    state.style = { '--ui-button-background-color': backgroundColor }
+    state.class += '--custom-background '
+  }
+
+  if (variant.value) {
+    state.class += ` --is-${variant.value}`
+  }
+
+  state.disabled = disabled.value
+
+  return state
+})
 </script>
 
 <style lang="scss">
