@@ -1,8 +1,6 @@
 <template>
-  <div class="ui-drawer" :class="{ '--is-open': open }">
-    <div class="ui-drawer__overlay" @click="close" />
-
-    <div v-bind="drawerContainerAttributes" class="ui-drawer__wrapper">
+  <div class="ui-drawer" :class="{ '--is-open': open }" @click="close">
+    <div ref="" v-bind="drawerContainerAttributes" class="ui-drawer__wrapper">
       <div v-if="!withoutHeader" class="ui-drawer__header">
         <slot name="header">
           <h4>Drawer</h4>
@@ -67,35 +65,26 @@ const close = () => {
 
 <style lang="scss">
 .ui-drawer {
-  z-index: 1;
+  z-index: 11;
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
   transition: transform 0.3s ease-in-out;
-  transform: translateX(-100%);
+  transform: translateX(100%);
 
   &.--is-open {
     transform: translateX(0);
-  }
-
-  &__overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: $backdrop-shadow;
   }
 
   &__wrapper {
     padding: 20rem 24rem;
     position: absolute;
     top: 0;
-    left: 0;
-    width: 250rem;
+    right: 0;
+    width: 360rem;
     height: 100%;
     background-color: #fff;
     box-sizing: border-box;

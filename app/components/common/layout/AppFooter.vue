@@ -26,7 +26,7 @@
   }
 
   @media #{map-get($display-rules, 'xxl')} {
-    padding: 30rem 185rem;
+    padding: 40rem 140rem;
   }
 }
 

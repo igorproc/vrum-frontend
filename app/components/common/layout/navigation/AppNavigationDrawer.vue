@@ -5,7 +5,7 @@
   >
     <template #header>
       <h4>
-        Navigation
+        User
       </h4>
     </template>
 
@@ -16,11 +16,16 @@
         :to="item.link"
         class="drawer-container__item"
       >
-        <div class="drawer-container__item-icon"></div>
+        <ui-icon :name="item.prependIcon" class="drawer-container__item-icon" />
         <h5 class="drawer-container__item-label">
           {{ item.label }}
         </h5>
       </nuxt-link>
+
+      <AppLogout
+        class="drawer-container__logout-action"
+        @success-logout="conditionStore.closeNavigationDrawer"
+      />
     </div>
   </ui-drawer>
 </template>
@@ -30,7 +35,6 @@
 import UiDrawer from '~/components/ui/drawer/drawer.vue'
 // Components
 import AppLogout from '~/components/auth/AppLogout.vue'
-import AppUserBadge from '~/components/user/AppUserBadge.vue'
 // Pinia Stores
 import { useUserStore } from '~/store/user'
 import { useConditionStore } from '~/store/condition'
@@ -40,18 +44,22 @@ import type { TNavigationDrawerLinkListItem } from '~/shared/types/global'
 const userStore = useUserStore()
 const conditionStore = useConditionStore()
 
+const { navigationDrawerIsOpen } = storeToRefs(conditionStore)
+
 const itemsIsDisabled = ref(false)
 
 const defaultLinkList: TNavigationDrawerLinkListItem[] = [
   {
     key: 'all-cart',
     label: 'Cart',
+    prependIcon: 'user/cart',
     disabled: itemsIsDisabled.value,
     link: { name: 'user-cart' },
   },
   {
     key: 'all-wishlist',
     label: 'Wishlist',
+    prependIcon: 'user/heart',
     disabled: itemsIsDisabled.value,
     link: { name: 'user-wishlist' },
   },
@@ -61,6 +69,7 @@ const authorizeLinkList: TNavigationDrawerLinkListItem[] = [
   {
     key: 'user-orders',
     label: 'Orders',
+    prependIcon: 'user/orders',
     disabled: itemsIsDisabled.value,
     link: { name: 'user-orders' },
   },
@@ -69,6 +78,7 @@ const adminLinkList: TNavigationDrawerLinkListItem[] = [
   {
     key: 'admin-product-add',
     label: 'Admin Zone',
+    prependIcon: 'user/admin-settings',
     disabled: itemsIsDisabled.value,
     link: { name: 'index' },
   },
@@ -85,6 +95,14 @@ const drawerLinksList = computed(() => {
 
   return authorizeLinkList
 })
+
+watch(navigationDrawerIsOpen, newVal => {
+  if (newVal) {
+    return
+  }
+
+  conditionStore.hideBackdrop()
+})
 </script>
 
 <style lang="scss">
@@ -99,8 +117,15 @@ const drawerLinksList = computed(() => {
     gap: 16rem;
 
     .drawer-container__item {
+      display: flex;
+      align-items: center;
+      gap: 8rem;
       color: map-get($theme-colors, 'primary-color');
       text-decoration: unset;
+
+      &-icon {
+        font-size: 18rem !important;
+      }
     }
   }
 

@@ -15,7 +15,7 @@ export const useAsyncQuery = () => {
   const apiUrl = ref(runtimeConfig.public.apiUrl)
   const requestInstance = ref<AxiosInstance | null>(null)
   const authToken = useCookie(
-    'Authorization',
+    'authorization',
     {
       watch: 'shallow',
     },

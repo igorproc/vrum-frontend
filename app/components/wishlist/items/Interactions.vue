@@ -1,30 +1,29 @@
 <template>
   <div class="app-wishlist-item__interactions">
-    <a-button
-      type="text"
+    <ui-button
+      variant="outlined"
+      prepend-icon="user/heart"
       :loading="operationWithWishlistIsProcessing"
-      @click="emit('productRemovedFromWishlist')"
-    >
-      <HeartFilled />
-    </a-button>
-    <a-button
-      type="text"
+      @click.prevent.stop="emit('productRemovedFromWishlist')"
+    />
+    <ui-button
+      variant="outlined"
+      prepend-icon="user/cart"
       :loading="operationWithCartIsProcessing"
-    >
-      <ShoppingCartOutlined />
-    </a-button>
+      @click.prevent.stop="emit('productAddedToCart')"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 interface Props {
-  productIsInCart: boolean,
   operationWithWishlistIsProcessing: boolean,
   operationWithCartIsProcessing: boolean,
 }
 
 interface Emits {
-  (name: 'productRemovedFromWishlist'): void
+  (name: 'productRemovedFromWishlist'): void,
+  (name: 'productAddedToCart'): void,
 }
 
 const props = defineProps<Props>()
@@ -35,9 +34,14 @@ const emit = defineEmits<Emits>()
 .app-wishlist-item__interactions {
   display: flex;
   align-items: center;
+  color: map-get($theme-colors, 'primary-color');
 
-  .ant-btn:first-child {
-    margin-left: 0.5rem;
+  .ui-button {
+    border: transparent;
+  }
+
+  @media #{map-get($display-rules, 'md')} {
+    justify-content: flex-end;
   }
 }
 </style>

@@ -5,15 +5,14 @@
       :key="listKey(product)"
       class="wishlist-items-list__item"
     >
-      <component :is="getComponent(product.productData)" :wishlist-item="product" />
+      <AppWishlistItemResolver :product="product" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 // Components
-import AppBaseWishlistItem from '~/components/wishlist/items/_Base.vue'
-import AppConfigurableWishlistItem from '~/components/wishlist/items/Configurable.vue'
+import AppWishlistItemResolver from '~/components/wishlist/items/Resolver.vue'
 // Types & Interfaces
 import type { TWishlistProduct } from '~/api/wishlist/getProducts'
 
@@ -25,17 +24,10 @@ const props = defineProps<Props>()
 const { wishlistItemsList } = toRefs(props)
 
 const listKey = (product: TWishlistProduct) => {
-  if (product.productData.__typename === 'BASE' || !product.selectedVariant) {
-    return product.productData.pid
+  if (product.product.__typename === 'BASE' || !product.selectedVariant) {
+    return product.product.id
   }
-  return `${product.productData.pid}-${product.selectedVariant}`
-}
-
-const getComponent = (productData: TWishlistProduct['productData']) => {
-  if (productData.__typename === 'CONFIGURABLE') {
-    return AppConfigurableWishlistItem
-  }
-  return AppBaseWishlistItem
+  return `${product.product.id}-${product.selectedVariant}`
 }
 </script>
 
@@ -43,6 +35,10 @@ const getComponent = (productData: TWishlistProduct['productData']) => {
 .app-wishlist-items-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 8rem;
+
+  @media #{map-get($display-rules, 'md')} {
+    gap: 16rem;
+  }
 }
 </style>

@@ -3,6 +3,7 @@ import { useUserStore } from '~/store/user/index'
 import { useWishlistStore } from '~/store/wishlist'
 import { useCartStore } from '~/store/cart'
 // Pinia Actions
+import { createCart } from '~/store/cart/actions'
 import { wishlistOnLoginUser } from '~/store/wishlist/auth'
 import { cartOnLoginUser } from '~/store/cart/auth'
 // Api Methods
@@ -16,11 +17,12 @@ import { COOKIE_MAX_LIFE } from '~/shared/const/cookies'
 // Types & Interfaces
 import type { TUserLogin, TUserLoginInput } from '~/api/user/login'
 import type { TUserRegister, TUserRegisterInputWithoutTokens } from '~/api/user/create'
+import { wishlistCreateCart } from '~/store/wishlist/actions'
 
 export const fillStoreData = (userData: TUserLogin | TUserRegister) => {
   const userStore = useUserStore()
   const authToken = useCookie(
-    'Authorization',
+    'authorization',
     {
       watch: 'shallow',
       maxAge: COOKIE_MAX_LIFE,
@@ -76,14 +78,22 @@ export const createUser = async (registerData: TUserRegisterInputWithoutTokens) 
 export const logoutUser = async () => {
   try {
     const userStore = useUserStore()
-    const cookieTokenValue = useCookie('Authorization')
+    const authToken = useCookie('authorization')
 
-    await apiLogoutUser()
+    const isSuccessLogout = await apiLogoutUser()
 
+    if (!isSuccessLogout) {
+      return false
+    }
+
+    authToken.value = null
     userStore.isGuest = true
     userStore.userData = null
-    cookieTokenValue.value = ''
 
+    await Promise.all([
+      createCart(),
+      wishlistCreateCart(),
+    ])
     return true
   } catch (error) {
     throw error

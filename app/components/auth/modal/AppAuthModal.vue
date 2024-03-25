@@ -32,6 +32,7 @@ import AppSignInform from '~/components/auth/form/AppSignInForm.vue'
 import { useConditionStore } from '~/store/condition'
 
 const conditionStore = useConditionStore()
+const { authModalIsOpen } = storeToRefs(conditionStore)
 
 const isRegisterForm = ref(false)
 
@@ -41,6 +42,14 @@ const changeForm = () => {
 const successForm = () => {
   conditionStore.closeAuthModal()
 }
+
+watch(authModalIsOpen, newVal => {
+  if (newVal) {
+    return
+  }
+
+  conditionStore.hideBackdrop()
+})
 </script>
 
 <style lang="scss">

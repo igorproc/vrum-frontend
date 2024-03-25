@@ -1,5 +1,5 @@
 export type TUserLogout = {
-  isSignOut: boolean
+  success: boolean
 }
 
 export async function logoutUser() {

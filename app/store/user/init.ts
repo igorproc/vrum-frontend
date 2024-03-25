@@ -5,7 +5,7 @@ import { getUserData } from '~/api/user/userData'
 
 export const initializeUser = async () => {
   const userStore = useUserStore()
-  const authToken = useCookie('Authorization')
+  const authToken = useCookie('authorization')
 
   if (!authToken.value) {
     return

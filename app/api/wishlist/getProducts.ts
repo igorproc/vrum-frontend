@@ -1,14 +1,15 @@
 import type { TProduct } from '~/api/product/shared.types'
 
 export type TWishlistProduct = {
-  productData: TProduct,
+  product: TProduct,
   selectedVariant: number | null
 }
 
-export async function getWishlistProducts() {
+export async function getWishlistProducts(token: string) {
   const asyncQuery = useAsyncQuery()
-  return await asyncQuery<TWishlistProduct[]>(
+
+  return await asyncQuery<{ items: TWishlistProduct[] }>(
     'GET',
-    '/api/user/wishlist/list',
+    `/api/wishlist/list?token=${token}`,
   )
 }

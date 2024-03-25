@@ -85,16 +85,10 @@ onMounted(() => {
   right: 0;
   left: 0;
   bottom: 0;
-  z-index: 1;
+  z-index: 11;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  &__backdrop {
-    width: 100%;
-    height: 100%;
-    background-color: $backdrop-shadow;
-  }
 
   &__wrapper {
     position: absolute;
@@ -111,10 +105,5 @@ onMounted(() => {
       }
     }
   }
-}
-
-.modal-fade-enter-active,
-.modal-fade-leave-active {
-  transition: opacity .5s ease;
 }
 </style>

@@ -1,4 +1,5 @@
 interface IConditionStoreState {
+  backdropIsVisible: boolean,
   authModalIsOpen: boolean,
   navigationDrawerIsOpen: boolean,
   adminAddProductModalIsOpen: boolean,
@@ -7,6 +8,7 @@ interface IConditionStoreState {
 export const useConditionStore = defineStore('condition-store', {
   state: (): IConditionStoreState => {
     return {
+      backdropIsVisible: false,
       authModalIsOpen: false,
       navigationDrawerIsOpen: false,
       adminAddProductModalIsOpen: false,
@@ -14,9 +16,11 @@ export const useConditionStore = defineStore('condition-store', {
   },
   actions: {
     openNavigationDrawer() {
+      this.backdropIsVisible = true
       this.navigationDrawerIsOpen = true
     },
     closeNavigationDrawer() {
+      this.backdropIsVisible = false
       this.navigationDrawerIsOpen = false
     },
     openAuthModal() {
@@ -30,6 +34,9 @@ export const useConditionStore = defineStore('condition-store', {
     },
     closeAdminAddProductModal() {
       this.adminAddProductModalIsOpen = false
+    },
+    hideBackdrop() {
+      this.backdropIsVisible = false
     },
   },
 })
