@@ -1,18 +1,23 @@
 <template>
-  <div class="app-product-page">
-    <AppProductBaseBlock v-if="data" :product="data" />
+  <div v-if="data" class="app-product-page">
+    <AppProductMainBlockResolver
+      :product="data"
+      class="app-product-page__main-block"
+    />
+    <AppProductDescriptionResolver
+      :description="data.description"
+      class="app-product-page__description"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 // Components
-import AppProductBaseBlock from '~/components/products/product-block/_Base.vue'
+import AppProductMainBlockResolver from '~/components/product/block/Resolver.vue'
+import AppProductDescriptionResolver from '~/components/product/block/info/DescriptionResolver.vue'
 // Api Methods
 import { getProductData } from '~/api/product/getProductData'
-// Pinia Stores
-import { useProductStore } from '~/store/product'
 
-const productStore = useProductStore()
 const route = useRoute()
 const router = useRouter()
 
@@ -20,15 +25,11 @@ const onLoad = async () => {
   const productName = route.params.name
 
   if (typeof productName !== 'string' || Array.isArray(route.params.name)) {
-    await router.push({ name: '404' })
+    await router.push({ name: 'error' })
     return null
   }
 
-  const data = await getProductData(productName)
-  if (data) {
-    productStore.productList.push(data)
-  }
-  return data
+  return await getProductData(productName)
 }
 
 const { data } = useLazyAsyncData(
@@ -36,3 +37,21 @@ const { data } = useLazyAsyncData(
   async () => await onLoad()
 )
 </script>
+
+<style lang="scss">
+.app-product-page {
+  &__description {
+    margin-top: 32rem;
+  }
+
+  @media #{map-get($display-rules, 'md')} {
+    &__main-block {
+      padding: 35rem 0;
+    }
+
+    &__description {
+      margin-top: 50rem;
+    }
+  }
+}
+</style>

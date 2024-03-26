@@ -2,8 +2,8 @@ import type { TUserData } from '~/api/user/shared.types'
 
 export async function getUserData(token: string) {
   const asyncQuery = useAsyncQuery()
-  return await asyncQuery<TUserData>(
+  return await asyncQuery<{ data: TUserData }>(
     'GET',
-    `/api/user/getUserData?token=${token}`,
+    `/api/user/data?token=${token}`,
   )
 }

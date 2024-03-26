@@ -1,9 +1,28 @@
+// Theme
 $theme-colors: (
   'background-color': #ffffff,
-  'surface-color': #fff3e3,
+  'surface-color': rgba(19,19,19,.6),
   'primary-color': #000000,
   'secondary-color': #898989FF,
-  'accent-color': #b88e2f,
+  'accent-color': #db2900,
   'success-color': '',
-  'error-color': '',
+  'error-color': #e74c3c,
+);
+
+// Colors
+$backdrop-shadow: rgba(0, 0, 0, 0.5);
+
+$black-color-palette: (
+  'black': #000,
+  'black-5': #3a3a3a
+);
+
+$white-color-palette: (
+  'white': #fff,
+  'white-5': #f4f5f7
+);
+
+$gray-color-palette: (
+  'gray-2': #898989,
+  'gray-3': #4d4d4d,
 );

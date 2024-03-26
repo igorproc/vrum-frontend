@@ -1,45 +1,21 @@
 // Pinia Stores
 import { useWishlistStore } from '~/store/wishlist/index'
-// Api Methods
-import { getWishlistShorterData } from '~/api/user/wishlist/wishlistShortData'
-import { createWishlist } from '~/api/user/wishlist/createWishlist'
+// Constants
+import { COOKIE_MAX_LIFE } from '~/shared/const/cookies'
+// Types & Interfaces
+import type { TWishlistProductIds } from '~/api/wishlist/getShortData'
 
-export const wishlistOnLoginUser = async (token: string) => {
+export const wishlistOnLoginUser = async (wishlistData: TWishlistProductIds) => {
   try {
     const wishlistStore = useWishlistStore()
-    const wishlistTokenValue = useCookie(
-      'wishlist-id',
-      { maxAge: 60 * 60 * 24 * 14 },
+    const wishlistToken = useCookie(
+      'wishlist-token',
+      { maxAge: COOKIE_MAX_LIFE },
     )
 
-    wishlistTokenValue.value = token
-    wishlistStore.wishlistToken = token
-
-    const idsList = await getWishlistShorterData(token)
-    if (!idsList) {
-      return
-    }
-
-    wishlistStore.idsList = idsList.productIds
-    wishlistStore.productList = []
-  } catch (error) {
-    throw error
-  }
-}
-
-export const wishlistOnLogoutUser = async () => {
-  try {
-    const wishlistTokenValue = useCookie(
-      'wishlist-id',
-      { maxAge: 60 * 60 * 24 * 14 },
-    )
-
-    const newGuestWishlistToken = await createWishlist()
-    if (!newGuestWishlistToken) {
-      return
-    }
-
-    wishlistTokenValue.value = newGuestWishlistToken.wishlistToken
+    wishlistToken.value = wishlistData.token
+    wishlistStore.token = wishlistData.token
+    wishlistStore.idsList = wishlistData.items
   } catch (error) {
     throw error
   }

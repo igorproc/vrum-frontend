@@ -1,23 +1,44 @@
 // Pinia Stores
 import { useWishlistStore } from '~/store/wishlist/index'
 // Api Methods
-import { addProductToWishlist } from '~/api/user/wishlist/addProductToWishlist'
+import { addProduct } from '~/api/wishlist/addProduct'
+import { removeProduct } from '~/api/wishlist/removeProduct'
+import { create } from '~/api/wishlist/create'
+// Constants
+import { COOKIE_MAX_LIFE } from '~/shared/const/cookies'
 // Types & Interfaces
 import type { TProduct } from '~/api/product/shared.types'
-import type { TWishlistOperationWithProductInput } from '~/api/user/wishlist/shared.types'
-import type { TWishlistRemoveProductInput } from '~/api/user/wishlist/removeProductFromWishlist'
-import type { TWishlistProduct } from '~/api/user/wishlist/wishlistProducts'
-import { removeProductFromWishlist } from '~/api/user/wishlist/removeProductFromWishlist'
+import type { TWishlistAddProductInput } from '~/api/wishlist/addProduct'
+import type { TWishlistRemoveProductInput } from '~/api/wishlist/removeProduct'
+import type { TWishlistProduct } from '~/api/wishlist/getProducts'
+
+export async function wishlistCreateCart() {
+  const wishlistStore = useWishlistStore()
+  const wishlistToken = useCookie(
+    'cart-token',
+    { maxAge: COOKIE_MAX_LIFE }
+  )
+
+  const cartData = await create()
+  if (!cartData) {
+    return
+  }
+
+  wishlistToken.value = cartData.token
+  wishlistStore.token = cartData.token
+  wishlistStore.idsList = []
+}
 
 export async function addItemToWishlist(productData: TProduct, selectedVariant?: number | null) {
   const wishlistStore = useWishlistStore()
 
-  const payload: TWishlistOperationWithProductInput = {
-    wishlistToken: wishlistStore.wishlistToken,
-    productId: productData.pid,
+  const payload: TWishlistAddProductInput = {
+    token: wishlistStore.token,
+    id: productData.id,
   }
   const productPayload: TWishlistProduct = {
-    productData,
+    product: productData,
+    selectedVariant: null,
   }
 
   if (selectedVariant) {
@@ -25,7 +46,7 @@ export async function addItemToWishlist(productData: TProduct, selectedVariant?:
     productPayload.selectedVariant = selectedVariant
   }
 
-  const itemIsAddedToWishlist = await addProductToWishlist(payload)
+  const itemIsAddedToWishlist = await addProduct(payload)
   if (!itemIsAddedToWishlist) {
     return false
   }
@@ -34,15 +55,6 @@ export async function addItemToWishlist(productData: TProduct, selectedVariant?:
     .idsList
     .push(itemIsAddedToWishlist)
 
-  const productDataIsExsistsInStore = wishlistStore
-    .productList
-    .find(product => product.productData.pid === productData.pid)
-
-  if (!productDataIsExsistsInStore) {
-    wishlistStore
-      .productList
-      .push(productPayload)
-  }
   return true
 }
 
@@ -50,31 +62,18 @@ export async function removeItemFromWishlist(wishlistProductId: number) {
   const wishlistStore = useWishlistStore()
 
   const payload: TWishlistRemoveProductInput = {
-    wishlistToken: wishlistStore.wishlistToken,
-    wishlistItemId: wishlistProductId,
+    token: wishlistStore.token,
+    id: wishlistProductId,
   }
 
-  const removedItemData = await removeProductFromWishlist(payload)
+  const removedItemData = await removeProduct(payload)
   if (!removedItemData) {
     return false
   }
 
   wishlistStore.idsList = wishlistStore
     .idsList
-    .filter(item => item.itemId !== removedItemData.itemId)
+    .filter(item => item.id !== removedItemData.id)
 
-  if (removedItemData.variantId) {
-    wishlistStore.productList = wishlistStore
-      .productList
-      .filter(product => {
-        return !(product.productData.pid === removedItemData.productId &&
-          product.selectedVariant === removedItemData.variantId)
-      })
-    return true
-  }
-
-  wishlistStore.productList = wishlistStore
-    .productList
-    .filter(product => product.productData.pid !== removedItemData.productId)
   return true
 }

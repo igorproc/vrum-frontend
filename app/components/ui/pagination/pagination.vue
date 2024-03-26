@@ -12,18 +12,20 @@
       </span>
     </button>
 
-    <button
-      v-for="item in paginationItems"
-      :key="item?.id || generateRandomId()"
-      :class="{ '--is-active': item.value === currentPage, '--is-disabled': disabled }"
-      aria-label="Route to selected page"
-      class="ui-pagination__item item"
-      @click="selectPage(item.value)"
-    >
+    <div v-if="withItems" class="ui-pagination__list">
+      <button
+        v-for="item in paginationItems"
+        :key="item?.id || generateRandomId()"
+        :class="{ '--is-active': item.value === currentPage, '--is-disabled': disabled }"
+        aria-label="Route to selected page"
+        class="ui-pagination__item item"
+        @click="selectPage(item.value)"
+      >
       <span class="item__label">
         {{ item.text }}
       </span>
-    </button>
+      </button>
+    </div>
 
     <button
       v-if="nextPageAction"
@@ -51,6 +53,7 @@ interface Props {
   disabled?: boolean,
   totalPages: number,
   currentPage: number,
+  withItems?: boolean,
   prevPageAction?: boolean,
   nextPageAction?: boolean,
 }
@@ -63,6 +66,7 @@ const props = withDefaults(
   defineProps<Props>(),
   {
     disabled: false,
+    withItems: false,
     prevPageAction: false,
     nextPageAction: false,
   },
@@ -108,13 +112,13 @@ const prevPage = () => {
   flex-wrap: nowrap;
   gap: 8rem;
 
-  .ui-pagination__item {
+  &__item {
     padding: 15rem 22rem;
     border-radius: 10rem;
     background-color: map-get($theme-colors, 'surface-color');
 
     .item__label {
-      font-weight: bold;
+      color: map-get($white-color-palette, 'white');
     }
 
     &.--is-active {
@@ -123,6 +127,7 @@ const prevPage = () => {
 
     &.--is-disabled {
       cursor: default;
+      opacity: 0.6;
     }
   }
 

@@ -1,74 +1,75 @@
-// Pinia Stores & Methods with store
+// Pinia Stores
 import { useUserStore } from '~/store/user/index'
-import { wishlistOnLoginUser, wishlistOnLogoutUser } from '~/store/wishlist/auth'
+import { useWishlistStore } from '~/store/wishlist'
+import { useCartStore } from '~/store/cart'
+// Pinia Actions
+import { createCart } from '~/store/cart/actions'
+import { wishlistOnLoginUser } from '~/store/wishlist/auth'
+import { cartOnLoginUser } from '~/store/cart/auth'
 // Api Methods
-import { getUserData } from '~/api/user/userData'
 import { loginUser as apiLoginUser } from '~/api/user/login'
 import { createUser as apiCreateUser } from '~/api/user/create'
 import { logoutUser as apiLogoutUser } from '~/api/user/logout'
+// Utils
+import { prettyBearerToken } from '~/utils/bearer.util'
+// Constants
+import { COOKIE_MAX_LIFE } from '~/shared/const/cookies'
 // Types & Interfaces
-import type { TUserLoginInput } from '~/api/user/login'
-import type { TUserRegisterInput } from '~/api/user/create'
+import type { TUserLogin, TUserLoginInput } from '~/api/user/login'
+import type { TUserRegister, TUserRegisterInputWithoutTokens } from '~/api/user/create'
+import { wishlistCreateCart } from '~/store/wishlist/actions'
 
-export const loginUser = async (loginData: TUserLoginInput) => {
-  try {
-    const userStore = useUserStore()
-    const cookieTokenValue = useCookie(
-      'Authorization',
-      { maxAge: 60 * 60 * 24 * 14 },
-    )
+export const fillStoreData = (userData: TUserLogin | TUserRegister) => {
+  const userStore = useUserStore()
+  const authToken = useCookie(
+    'authorization',
+    {
+      watch: 'shallow',
+      maxAge: COOKIE_MAX_LIFE,
+    },
+  )
 
-    if (cookieTokenValue.value) {
-      userStore.isGuest = true
-      if (!userStore.userData) {
-        const userData = await getUserData(cookieTokenValue.value as string)
-        if (!userData) {
-          return
-        }
-
-        userStore.userData = userData
-      }
-      return true
-    }
-
-    const userIsLogin = await apiLoginUser(loginData)
-    if (!userIsLogin) {
-      return
-    }
-
-    cookieTokenValue.value = userIsLogin.token
-    userStore.isGuest = false
-    userStore.userData = userIsLogin.userData
-
-    await wishlistOnLoginUser(userIsLogin.wishlistToken)
-    return true
-  } catch (error) {
-    throw error
-  }
+  authToken.value = prettyBearerToken(userData.token)
+  userStore.isGuest = false
+  userStore.token = authToken.value
+  userStore.userData = userData.data
 }
 
-export const createUser = async (registerData: TUserRegisterInput) => {
+export const loginUser = async (loginData: TUserLoginInput) => {
+  const userData = await apiLoginUser(loginData)
+  if (!userData) {
+    return false
+  }
+
+  fillStoreData(userData)
+  await Promise.all([
+    wishlistOnLoginUser(userData.wishlist),
+    cartOnLoginUser(userData.cart),
+  ])
+
+  return true
+}
+
+export const createUser = async (registerData: TUserRegisterInputWithoutTokens) => {
   try {
-    const userStore = useUserStore()
-    const cookieTokenValue = useCookie(
-      'Authorization',
-      { maxAge: 60 * 60 * 24 * 14 },
+    const wishlistStore = useWishlistStore()
+    const cartStore = useCartStore()
+
+    const userData = await apiCreateUser(
+      Object.assign(
+        registerData,
+        {
+          cartToken: cartStore.token,
+          wishlistToken: wishlistStore.token,
+        },
+      ),
     )
-
-    if (cookieTokenValue.value && !userStore.userData) {
-      userStore.isGuest = false
-      userStore.userData = await getUserData(cookieTokenValue.value as string)
-      return
+    if (!userData) {
+      return false
     }
 
-    const userIsLogin = await apiCreateUser(registerData)
-    if (!userIsLogin) {
-      return
-    }
-
-    cookieTokenValue.value = userIsLogin.token
-    userStore.isGuest = false
-    userStore.userData = userIsLogin.userData
+    fillStoreData(userData)
+    return true
   } catch (error) {
     throw error
   }
@@ -77,15 +78,22 @@ export const createUser = async (registerData: TUserRegisterInput) => {
 export const logoutUser = async () => {
   try {
     const userStore = useUserStore()
-    const cookieTokenValue = useCookie('Authorization')
+    const authToken = useCookie('authorization')
 
-    await apiLogoutUser()
+    const isSuccessLogout = await apiLogoutUser()
 
+    if (!isSuccessLogout) {
+      return false
+    }
+
+    authToken.value = null
     userStore.isGuest = true
     userStore.userData = null
-    cookieTokenValue.value = ''
 
-    await wishlistOnLogoutUser()
+    await Promise.all([
+      createCart(),
+      wishlistCreateCart(),
+    ])
     return true
   } catch (error) {
     throw error

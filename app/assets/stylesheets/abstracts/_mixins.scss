@@ -1,0 +1,7 @@
+@mixin generate-spacing-classes($prefix, $property, $start, $end) {
+  @for $i from $start through $end {
+    .#{$prefix}-#{$i} {
+      #{$property}: $i * 5rem;
+    }
+  }
+}

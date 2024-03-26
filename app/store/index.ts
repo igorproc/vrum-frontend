@@ -4,7 +4,7 @@ import consola from 'consola'
 // Pinia Stores
 import { initializeUser } from '~/store/user/init'
 import { initializeWishlist } from '~/store/wishlist/init'
-import path from 'path'
+import { initializeCart } from '~/store/cart/init'
 
 export const useIndexStore = defineStore('index-store', {
   actions: {
@@ -22,6 +22,7 @@ export const useIndexStore = defineStore('index-store', {
       await Promise.all([
         await initializeUser(),
         await initializeWishlist(),
+        await initializeCart(),
       ])
     },
   },

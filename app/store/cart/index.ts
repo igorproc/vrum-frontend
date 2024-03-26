@@ -1,35 +1,18 @@
 interface ICartStoreState {
-  cartId: string,
-  cartIdsList: {
-    productCartId: number,
+  token: string,
+  idsList: {
+    id: number,
     productId: number,
     variantId: number | null,
+    qty: number,
   }[],
 }
 
 export const useCartStore = defineStore('cart-store', {
   state: (): ICartStoreState => {
     return {
-      cartId: 'a64e8d6a-49ad-4931-8031-3028ff9c70c5',
-      cartIdsList: [],
+      token: '',
+      idsList: [],
     }
-  },
-  actions: {
-    addItemToCart(productId: number, productCartId: number, variantId: number | null) {
-      this.cartIdsList.push({
-        productCartId,
-        productId,
-        variantId,
-      })
-    },
-    removeItemFromCart(productId: number, variantId: number | null) {
-      if (!variantId) {
-        this.cartIdsList = this.cartIdsList.filter(cartId => cartId.productId !== productId)
-        return
-      }
-      this.cartIdsList = this.cartIdsList.filter(cartId => {
-        return cartId.productId !== productId && cartId.variantId !== variantId
-      })
-    },
   },
 })

@@ -1,49 +1,45 @@
-// Pinia Stores
-import { useProductStore } from '~/store/product'
-import { useWishlistStore } from '~/store/wishlist'
-import { useCartStore } from '~/store/cart'
+// Pinia Methods
 import { addItemToWishlist, removeItemFromWishlist } from '~/store/wishlist/actions'
+import { addItemToCart, removeItemFromCart } from '~/store/cart/actions'
+// Types & Interfaces
+import type { TProduct } from '~/api/product/shared.types'
+import type { TCartAddProductInput } from '~/api/cart/addProduct'
 
-export const useProduct = (productId: number) => {
-  const productStore = useProductStore()
+export const useProduct = (product: TProduct) => {
   const wishlistStore = useWishlistStore()
   const cartStore = useCartStore()
+  const notificationStore = useNotificationStore()
 
-  const productData = productStore.getProductDataById(productId)
   const configurableProductVariant = ref<number | null>(null)
   const operationWithWishlistIsProcessing = ref(false)
   const operationWithCartIsProcessing = ref(false)
 
   const productIsAddedToCart = computed(() => {
-    if (!productData) {
-      return false
-    }
-
-    if (productData.__typename === 'BASE') {
-      return !!cartStore.cartIdsList.find(cartId => cartId.productId === productId)
+    if (product.__typename === 'BASE') {
+      return cartStore
+        .idsList
+        .find(cartItem => cartItem.productId === product.id)
     }
     if (!configurableProductVariant.value) {
       return false
     }
 
-    return !!cartStore.cartIdsList.find(cartId => {
-      return cartId.productId === productId && cartId.variantId === configurableProductVariant.value
+    return cartStore.idsList.find(cartItem => {
+      return cartItem.productId === product.id && cartItem.variantId === configurableProductVariant.value
     })
   })
   const productIsAddedToWishlist = computed(() => {
-    if (!productData) {
-      return false
-    }
-
-    if (productData.__typename === 'BASE') {
-      return wishlistStore.idsList.find(wishlistId => wishlistId.productId === productId)
+    if (product.__typename === 'BASE') {
+      return wishlistStore
+        .idsList
+        .find(wishlistItem => wishlistItem.productId === product.id)
     }
     if (!configurableProductVariant.value) {
       return false
     }
 
     return wishlistStore.idsList.find(wishlistId => {
-      return wishlistId.productId === productId && wishlistId.variantId === configurableProductVariant.value
+      return wishlistId.productId === product.id && wishlistId.variantId === configurableProductVariant.value
     })
   })
 
@@ -52,15 +48,12 @@ export const useProduct = (productId: number) => {
   }
   const addToWishlist = async () => {
     operationWithWishlistIsProcessing.value = true
-    if (!productData) {
-      operationWithWishlistIsProcessing.value = false
-      return false
-    }
 
     await addItemToWishlist(
-      productData,
+      product,
       configurableProductVariant.value,
     )
+    notificationStore.openSuccessNotification('Product successfully added to wishlist')
     operationWithWishlistIsProcessing.value = false
   }
   const removeFromWishlist = async () => {
@@ -69,14 +62,36 @@ export const useProduct = (productId: number) => {
     }
     operationWithWishlistIsProcessing.value = true
 
-    await removeItemFromWishlist(productIsAddedToWishlist.value.itemId)
+    await removeItemFromWishlist(productIsAddedToWishlist.value.id)
+    notificationStore.openSuccessNotification('Product successfully removed from wishlist')
     operationWithWishlistIsProcessing.value = false
   }
-  const addToCart = () => {
-    cartStore.addItemToCart(productId, 123, configurableProductVariant.value || null)
+  const addToCart = async (qty?: number) => {
+    operationWithWishlistIsProcessing.value = true
+
+    const payload: Omit<TCartAddProductInput, 'token'> = {
+      id: product.id,
+      qty: !qty && productIsAddedToCart.value ?
+        productIsAddedToCart.value.qty + 1 : 1
+    }
+
+    if (product.__typename === 'CONFIGURABLE' && configurableProductVariant.value) {
+      payload.variantId = configurableProductVariant.value
+    }
+
+    await addItemToCart(payload)
+    notificationStore.openSuccessNotification('Product successfully added to cart')
+    operationWithWishlistIsProcessing.value = false
   }
-  const removeFromCart = () => {
-    cartStore.removeItemFromCart(productId, configurableProductVariant.value || null)
+  const removeFromCart = async () => {
+    if (!productIsAddedToCart.value) {
+      return
+    }
+
+    operationWithCartIsProcessing.value = true
+    await removeItemFromCart({ id: productIsAddedToCart.value.id })
+    notificationStore.openSuccessNotification('Product successfully added from cart')
+    operationWithCartIsProcessing.value = false
   }
 
   return {

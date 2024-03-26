@@ -1,7 +1,7 @@
 // Composables
 import { useSSRWindowSize } from '~/composables/useSSRWisndowSize'
 // Consts
-import { DEFAULT_BREAKPOINT_SIZES } from '~/const/app'
+import { DEFAULT_BREAKPOINT_SIZES } from '~/shared/const/breakpoints'
 import type { ComputedRef } from 'vue'
 
 // TO:DO Refactor | Now Deprecated
@@ -23,8 +23,8 @@ export const useWindowResize = (breakpoints?: DynamicObject) => {
   } = {}
 
   const minimalValue = windowResizeFactory(
-    ...Object.entries(breakpoints)[0],
-    breakpoints,
+    ...Object.entries(breakpoints || {})[0],
+    breakpoints || {},
     { isMinimalValue: true },
   )
   if (!minimalValue || Array.isArray(minimalValue)) {
@@ -32,11 +32,11 @@ export const useWindowResize = (breakpoints?: DynamicObject) => {
   }
   breakpointWatchers[minimalValue.key] = minimalValue.watcher
 
-  for (const [key, value] of Object.entries(breakpoints).slice(1)) {
+  for (const [key, value] of Object.entries(breakpoints || {}).slice(1)) {
     const breakpointsWatcher = windowResizeFactory(
       key,
       value,
-      breakpoints,
+      breakpoints || {},
     )
 
     if (Array.isArray(breakpointsWatcher)) {

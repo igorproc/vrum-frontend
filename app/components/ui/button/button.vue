@@ -1,23 +1,15 @@
 <template>
   <component
     :is="link ? nuxtLinkComponent : 'button'"
-    :to="link"
-    :style="{
-      '--ui-button-background-color': backgroundColor
-    }"
-    :class="{
-      '--is-outlined': variant === 'outlined',
-      '--is-text': variant === 'text',
-      '--custom-background': backgroundColor
-    }"
+    v-bind="buttonState"
     class="ui-button"
   >
     <div class="ui-button__prepend button-prepend">
-      <UiIcon v-if="prependIcon" :name="prependIcon" />
+      <ui-icon v-if="prependIcon" :name="prependIcon" />
       <slot name="prepend" />
     </div>
 
-    <div class="ui-button__content button-content">
+    <div v-if="label" class="ui-button__content button-content">
       <span class="button-content__label">
         {{ label }}
       </span>
@@ -33,20 +25,55 @@ import type { NuxtLinkProps } from '#app/components/nuxt-link'
 type ButtonType = 'text' | 'outlined'
 
 interface Props {
-  label: string,
+  label?: string,
   variant?: ButtonType,
-  link?: NuxtLinkProps | string,
+  disabled?: boolean
+  link?: NuxtLinkProps['to'],
   backgroundColor?: string,
   prependIcon?: TUiIconNames,
 }
 
-const nuxtLinkComponent = defineAsyncComponent(() => import('#app/components/nuxt-link'))
-const props = defineProps<Props>()
+interface IButtonState {
+  to?: NuxtLinkProps['to'],
+  disabled?: boolean,
+  style?: Record<string, unknown>,
+  class?: string,
+}
 
-const { variant } = toRefs(props)
+const nuxtLinkComponent = defineAsyncComponent(() => import('#app/components/nuxt-link'))
+const props = withDefaults(
+  defineProps<Props>(),
+  {
+    disabled: false,
+  },
+)
+
+const { variant, link, backgroundColor, disabled } = toRefs(props)
+
+const buttonState = computed(() => {
+  const state: IButtonState = {
+    class: '',
+  }
+
+  if (link.value) {
+    state.to = link.value
+  }
+
+  if (backgroundColor.value) {
+    state.style = { '--ui-button-background-color': backgroundColor }
+    state.class += '--custom-background '
+  }
+
+  if (variant.value) {
+    state.class += ` --is-${variant.value}`
+  }
+
+  state.disabled = disabled.value
+  return state
+})
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .ui-button {
   padding: 8rem 12rem;
   display: flex;
@@ -56,7 +83,7 @@ const { variant } = toRefs(props)
   background-color: map-get($theme-colors, 'accent-color');
   text-decoration: unset;
 
-  .ui-button__content {
+  &__content {
     margin: 0 8rem;
 
     .button-content__label {

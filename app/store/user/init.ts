@@ -5,16 +5,17 @@ import { getUserData } from '~/api/user/userData'
 
 export const initializeUser = async () => {
   const userStore = useUserStore()
-  const cookieTokenValue = useCookie('Authorization')
-  if (!cookieTokenValue.value) {
+  const authToken = useCookie('authorization')
+
+  if (!authToken.value) {
     return
   }
 
-  const userData = await getUserData(cookieTokenValue.value)
+  const userData = await getUserData(authToken.value)
   if (!userData) {
     return
   }
 
-  userStore.userData = userData
+  userStore.userData = userData.data
   userStore.isGuest = false
 }

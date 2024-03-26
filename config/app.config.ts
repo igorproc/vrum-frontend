@@ -6,8 +6,6 @@ export default {
     title: pwaConfig.title,
     titleTemplate: pwaConfig.description,
     link: [
-      { rel: 'stylesheet', href: 'https://rsms.me/inter/inter.css' },
-      { rel: 'preconnect', href: 'https://rsms.me/' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'canonical', href: pwaConfig.url },
     ],
