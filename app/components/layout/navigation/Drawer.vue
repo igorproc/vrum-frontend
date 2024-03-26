@@ -80,7 +80,7 @@ const adminLinkList: TNavigationDrawerLinkListItem[] = [
     label: 'Admin Zone',
     prependIcon: 'user/admin-settings',
     disabled: itemsIsDisabled.value,
-    link: { name: 'index' },
+    link: { name: 'admin' },
   },
 ]
 

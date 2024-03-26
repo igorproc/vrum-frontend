@@ -4,6 +4,7 @@
       :total-products="data?.totalProducts || 0"
       :page-size="filterParams.size"
       :current-page="filterParams.page"
+      :sort-by="filterParams.sortBy"
       class="app-products-page__filters"
       @page-size-updated="updatePageSize"
       @page-sort-updated="updateSort"

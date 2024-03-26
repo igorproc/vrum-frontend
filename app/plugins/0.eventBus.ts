@@ -1,7 +1,8 @@
 import mitt from 'mitt'
 
 type ApplicationEvents = {
-  'notification:open': undefined
+  'notification:open': undefined,
+  'brand:add': void,
 }
 
 export default defineNuxtPlugin(() => {

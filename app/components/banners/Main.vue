@@ -43,11 +43,13 @@
 <script setup lang="ts">
 // Node Deps
 import { AutoPlay } from '@egjs/flicking-plugins'
+// Types & Interfaces
+import type { NuxtLinkProps } from '#app/components/nuxt-link'
 
 interface IOfferItemAction {
   actionTitle: string,
   isLink: boolean,
-  link?: string,
+  link?: NuxtLinkProps['to'],
   action?: () => Promise<void> | void
 }
 
@@ -69,7 +71,7 @@ const items: TOfferItem[] = [
     action: {
       actionTitle: 'buy now',
       isLink: true,
-      link: 'products',
+      link: { name: 'products', query: { page: 1, size: 12, brand: 1 } },
     },
   },
   {
@@ -80,7 +82,7 @@ const items: TOfferItem[] = [
     action: {
       actionTitle: 'buy now',
       isLink: true,
-      link: 'products/adidas',
+      link: { name: 'products', query: { page: 1, size: 12, brand: 3 } },
     },
   },
 ]

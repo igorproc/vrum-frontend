@@ -7,6 +7,7 @@ import consola from 'consola'
 import { useNotificationStore } from '~/store/notification'
 // Types & Interfaces
 import type { TResponseError } from '~/api/shared.types'
+import type { AxiosHeaders } from 'axios'
 
 export const useAsyncQuery = () => {
   const runtimeConfig = useRuntimeConfig()
@@ -93,12 +94,13 @@ export const useAsyncQuery = () => {
     }
   })
 
-  return async <T>(method: Method, url: string, payload?: unknown): Promise<T | null> => {
+  return async <T>(method: Method, url: string, payload?: unknown, headers?: unknown): Promise<T | null> => {
     const requestUrl = getApiUrl(url)
     if (!requestInstance.value) {
       return null
     }
 
+    const customHeaders = headers || {} as AxiosHeaders
     try {
       const response = await requestInstance
         .value
@@ -106,6 +108,7 @@ export const useAsyncQuery = () => {
           method,
           url: requestUrl,
           data: payload,
+          headers: customHeaders,
         })
 
       return response.data as T

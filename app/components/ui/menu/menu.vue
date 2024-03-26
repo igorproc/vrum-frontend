@@ -8,7 +8,7 @@
       v-if="open"
       ref="menu"
       class="ui-menu__items"
-      :style="{ bottom: `-${menu?.offsetHeight + 5}rem` }"
+      :style="{ bottom: `-${(menu?.offsetHeight || 0) + 5}rem` }"
     >
       <slot />
     </div>
@@ -42,10 +42,10 @@ useClientOnly(() => {
 .ui-menu {
   position: relative;
 
-  & &__items {
+  &__items {
     position: absolute;
     right: 0;
-    background-color: map-get($theme-colors, 'surface-color');
+    background-color: map-get($theme-colors, 'secondary-color');
     padding: 6rem 8rem;
   }
 }
