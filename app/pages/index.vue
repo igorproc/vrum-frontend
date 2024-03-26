@@ -1,13 +1,13 @@
 <template>
-  <div class="app-main-page main-page">
-    <div class="main-page__slider">
-      <AppMainSlider />
+  <div class="app-main-page">
+    <div class="app-main-page__slider">
+      <AppBannersMain />
     </div>
-    <div v-if="data" class="main-page__personality-slider">
+    <div v-if="data" class="app-main-page__personality-slider">
       <AppPersonalitySlider :brands="data.brands" />
     </div>
-    <div v-if="data" class="main-page__showcase">
-      <AppShowcaseList :product-list="data.products" />
+    <div v-if="data" class="app-main-page__showcase">
+      <AppProductShowcaseList :product-list="data.products" />
     </div>
   </div>
 </template>
@@ -16,14 +16,10 @@
 // Api Methods
 import { getProductPage } from '~/api/product/getProductPage'
 import { getBrandList } from '~/api/brand/getBrandList'
-// Components
-import AppMainSlider from '~/components/main/AppMainSlider.vue'
-import AppShowcaseList from '~/components/products/showcase/AppShowcaseList.vue'
-import AppPersonalitySlider from '~/components/personality/AppPersonalitySlider.vue'
 
 async function onLoad() {
   const [showcase, brands] = await Promise.all([
-    getProductPage(1, 8),
+    getProductPage({ page: 1, size: 8 }),
     getBrandList(1, 12)
   ])
 
@@ -41,28 +37,28 @@ const { data } = useLazyAsyncData(
 
 <style lang="scss">
 .app-main-page {
-  .main-page__slider,{
+  &__slider {
     margin: -10rem -15rem;
   }
 
-  .main-page__showcase,
-  .main-page__personality-slider {
+  &__showcase,
+  &__personality-slider {
     margin-top: 23rem;
   }
 
   @media #{map-get($display-rules, 'xl')} {
-    .main-page__slider {
+    &__slider {
       margin: -30rem -65rem;
     }
 
-    .main-page__showcase,
-    .main-page__personality-slider {
+    &__showcase,
+    &__personality-slider {
       margin-top: 56rem;
     }
   }
 
   @media #{map-get($display-rules, 'xxl')} {
-    .main-page__slider, {
+    &__slider {
       margin: -40rem -185rem;
     }
   }

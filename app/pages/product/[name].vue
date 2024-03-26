@@ -13,8 +13,8 @@
 
 <script setup lang="ts">
 // Components
-import AppProductMainBlockResolver from '~/components/products/product-block/Resolver.vue'
-import AppProductDescriptionResolver from '~/components/products/product-block/info/AppDescriptionResolver.vue'
+import AppProductMainBlockResolver from '~/components/product/block/Resolver.vue'
+import AppProductDescriptionResolver from '~/components/product/block/info/DescriptionResolver.vue'
 // Api Methods
 import { getProductData } from '~/api/product/getProductData'
 

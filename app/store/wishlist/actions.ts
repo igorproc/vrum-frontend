@@ -37,7 +37,7 @@ export async function addItemToWishlist(productData: TProduct, selectedVariant?:
     id: productData.id,
   }
   const productPayload: TWishlistProduct = {
-    productData,
+    product: productData,
     selectedVariant: null,
   }
 

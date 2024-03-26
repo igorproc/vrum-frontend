@@ -112,7 +112,7 @@ const prevPage = () => {
   flex-wrap: nowrap;
   gap: 8rem;
 
-  .ui-pagination__item {
+  &__item {
     padding: 15rem 22rem;
     border-radius: 10rem;
     background-color: map-get($theme-colors, 'surface-color');

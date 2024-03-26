@@ -16,9 +16,25 @@ export default defineNuxtConfig({
   components: {
     dirs: [
       {
+        global: true,
         path: '~/components/ui',
         pathPrefix: true,
         prefix: 'Ui',
+      },
+      {
+        path: '~/components/layout',
+        pathPrefix: true,
+        prefix: 'Layout',
+      },
+      {
+        path: '~/components/common',
+        pathPrefix: true,
+        prefix: 'Common',
+      },
+      {
+        path: '~/components',
+        pathPrefix: true,
+        prefix: 'App',
       },
     ],
   },
@@ -69,4 +85,7 @@ export default defineNuxtConfig({
   pwa: PwaConfig,
   googleFonts: TypographyConfig,
   devtools: { enabled: isProd },
+  pinia: {
+    storesDirs: ['./app/store/**'],
+  },
 })

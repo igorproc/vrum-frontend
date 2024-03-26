@@ -1,21 +1,16 @@
 <template>
   <div class="app-default-layout">
-    <AppHeader />
+    <LayoutHeader />
     <div class="app-default-layout__main">
       <slot />
     </div>
-    <AppFooter />
+    <LayoutFooter />
 
-    <AppGlobalScope />
+    <CommonScope />
   </div>
 </template>
 
-<script setup lang="ts">
-// Components
-import AppHeader from '~/components/common/layout/AppHeader.vue'
-import AppGlobalScope from '~/components/common/global/AppGlobalScope.vue'
-import AppFooter from '~/components/common/layout/AppFooter.vue'
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
 .app-default-layout {
@@ -36,7 +31,7 @@ import AppFooter from '~/components/common/layout/AppFooter.vue'
 
   @media #{map-get($display-rules, 'xxl')} {
     &__main {
-      min-height: 79vh;
+      min-height: 75vh;
       padding: 40rem 140rem;
     }
   }

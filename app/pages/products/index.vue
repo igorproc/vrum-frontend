@@ -1,6 +1,6 @@
 <template>
   <div class="app-products-page">
-    <AppProductListFilters
+    <AppProductListHeader
       :total-products="data?.totalProducts || 0"
       :page-size="filterParams.size"
       :current-page="filterParams.page"
@@ -27,20 +27,16 @@
 </template>
 
 <script setup lang="ts">
-// Components
-import AppProductListFilters from '~/components/products/product-list/AppProductListFilters.vue'
-import AppProductList from '~/components/products/product-list/AppProductList.vue'
 // Api Methods
 import { getProductPage } from '~/api/product/getProductPage'
 // Constants
 import {
   DEFAULT_PAGE_NUMBER,
   DEFAULT_PAGE_SIZE,
-  DEFAULT_PAGE_SORT
+  DEFAULT_PAGE_SORT,
 } from '~/shared/const/pagination'
 // Types & Interfaces
 import type { TGetProductPageInput, TPageSortCondition } from '~/api/product/getProductPage'
-import AppProductListPagination from '~/components/products/product-list/AppProductListPagination.vue'
 
 const router = useRouter()
 
@@ -65,24 +61,30 @@ const checkRouteParams = () => {
       continue
     }
 
+    // @ts-ignore
     filterParams[objectMaps[key]] = Number(value) || value
   }
 }
 
 const changeRouteQueries = () => {
-  const a = {
+  const queries: {
+    page: number,
+    size: number,
+    brand?: number | string,
+    sort?: string,
+  } = {
     page: filterParams.page,
     size: filterParams.size,
   }
 
   if (filterParams.brand) {
-    a.brand = filterParams.brand
+    queries.brand = filterParams.brand
   }
   if (filterParams.sortBy) {
-    a.sort = filterParams.sortBy
+    queries.sort = filterParams.sortBy
   }
 
-  router.replace({ query: a })
+  router.replace({ query: queries })
 }
 
 checkRouteParams()
@@ -90,8 +92,8 @@ const { data, pending } = useLazyAsyncData(
   'product-page',
   async () => getProductPage(filterParams),
   {
-    watch: [filterParams]
-  }
+    watch: [filterParams],
+  },
 )
 
 const updatePageSize = (size: number) => {
@@ -104,7 +106,7 @@ const updateCurrentPage = (page: number) => {
 }
 
 const updateSort = (sort: string) => {
-  filterParams.sortBy =  sort as TPageSortCondition
+  filterParams.sortBy = sort as TPageSortCondition
 }
 
 watch(filterParams, () => changeRouteQueries())

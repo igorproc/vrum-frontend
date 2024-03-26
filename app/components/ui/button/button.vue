@@ -28,7 +28,7 @@ interface Props {
   label?: string,
   variant?: ButtonType,
   disabled?: boolean
-  link?: NuxtLinkProps | string,
+  link?: NuxtLinkProps['to'],
   backgroundColor?: string,
   prependIcon?: TUiIconNames,
 }
@@ -55,6 +55,10 @@ const buttonState = computed(() => {
     class: '',
   }
 
+  if (link.value) {
+    state.to = link.value
+  }
+
   if (backgroundColor.value) {
     state.style = { '--ui-button-background-color': backgroundColor }
     state.class += '--custom-background '
@@ -65,7 +69,6 @@ const buttonState = computed(() => {
   }
 
   state.disabled = disabled.value
-
   return state
 })
 </script>
@@ -80,7 +83,7 @@ const buttonState = computed(() => {
   background-color: map-get($theme-colors, 'accent-color');
   text-decoration: unset;
 
-  .ui-button__content {
+  &__content {
     margin: 0 8rem;
 
     .button-content__label {

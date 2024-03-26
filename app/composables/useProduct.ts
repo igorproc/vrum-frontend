@@ -1,6 +1,3 @@
-// Pinia Stores
-import { useWishlistStore } from '~/store/wishlist'
-import { useCartStore } from '~/store/cart'
 // Pinia Methods
 import { addItemToWishlist, removeItemFromWishlist } from '~/store/wishlist/actions'
 import { addItemToCart, removeItemFromCart } from '~/store/cart/actions'
@@ -11,6 +8,7 @@ import type { TCartAddProductInput } from '~/api/cart/addProduct'
 export const useProduct = (product: TProduct) => {
   const wishlistStore = useWishlistStore()
   const cartStore = useCartStore()
+  const notificationStore = useNotificationStore()
 
   const configurableProductVariant = ref<number | null>(null)
   const operationWithWishlistIsProcessing = ref(false)
@@ -55,6 +53,7 @@ export const useProduct = (product: TProduct) => {
       product,
       configurableProductVariant.value,
     )
+    notificationStore.openSuccessNotification('Product successfully added to wishlist')
     operationWithWishlistIsProcessing.value = false
   }
   const removeFromWishlist = async () => {
@@ -64,6 +63,7 @@ export const useProduct = (product: TProduct) => {
     operationWithWishlistIsProcessing.value = true
 
     await removeItemFromWishlist(productIsAddedToWishlist.value.id)
+    notificationStore.openSuccessNotification('Product successfully removed from wishlist')
     operationWithWishlistIsProcessing.value = false
   }
   const addToCart = async (qty?: number) => {
@@ -80,6 +80,7 @@ export const useProduct = (product: TProduct) => {
     }
 
     await addItemToCart(payload)
+    notificationStore.openSuccessNotification('Product successfully added to cart')
     operationWithWishlistIsProcessing.value = false
   }
   const removeFromCart = async () => {
@@ -89,6 +90,7 @@ export const useProduct = (product: TProduct) => {
 
     operationWithCartIsProcessing.value = true
     await removeItemFromCart({ id: productIsAddedToCart.value.id })
+    notificationStore.openSuccessNotification('Product successfully added from cart')
     operationWithCartIsProcessing.value = false
   }
 
