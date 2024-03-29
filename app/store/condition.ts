@@ -35,9 +35,11 @@ export const useConditionStore = defineStore('condition-store', {
     },
     openAdminAddProductModal() {
       this.adminAddProductModalIsOpen = true
+      this.backdropIsVisible = true
     },
     closeAdminAddProductModal() {
       this.adminAddProductModalIsOpen = false
+      this.backdropIsVisible = false
     },
     openAdminAddBrandModal() {
       this.adminAddBrandModalIsOpen = true

@@ -6,7 +6,7 @@
         v-for="(file, index) in state.files"
         :key="index"
       >
-        <span>
+        <span class="ui-dropzone__files-item-title">
           {{ file.name }}
         </span>
 
@@ -99,6 +99,11 @@ function handleClickDeleteFile(index: number) {
     align-items: center;
     justify-content: space-between;
     padding: 7rem;
+
+    &-title {
+      width: 65%;
+      overflow-wrap: anywhere;
+    }
   }
 
   &__blank {

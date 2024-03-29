@@ -17,6 +17,7 @@ export type TConfigurableProductVariants = {
     id: number
     sku: string
     imageUrl: string
+    price: number
   }
 }
 

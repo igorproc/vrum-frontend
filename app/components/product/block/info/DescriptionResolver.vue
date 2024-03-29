@@ -1,8 +1,7 @@
 <template>
-  <section
-    v-html="sanitizedDescription"
-    class="app-product-main-block-description"
-  />
+  <section class="app-product-main-block-description">
+    <span v-html="sanitizedDescription" class="wrapper" />
+  </section>
 </template>
 
 <script setup lang="ts">

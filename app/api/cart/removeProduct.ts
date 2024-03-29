@@ -13,7 +13,7 @@ export async function removeProduct(cartData: TCartRemoveProductInput) {
 
   return await asyncQuery<TCartRemoveProduct>(
     'POST',
-    '/api/cart/removeProduct',
+    '/api/cart/deleteProduct',
     { data: cartData },
   )
 }

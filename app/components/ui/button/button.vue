@@ -60,7 +60,7 @@ const buttonState = computed(() => {
   }
 
   if (backgroundColor.value) {
-    state.style = { '--ui-button-background-color': backgroundColor }
+    state.style = { '--ui-button-background-color': backgroundColor.value }
     state.class += '--custom-background '
   }
 

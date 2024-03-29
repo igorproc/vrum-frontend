@@ -43,6 +43,11 @@ interface Props {
   product: TProduct,
 }
 
+interface Emits {
+  (name: 'variantUpdate', id: number | null): void
+}
+
+const emit = defineEmits<Emits>()
 const props = defineProps<Props>()
 const { product } = toRefs(props)
 const {
@@ -91,6 +96,7 @@ const addProductToCart = async () => {
 }
 
 const productVariantIsSelected = (variantId: number | null) => {
+  emit('variantUpdate', variantId)
   addProductVariant(variantId)
 }
 </script>

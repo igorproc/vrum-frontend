@@ -4,12 +4,14 @@ import { EAddProductTypes } from '~/api/product/shared.types'
 
 export type TAddProductInput = {
   name: string,
+  description: string,
   price: number,
-  type: keyof typeof EAddProductTypes,
+  typename: keyof typeof EAddProductTypes,
+  brandId: number,
   productImage: string,
 }
 
-export async function addProduct(productData: TAddProductInput) {
+export async function createProduct(productData: TAddProductInput) {
   const asyncQuery = useAsyncQuery()
   return await asyncQuery<TProduct>(
     'POST',

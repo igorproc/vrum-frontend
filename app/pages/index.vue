@@ -3,9 +3,11 @@
     <div class="app-main-page__slider">
       <AppBannersMain />
     </div>
+
     <div v-if="data" class="app-main-page__personality-slider">
       <AppPersonalitySlider :brands="data.brands" />
     </div>
+
     <div v-if="data" class="app-main-page__showcase">
       <AppProductShowcaseList :product-list="data.products" />
     </div>

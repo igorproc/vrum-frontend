@@ -17,7 +17,7 @@
               type="button"
               aria-label="Close modal"
               class="btn-close"
-              @click="emit('update:open', false)"
+              @click="close"
             >
               <ui-icon name="common/close" />
             </button>
@@ -42,6 +42,7 @@ interface Props {
   wrapClassName?: string,
   ariaLabel?: string,
   ariaDescription?: string,
+  onClose?: () => void | Promise<void>
 }
 
 interface Emits {
@@ -54,6 +55,7 @@ const props = withDefaults(
     withoutHeader: false,
   },
 )
+const { onClose } = toRefs(props)
 const emit = defineEmits<Emits>()
 
 const modal = ref(null)
@@ -73,8 +75,16 @@ const modalContainerAttributes = computed(() => {
   return payload
 })
 
+const close = async () => {
+  emit('update:open', false)
+
+  if (onClose.value) {
+    await onClose.value()
+  }
+}
+
 onMounted(() => {
-  onClickOutside(modal, () => emit('update:open', false))
+  onClickOutside(modal, async () => await close())
 })
 </script>
 

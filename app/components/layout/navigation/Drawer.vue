@@ -76,11 +76,18 @@ const authorizeLinkList: TNavigationDrawerLinkListItem[] = [
 ]
 const adminLinkList: TNavigationDrawerLinkListItem[] = [
   {
-    key: 'admin-product-add',
-    label: 'Admin Zone',
+    key: 'admin-brands-list',
+    label: '(Admin) Brands',
     prependIcon: 'user/admin-settings',
     disabled: itemsIsDisabled.value,
-    link: { name: 'admin' },
+    link: { name: 'admin-brands' },
+  },
+  {
+    key: 'admin-products-list',
+    label: '(Admin) Products',
+    prependIcon: 'user/admin-settings',
+    disabled: itemsIsDisabled.value,
+    link: { name: 'admin-products' },
   },
 ]
 
