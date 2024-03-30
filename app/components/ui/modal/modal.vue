@@ -1,7 +1,6 @@
 <template>
   <transition v-if="open" name="modal-fade">
     <div class="ui-modal">
-      <div class="ui-modal__backdrop" />
       <div
         ref="modal"
         v-bind="modalContainerAttributes"
@@ -11,12 +10,12 @@
         <div class="ui-modal__wrapper-content modal-content">
           <section v-if="!withoutHeader" class="modal-content__header">
             <slot name="header">
-              <span>Modal</span>
+              <h5>Modal</h5>
             </slot>
             <button
               type="button"
               aria-label="Close modal"
-              class="btn-close"
+              class="modal-content__header-close"
               @click="close"
             >
               <ui-icon name="common/close" />
@@ -35,7 +34,6 @@
 <script setup lang="ts">
 // Node Deps
 import { onClickOutside } from '@vueuse/core'
-
 interface Props {
   open: boolean,
   withoutHeader?: boolean,
@@ -44,9 +42,9 @@ interface Props {
   ariaDescription?: string,
   onClose?: () => void | Promise<void>
 }
-
 interface Emits {
   (name: 'update:open', open: boolean): void,
+  (name: 'close'): void,
 }
 
 const props = withDefaults(
@@ -77,6 +75,7 @@ const modalContainerAttributes = computed(() => {
 
 const close = async () => {
   emit('update:open', false)
+  emit('close')
 
   if (onClose.value) {
     await onClose.value()
@@ -101,6 +100,7 @@ onMounted(() => {
   align-items: center;
 
   &__wrapper {
+    width: 85vw;
     position: absolute;
 
     .modal-content {
@@ -112,7 +112,23 @@ onMounted(() => {
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        &-close .ui-icon {
+          font-size: 24rem !important;
+        }
       }
+    }
+
+    @media #{map-get($display-rules, 'md')} {
+      width: 70vw;
+    }
+
+    @media #{map-get($display-rules, 'lg')} {
+      width: 40vw;
+    }
+
+    @media #{map-get($display-rules, 'xl')} {
+      width: 25vw;
     }
   }
 }

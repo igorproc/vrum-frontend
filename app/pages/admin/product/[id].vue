@@ -9,6 +9,7 @@
 
     <AppAdminProductOptionTabs
       v-if="data?.__typename === EAddProductTypes.configurable"
+      :id="data?.id || 0"
       :options="data?.configurable?.options || []"
       class="app-admin-product-page__options"
     />

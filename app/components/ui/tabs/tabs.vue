@@ -29,7 +29,6 @@ import { useSlots, provide } from 'vue'
 const slots = useSlots()
 const tabTitles = ref([])
 
-
 slots.default().map(tabWrapper => {
   tabWrapper.children.map(item => {
     if (!item.props.title) {
@@ -39,15 +38,19 @@ slots.default().map(tabWrapper => {
     tabTitles.value.push(item.props.title)
   })
 })
-const selectedTitle = ref(tabTitles.value[0].title)
+const selectedTitle = ref('')
+if (tabTitles.value.length) {
+  selectedTitle.value = tabTitles.value[0]
+}
 
-provide('selectedTitle', tabTitles.value.length && selectedTitle ? selectedTitle : '')
+provide('selectedTitle', selectedTitle)
 </script>
 
 <style lang="scss">
 .ui-tabs {
   &__header {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 16rem;

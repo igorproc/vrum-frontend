@@ -1,29 +1,28 @@
+export type TConfigurableProductOptionValue = {
+  id: number,
+  name: string,
+  value: string
+}
+
+export type TConfigurableProductVariantAttribute = {
+  code: string,
+  valueId: number,
+}
+
+export type TConfigurableProductVariantProduct = {
+  id: number
+  sku: string
+  imageUrl: string
+  price: number
+}
+
 export type TConfigurableProductOptions = {
   id: number
   name: string
-  values: {
-    id: number
-    name: string
-    value: string
-  }[]
+  values: TConfigurableProductOptionValue[]
 }
 
 export type TConfigurableProductVariants = {
-  attributes: {
-    code: string
-    valueId: number
-  }[]
-  product: {
-    id: number
-    sku: string
-    imageUrl: string
-    price: number
-  }
-}
-
-export type TConfigurableProductOption = {
-  pcoiid: number,
-  pcoid: number,
-  label: string,
-  value: string,
+  attributes: TConfigurableProductVariantAttribute[],
+  product: TConfigurableProductVariantProduct,
 }

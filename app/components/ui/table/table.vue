@@ -1,6 +1,6 @@
 <template>
   <table class="ui-table">
-    <caption class="ui-table__title">
+    <caption v-if="title" class="ui-table__title">
       {{ title }}
     </caption>
 
@@ -23,17 +23,17 @@
         class="ui-table__body-row"
       >
         <td
-          v-for="row in rows"
+          v-for="row in rowsOnlyWithTarget"
           :key="generateRandomId"
           :data-label="row.target"
           class="ui-table__body-row-item"
         >
           <slot
             :key="row.target"
-            :value="item[row.target]"
+            :value="getValueByKey(item, row.target)"
             name="item"
           >
-            {{ item[row.target] }}
+            {{ getValueByKey(item, row.target) }}
           </slot>
         </td>
 
@@ -52,11 +52,11 @@
 <script setup lang="ts">
 export type TUiTableRow<T> = {
   label: string,
-  target: keyof T
+  target?: keyof T
 }
 
 interface Props {
-  title: string,
+  title?: string,
   items: any,
   hasAppendColumn?: boolean
   rows: TUiTableRow<Props['items']>[]
@@ -64,6 +64,16 @@ interface Props {
 
 const props = defineProps<Props>()
 const { title, items, rows } = toRefs(props)
+
+const rowsOnlyWithTarget = computed(() => rows.value.filter(row => row?.target))
+
+const getValueByKey = (item: Props['items'][0], key?: string | number | symbol) => {
+  if (!key || !Object.keys(item).includes(key.toString())) {
+    return
+  }
+
+  return item[key]
+}
 </script>
 
 <style lang="scss">

@@ -49,6 +49,9 @@ export const useConditionStore = defineStore('condition-store', {
       this.adminAddBrandModalIsOpen = false
       this.backdropIsVisible = false
     },
+    showBackdrop() {
+      this.backdropIsVisible = true
+    },
     hideBackdrop() {
       this.backdropIsVisible = false
     },
