@@ -55,6 +55,7 @@ const selectOption = () => {
   transition-property: background-color, color;
   transition-duration: 100ms;
   transition-timing-function: ease-in;
+
   padding: 10rem;
   border: 1rem solid map-get($gray-color-palette, 'gray-3');
 
@@ -69,9 +70,8 @@ const selectOption = () => {
 
   &.--is-active {
     background-color: map-get($gray-color-palette, 'gray-3');
-    color: map-get($theme-colors, 'primary-color');
 
-    .app-default-switch__label {
+    .app-product-default-switch__label {
       color: map-get($white-color-palette, 'white');
     }
   }

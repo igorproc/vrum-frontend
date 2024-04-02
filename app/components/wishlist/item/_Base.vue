@@ -16,7 +16,7 @@
       :operation-with-wishlist-is-processing="operationWithWishlistIsProcessing"
       :operation-with-cart-is-processing="operationWithCartIsProcessing"
       class="base-item__interactions"
-      @product-removed-from-wishlist="removeFromWishlist"
+      @product-removed-from-wishlist="onRemoveFromWishlist"
       @product-added-to-cart="addToCart"
     />
   </nuxt-link>
@@ -36,6 +36,7 @@ interface Props {
   product: TWishlistProduct
 }
 
+const { $emit } = useNuxtApp()
 const props = defineProps<Props>()
 const { product } = toRefs(props)
 
@@ -47,6 +48,11 @@ const {
 } = useProduct(product.value.product)
 
 const productPrice = computed(() => formattedPrice(product.value.product.price))
+
+const onRemoveFromWishlist = async () => {
+  await removeFromWishlist()
+  $emit('wishlist:remove')
+}
 </script>
 
 <style lang="scss">
@@ -75,7 +81,7 @@ const productPrice = computed(() => formattedPrice(product.value.product.price))
 
   @media #{map-get($display-rules, 'md')} {
     display: grid;
-    grid-template-columns: 1fr 1fr 2fr 2fr;
+    grid-template-columns: 1fr 3fr 1fr 2fr;;
   }
 }
 </style>

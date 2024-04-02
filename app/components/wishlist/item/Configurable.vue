@@ -6,17 +6,20 @@
     <h5 class="configurable-item__title">
       {{ product.product.name }}
     </h5>
+
     <div class="configurable-item__image">
       <ui-image :src="productImage" :alt="product.product.name" />
     </div>
+
     <p class="configurable-item__price">
       {{ productPrice }}
     </p>
+
     <AppWishlistItemInteractions
       :operation-with-wishlist-is-processing="operationWithWishlistIsProcessing"
       :operation-with-cart-is-processing="operationWithCartIsProcessing"
       class="configurable-item__interactions"
-      @product-removed-from-wishlist="removeFromWishlist"
+      @product-removed-from-wishlist="onRemoveFromWishlist"
       @product-added-to-cart="addToCart"
     />
   </nuxt-link>
@@ -36,6 +39,7 @@ interface Props {
   product: TWishlistProduct
 }
 
+const { $emit } = useNuxtApp()
 const props = defineProps<Props>()
 const { product } = toRefs(props)
 
@@ -67,6 +71,11 @@ const productImage = computed(() => {
   return selectedVariant.product.imageUrl
 })
 const productPrice = computed(() => formattedPrice(product.value.product.price))
+
+const onRemoveFromWishlist = async () => {
+  await removeFromWishlist()
+  $emit('wishlist:remove')
+}
 </script>
 
 <style lang="scss">
@@ -95,7 +104,7 @@ const productPrice = computed(() => formattedPrice(product.value.product.price))
 
   @media #{map-get($display-rules, 'md')} {
     display: grid;
-    grid-template-columns: 1fr 1fr 2fr 2fr;
+    grid-template-columns: 1fr 3fr 1fr 2fr;;
   }
 }
 </style>

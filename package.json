@@ -44,6 +44,7 @@
     "nuxt-icons": "^3.2.1",
     "pinia": "^2.1.7",
     "vue": "^3.3.9",
-    "vue-toastification": "^2.0.0-rc.5"
+    "vue-toastification": "^2.0.0-rc.5",
+    "vue3-dropzone": "^2.2.1"
   }
 }

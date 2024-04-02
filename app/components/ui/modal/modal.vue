@@ -1,7 +1,6 @@
 <template>
   <transition v-if="open" name="modal-fade">
     <div class="ui-modal">
-      <div class="ui-modal__backdrop" />
       <div
         ref="modal"
         v-bind="modalContainerAttributes"
@@ -11,13 +10,13 @@
         <div class="ui-modal__wrapper-content modal-content">
           <section v-if="!withoutHeader" class="modal-content__header">
             <slot name="header">
-              <span>Modal</span>
+              <h5>Modal</h5>
             </slot>
             <button
               type="button"
               aria-label="Close modal"
-              class="btn-close"
-              @click="emit('update:open', false)"
+              class="modal-content__header-close"
+              @click="close"
             >
               <ui-icon name="common/close" />
             </button>
@@ -35,25 +34,29 @@
 <script setup lang="ts">
 // Node Deps
 import { onClickOutside } from '@vueuse/core'
-
 interface Props {
   open: boolean,
   withoutHeader?: boolean,
+  withBackdrop?: boolean,
   wrapClassName?: string,
   ariaLabel?: string,
   ariaDescription?: string,
+  onClose?: () => void | Promise<void>
 }
-
 interface Emits {
   (name: 'update:open', open: boolean): void,
+  (name: 'close'): void,
 }
 
+const conditionStore = useConditionStore()
 const props = withDefaults(
   defineProps<Props>(),
   {
+    withBackdrop: false,
     withoutHeader: false,
   },
 )
+const { open, onClose, withBackdrop } = toRefs(props)
 const emit = defineEmits<Emits>()
 
 const modal = ref(null)
@@ -73,8 +76,21 @@ const modalContainerAttributes = computed(() => {
   return payload
 })
 
+const close = async () => {
+  emit('update:open', false)
+  emit('close')
+
+  if (onClose.value) {
+    await onClose.value()
+  }
+}
+
+if (withBackdrop.value) {
+  watch(open, newVal => newVal ? conditionStore.showBackdrop() : conditionStore.hideBackdrop())
+}
+
 onMounted(() => {
-  onClickOutside(modal, () => emit('update:open', false))
+  onClickOutside(modal, async () => await close())
 })
 </script>
 
@@ -91,6 +107,7 @@ onMounted(() => {
   align-items: center;
 
   &__wrapper {
+    width: 85vw;
     position: absolute;
 
     .modal-content {
@@ -102,7 +119,23 @@ onMounted(() => {
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        &-close .ui-icon {
+          font-size: 24rem !important;
+        }
       }
+    }
+
+    @media #{map-get($display-rules, 'md')} {
+      width: 70vw;
+    }
+
+    @media #{map-get($display-rules, 'lg')} {
+      width: 40vw;
+    }
+
+    @media #{map-get($display-rules, 'xl')} {
+      width: 25vw;
     }
   }
 }

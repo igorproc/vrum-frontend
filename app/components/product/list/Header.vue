@@ -32,7 +32,7 @@
           <template #activator>
             <ui-button
               variant="text"
-              label="Default"
+              :label="labelForChangeSort"
               class="sort-action__menu-activator"
               @click="changeSortMenuIsOpen = true"
             />
@@ -64,6 +64,7 @@ interface Props {
   totalProducts: number,
   currentPage: number,
   pageSize: number,
+  sortBy?: string,
 }
 
 interface Emits {
@@ -74,7 +75,7 @@ interface Emits {
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
-const { totalProducts } = toRefs(props)
+const { totalProducts, sortBy } = toRefs(props)
 
 const changeSizeId = useId()
 const changeSortId = useId()
@@ -112,6 +113,15 @@ const productShowsText = computed(() => {
   return `Showing ${startShowsProducts}–${endShowsProducts} of ${totalProducts.value} results`
 })
 
+const labelForChangeSort = computed(() => {
+  const foundAttribute  = changeSortItems.find(item => item.value === sortBy.value)
+  if (!foundAttribute) {
+    return 'default'
+  }
+
+  return foundAttribute.label
+})
+
 const changePageSize = (e: Event) => {
   if (!e.target) {
     return
@@ -123,6 +133,7 @@ const changePageSize = (e: Event) => {
 
 const changeSort = (value: string) => {
   changeSortMenuIsOpen.value = false
+
   emit('pageSortUpdated', value)
 }
 
@@ -184,16 +195,34 @@ const throttleChangePageSize = useDebounceFn((e: Event) => {
       justify-content: center;
       gap: 8rem;
 
-      .sort-action__label {
-        color: map-get($white-color-palette, 'white');
-        font-size: 20rem;
-      }
-      .sort-action__menu-activator {
-        padding: 8rem;
-        border: 1rem solid map-get($theme-colors, 'secondary-color');
-        background-color: $backdrop-shadow;
+      & .sort-action {
+        &__label {
+          color: map-get($white-color-palette, 'white');
+          font-size: 20rem;
+        }
 
-        .button-content__label {
+        &__menu-activator {
+          padding: 0;
+
+          .button-content__label {
+            font-size: 20rem;
+            font-weight: 400;
+            color: map-get($white-color-palette, 'white');
+          }
+        }
+
+        &__menu-items-container .menu-container__item {
+
+          .button-content__label {
+            color: map-get($white-color-palette, 'white');
+          }
+        }
+      }
+
+      .sort-action__menu-activator {
+
+
+        .sort-action__menu-items-container .button-content__label {
           color: map-get($white-color-palette, 'white');
           font-size: 20rem;
           font-weight: normal;

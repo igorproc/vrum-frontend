@@ -21,6 +21,7 @@
       <AppProductBlockActions
         :product="product"
         class="product-content-container__actions"
+        @variant-update="updateVariantId"
       />
     </div>
   </section>
@@ -41,8 +42,28 @@ interface Props {
 
 const props = defineProps<Props>()
 const { product } = toRefs(props)
+const variantId = ref<null | number>(null)
 
-const productPrice = computed(() => formattedPrice(product.value.price))
+const variantCandidate = computed(() => {
+  if (!variantId.value || !product.value?.configurable?.variants) {
+    return null
+  }
+  const productVariantCandidate = product.value.configurable.variants
+    .find(item => item.product.id === variantId.value)
+  return productVariantCandidate || null
+})
+
+const productPrice = computed(() => {
+  if (!variantCandidate.value || !variantCandidate.value?.product.price) {
+    return formattedPrice(product.value.price)
+  }
+
+  return formattedPrice(variantCandidate.value?.product.price)
+})
+
+const updateVariantId = (id: number | null) => {
+  variantId.value = id
+}
 </script>
 
 <style lang="scss">

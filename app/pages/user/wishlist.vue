@@ -9,8 +9,13 @@
 import { getWishlistProducts } from '~/api/wishlist/getProducts'
 
 const wishlistStore = useWishlistStore()
-const { data } = await useAsyncData(
+const { $listen } = useNuxtApp()
+const { data, refresh } = await useAsyncData(
   'user-wishlist-products',
   async () => await getWishlistProducts(wishlistStore.token)
 )
+
+onMounted(() => {
+  $listen('wishlist:remove', () => refresh())
+})
 </script>

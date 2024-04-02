@@ -5,7 +5,7 @@
       <div class="app-root__error-content error-content">
         <div class="error-content-info">
           <h1>
-            {{ error.statusCode }}
+            {{ error?.statusCode }}
           </h1>
           <h2>Page not found</h2>
         </div>

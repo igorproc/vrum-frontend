@@ -8,11 +8,12 @@ Nuxt 3 is now stable.
 <details>
 <summary>Click to see the pages added & planned</summary>
 
-- [ ] Admin page
+- [x] Admin page
 - [x] Configurable products
 - [x] User product list
 - [x] Wishlist
-- [x] Cart
+- [ ] Cart
+- [ ] Checkout
 
 </details>
 
@@ -24,7 +25,12 @@ Nuxt 3 is now stable.
 npm ci
 ```
 
-2. Run the app
+2. Copy local environment
+```bash
+cp config/environments/.env.local .env
+```
+
+3. Run the app
 
 ```bash
 npm run dev
@@ -50,4 +56,4 @@ I will definitely be switching to vee-validate for dealing with forms.
 
 #### Icons
 
-The public folder contains a `favicon` & `icon`.
+The assets folder contains an `icons`.

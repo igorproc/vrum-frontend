@@ -1,14 +1,16 @@
 <template>
   <div class="app-header-actions-list">
-    <button
-      class="app-header-actions-list__item"
-      aria-label="user action"
+    <component
       v-for="item in actionsList"
       :key="item.id"
-      @click="getItemAction(item.action)"
+      :is="actionComponent(item.action)"
+      :to="getRoute(item.action)"
+      aria-label="user action"
+      class="app-header-actions-list__item"
+      @click="getAction(item.action)"
     >
       <UiIcon :name="item.icon" />
-    </button>
+    </component>
   </div>
 </template>
 
@@ -20,11 +22,12 @@ import { useUserStore } from '~/store/user'
 import { useConditionStore } from '~/store/condition'
 // Types & Interfaces
 import type { TUiIconNames } from '#build/types/ui-icon'
+import type { NuxtLinkProps } from '#app/components/nuxt-link'
 
 interface IListItemAction {
   isLink: boolean,
   action?: () => void | Promise<void>,
-  link?: string
+  link?: NuxtLinkProps['to']
 }
 
 type ActionsListItem = {
@@ -32,8 +35,6 @@ type ActionsListItem = {
   icon: TUiIconNames,
   action: IListItemAction
 }
-
-const router = useRouter()
 
 const userStore = useUserStore()
 const conditionStore = useConditionStore()
@@ -56,33 +57,49 @@ const actionsList: ActionsListItem[] = reactive([
   {
     id: 0,
     icon: 'user/user',
-    action: userAction
+    action: userAction.value
   },
   {
     id: 1,
     icon: 'user/heart',
     action: {
       isLink: true,
-      link: 'user/wishlist',
+      link: { name: 'user-wishlist' },
     },
   },
   {
     id: 2,
     icon: 'user/cart',
     action: {
-      isLink: false,
-      action: () => console.log('Cart Modal'),
+      isLink: true,
+      link: { name: 'user-cart' }
     },
   },
 ])
 
-const getItemAction = async (actionData: IListItemAction) => {
-  if (!actionData.isLink && actionData.action) {
-    return actionData.action()
+const actionComponent = computed(() => {
+  return (actionData: IListItemAction) => {
+    if (actionData.isLink) {
+      return defineAsyncComponent(() => import('#app/components/nuxt-link'))
+    }
+
+    return 'button'
   }
-  if (actionData.isLink && actionData.link) {
-    return await router.push(actionData.link)
+})
+
+const getRoute = (actionData: IListItemAction) => {
+  if (!actionData.isLink || !actionData?.link) {
+    return { name: 'index' }
   }
+
+  return actionData.link
+}
+const getAction = (actionData: IListItemAction) => {
+  if (actionData.isLink || !actionData?.action) {
+    return () => {}
+  }
+
+  return actionData.action()
 }
 </script>
 

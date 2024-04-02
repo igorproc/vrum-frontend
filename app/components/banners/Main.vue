@@ -3,61 +3,34 @@
     hide-before-init
     :options="{ circular: true }"
     :plugins="flickingPlugins"
-    class="app-main-offers-slider offers-slider"
+    class="app-main-offers-slider"
   >
-    <div
+    <AppBannersMainSlide
       v-for="slide in items"
       :key="slide.id"
-      class="offers-slider__item item"
-    >
-      <div class="item__wrapper">
-        <img
-          v-if="slide?.image"
-          :src="slide.image"
-          :alt="slide.title"
-          class="item__image"
-        >
-        <div class="item__content">
-          <h5 class="item__content-title">
-            {{ slide.title }}
-          </h5>
-          <span v-if="slide.description" class="item__content-description">
-          {{ slide.description }}
-        </span>
-
-          <button
-            aria-label="slider-offer-action"
-            class="item__content-action action"
-            @click="getAction(slide.action)"
-          >
-          <span class="action__label">
-            {{ slide.action.actionTitle }}
-          </span>
-          </button>
-        </div>
-      </div>
-    </div>
+      :title="slide.title"
+      :description="slide.description"
+      :image="slide.image"
+      :link="slide.link"
+      :action-title="slide.actionTitle"
+      class="app-main-offers-slider__item"
+    />
   </Flicking>
 </template>
 
 <script setup lang="ts">
 // Node Deps
 import { AutoPlay } from '@egjs/flicking-plugins'
-
-interface IOfferItemAction {
-  actionTitle: string,
-  isLink: boolean,
-  link?: string,
-  action?: () => Promise<void> | void
-}
+// Types & Interfaces
+import type { NuxtLinkProps } from '#app/components/nuxt-link'
 
 type TOfferItem = {
   id: number,
   title: string,
-  subtitle?: string,
-  description?: string,
+  description: string,
   image: string,
-  action: IOfferItemAction,
+  link: NuxtLinkProps['to'],
+  actionTitle: string,
 }
 
 const items: TOfferItem[] = [
@@ -66,42 +39,22 @@ const items: TOfferItem[] = [
     title: 'Original winter wheel assembly',
     description: 'safe on the road in the cold season. Buy winter wheel assemblies at favourable prices right now.',
     image: 'offers/slider-1.jpg',
-    action: {
-      actionTitle: 'buy now',
-      isLink: true,
-      link: 'products',
-    },
+    actionTitle: 'buy now',
+    link: { name: 'products', query: { page: 1, size: 12, brand: 1 } },
   },
   {
     id: 2,
     title: 'Original autumn wheel',
     description: 'drive on wet roads with complete confidence. Buy autumn wheel assemblies at favourable prices right now.',
     image: 'offers/slider-2.jpg',
-    action: {
-      actionTitle: 'buy now',
-      isLink: true,
-      link: 'products/adidas',
-    },
+    actionTitle: 'buy now',
+    link: { name: 'products', query: { page: 1, size: 12, brand: 3 } },
   },
 ]
 
-const router = useRouter()
 const flickingPlugins = [
   new AutoPlay({ duration: 5000 }),
 ]
-
-const getAction = async (actionData: IOfferItemAction) => {
-  if (actionData.isLink && actionData.link) {
-    return await router.push(actionData.link)
-  }
-
-  if ('action' in actionData) {
-    return actionData.action
-  }
-
-  return () => {
-  }
-}
 </script>
 
 <style lang="scss">
