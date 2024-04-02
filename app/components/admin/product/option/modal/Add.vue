@@ -1,5 +1,6 @@
 <template>
   <ui-modal
+    with-backdrop
     :open="open"
     @close="onClose"
     class="app-product-option-add-modal"

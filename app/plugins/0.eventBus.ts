@@ -1,7 +1,7 @@
 import mitt from 'mitt'
 
 type ApplicationEvents = {
-  'notification:open': undefined,
+  'notification:open': void,
   'brand:add': void,
   'product:add': void,
   'wishlist:remove': void,

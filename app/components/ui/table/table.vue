@@ -19,12 +19,12 @@
     <tbody class="ui-table__body">
       <tr
         v-for="item in items"
-        :key="generateRandomId"
+        :key="generateRandomId()"
         class="ui-table__body-row"
       >
         <td
           v-for="row in rowsOnlyWithTarget"
-          :key="generateRandomId"
+          :key="generateRandomId()"
           :data-label="row.target"
           class="ui-table__body-row-item"
         >

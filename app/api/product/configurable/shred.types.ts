@@ -5,6 +5,7 @@ export type TConfigurableProductOptionValue = {
 }
 
 export type TConfigurableProductVariantAttribute = {
+  id: number,
   code: string,
   valueId: number,
 }

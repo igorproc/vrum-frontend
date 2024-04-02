@@ -37,6 +37,7 @@ import { onClickOutside } from '@vueuse/core'
 interface Props {
   open: boolean,
   withoutHeader?: boolean,
+  withBackdrop?: boolean,
   wrapClassName?: string,
   ariaLabel?: string,
   ariaDescription?: string,
@@ -47,13 +48,15 @@ interface Emits {
   (name: 'close'): void,
 }
 
+const conditionStore = useConditionStore()
 const props = withDefaults(
   defineProps<Props>(),
   {
+    withBackdrop: false,
     withoutHeader: false,
   },
 )
-const { onClose } = toRefs(props)
+const { open, onClose, withBackdrop } = toRefs(props)
 const emit = defineEmits<Emits>()
 
 const modal = ref(null)
@@ -80,6 +83,10 @@ const close = async () => {
   if (onClose.value) {
     await onClose.value()
   }
+}
+
+if (withBackdrop.value) {
+  watch(open, newVal => newVal ? conditionStore.showBackdrop() : conditionStore.hideBackdrop())
 }
 
 onMounted(() => {

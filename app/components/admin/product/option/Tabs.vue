@@ -1,14 +1,14 @@
 <template>
-  <div class="app-product-options-tabs">
+  <div class="app-product-option-tabs">
     <ui-tabs>
       <template #header-append>
-        <div class="app-product-options-tabs__add-group add-group">
+        <div class="app-product-option-tabs__add-group">
           <ui-button
             v-if="!addOptionGroupInputIsShow"
             variant="outlined"
             prepend-icon="common/plus"
             label="add"
-            class="app-product-options-tabs__add-group-action"
+            class="app-product-option-tabs__add-group-action"
             @click="showAddOptionGroupInput"
           />
           <AppAdminProductOptionFormAddGroup
@@ -23,7 +23,7 @@
         v-for="option in options"
         :key="option.id"
         :title="option.name"
-        class="app-product-options-tabs__item"
+        class="app-product-option-tabs__item"
       >
         <AppAdminProductOptionItem
           :option="option"
@@ -54,7 +54,7 @@ interface Props {
   options: TConfigurableProductOptions[],
 }
 
-const conditionStore = useConditionStore()
+// const conditionStore = useConditionStore()
 
 const props = defineProps<Props>()
 const options = ref(props.options)
@@ -110,25 +110,21 @@ const optionGroupAdded = (data: TConfigurableProductOptions) => {
   options.value.push(data)
 }
 
-watch(addOptionItemModalIsOpen, newVal => {
-  if (newVal) {
-    conditionStore.showBackdrop()
-    return
-  }
-
-  conditionStore.hideBackdrop()
-})
+// watch(addOptionItemModalIsOpen, newVal => {
+//   if (newVal) {
+//     conditionStore.showBackdrop()
+//     return
+//   }
+//
+//   conditionStore.hideBackdrop()
+// })
 </script>
 
 <style lang="scss">
-.app-product-options-tabs {
-  padding: 16rem 24rem;
-
-  &__add-group {
-    &-action {
-      border-radius: 8rem;
-      padding: 8rem 12rem;
-    }
+.app-product-option-tabs {
+  &__add-group-action {
+    border-radius: 8rem;
+    padding: 8rem 12rem;
   }
 }
 </style>

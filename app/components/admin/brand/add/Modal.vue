@@ -1,5 +1,6 @@
 <template>
   <ui-modal
+    with-backdrop
     v-model:open="adminAddBrandModalIsOpen"
     wrap-class-name="app-add-brand-modal"
   >

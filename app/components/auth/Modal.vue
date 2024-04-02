@@ -1,5 +1,6 @@
 <template>
   <ui-modal
+    with-backdrop
     v-model:open="conditionStore.authModalIsOpen"
     wrap-class-name="app-auth-modal"
   >
@@ -26,8 +27,6 @@
 
 <script setup lang="ts">
 const conditionStore = useConditionStore()
-const { authModalIsOpen } = storeToRefs(conditionStore)
-
 const isRegisterForm = ref(false)
 
 const changeForm = () => {
@@ -36,12 +35,4 @@ const changeForm = () => {
 const successForm = () => {
   conditionStore.closeAuthModal()
 }
-
-watch(authModalIsOpen, newVal => {
-  if (newVal) {
-    return
-  }
-
-  conditionStore.hideBackdrop()
-})
 </script>

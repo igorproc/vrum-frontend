@@ -84,6 +84,9 @@ const tableRows: TUiTableRow<TProduct>[] = [
     label: 'Price',
     'target': 'price',
   },
+  {
+    label: 'Actions'
+  }
 ]
 
 defineProps<Props>()

@@ -13,6 +13,14 @@
       :options="data?.configurable?.options || []"
       class="app-admin-product-page__options"
     />
+
+    <AppAdminProductVariantTabs
+      v-if="data?.__typename === EAddProductTypes.configurable"
+      :id="data.id || 0"
+      :options="data?.configurable?.options || []"
+      :variants="data?.configurable?.variants || []"
+      class="app-admin-product-page__variants"
+    />
   </div>
 </template>
 
@@ -41,8 +49,9 @@ const { data, refresh } = useAsyncData(
 
 <style lang="scss">
 .app-admin-product-page {
-  &__options {
+  &__options, &__variants {
     margin-top: 32rem;
+    padding: 16rem 24rem;
   }
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <ui-modal
+    with-backdrop
     :open="conditionStore.adminAddProductModalIsOpen"
     :on-close="conditionStore.closeAdminAddProductModal"
     wrap-class-name="app-add-product-modal"

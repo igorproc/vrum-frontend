@@ -67,8 +67,12 @@ const onDrop = async (acceptFiles: File[]) => {
 
 const { getRootProps, getInputProps } = useDropzone({ onDrop })
 
-function handleClickDeleteFile(index: number) {
+const handleClickDeleteFile = (index: number) => {
   state.files.splice(index, 1)
+}
+
+const clearFiles = () => {
+  state.files = []
 }
 </script>
 

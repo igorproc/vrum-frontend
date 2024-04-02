@@ -3,7 +3,7 @@
     <ul class="ui-tabs__header">
       <ui-button
         v-for="tabTitle in tabTitles"
-        :key="tabTitle"
+        :key="generateRandomId()"
         variant="outlined"
         :label="tabTitle"
         :active="selectedTitle === tabTitle"
@@ -22,24 +22,51 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 // Node Deps
 import { useSlots, provide } from 'vue'
 
-const slots = useSlots()
-const tabTitles = ref([])
+interface Props {
+  titles?: string[]
+}
 
-slots.default().map(tabWrapper => {
-  tabWrapper.children.map(item => {
-    if (!item.props.title) {
+const props = defineProps<Props>()
+const { titles } = toRefs(props)
+
+const slots = useSlots()
+const selectedTitle = ref('')
+
+const getTitlesFromSlots = () => {
+  if (!slots?.default) {
+    return
+  }
+
+  const titles: string[] = []
+  slots.default().forEach(tabWrapper => {
+    if (!tabWrapper.children || !Array.isArray(tabWrapper.children)) {
       return
     }
 
-    tabTitles.value.push(item.props.title)
+    tabWrapper.children.map(item => {
+      if (typeof item !== 'object' || !item?.props?.title) {
+        return
+      }
+
+      titles.push(item.props.title)
+    })
   })
+  return titles
+}
+
+const tabTitles = computed(() => {
+  if (titles.value) {
+    return titles.value
+  }
+
+  return getTitlesFromSlots()
 })
-const selectedTitle = ref('')
-if (tabTitles.value.length) {
+
+if (Array.isArray(tabTitles.value)) {
   selectedTitle.value = tabTitles.value[0]
 }
 

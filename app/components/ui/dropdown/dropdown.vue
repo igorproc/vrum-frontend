@@ -35,10 +35,15 @@
 // Node Deps
 import { useField } from 'vee-validate'
 
+export type TDropdownOption = {
+  label: string | number,
+  value: string | number,
+}
+
 interface Props {
   path: string,
   label: string,
-  options: { value: string | number, label: string | number }[]
+  options: TDropdownOption[]
 }
 
 const selectId = useId()
