@@ -15,6 +15,6 @@ export async function getShortData(token: string) {
 
   return await asyncQuery<TCartProductIds>(
     'GET',
-    '/api/cart/shortData',
+    `/api/cart/shortData?token=${token}`,
   )
 }

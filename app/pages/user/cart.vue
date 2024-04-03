@@ -1,8 +1,6 @@
 <template>
   <div class="app-cart-page">
-    <span>
-      {{ data }}
-    </span>
+    <AppCartList :items="data?.items || []" class="app-cart-page__product-list" />
   </div>
 </template>
 
