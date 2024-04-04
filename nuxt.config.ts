@@ -80,6 +80,8 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     // https://nuxt.com/modules/device
     '@nuxtjs/device',
+    // https://nuxt.com/modules/swiper
+    'nuxt-swiper',
   ],
   // Modules
   pwa: PwaConfig,

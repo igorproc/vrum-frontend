@@ -73,7 +73,7 @@ const hoverCard = (value: boolean) => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .ui-card {
   width: 100%;
 

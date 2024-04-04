@@ -38,7 +38,7 @@ useClientOnly(() => {
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .ui-menu {
   position: relative;
 

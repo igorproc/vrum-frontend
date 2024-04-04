@@ -4,7 +4,7 @@
 
     <div class="app-cart-list__items">
       <AppCartItemResolver
-        v-for="item in items"
+        v-for="item in cartStore.products"
         :key-="item.product.id"
         :product="item"
         @product-remove="productRemove"
@@ -14,31 +14,38 @@
 </template>
 
 <script setup lang="ts">
-import type { TCartProduct } from '~/api/cart/getProducts'
-
-interface Props {
-  items: TCartProduct[]
-}
-
-const props = defineProps<Props>()
-const items = ref(props.items)
+const cartStore = useCartStore()
 
 const productRemove = (id: number) => {
-  items.value = items.value.filter(item => item.product.id !== id)
+  cartStore.products = cartStore.products.filter(product => product.product.id !== id)
 }
 </script>
 
 <style lang="scss">
 .app-cart-list {
+  &__header {
+    display: none;
+  }
+
   &__items {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 16rem;
+    gap: 24rem;
   }
 
   @media #{map-get($display-rules, 'md')} {
+    &__header {
+      display: block;
+    }
+
+    &__items {
+      margin-top: 35rem;
+    }
+  }
+
+  @media #{map-get($display-rules, 'lg')} {
     &__items {
       padding: 25rem 35rem;
       margin-top: 55rem;

@@ -34,5 +34,15 @@ const { name, imageUrl } = toRefs(props)
     width: 60%;
     font-weight: bold;
   }
+
+  @media #{map-get($display-rules, 'md')} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  @media #{map-get($display-rules, 'xl')} {
+    flex-direction: row;
+    align-items: center;
+  }
 }
 </style>

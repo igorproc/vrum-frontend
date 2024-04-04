@@ -54,7 +54,7 @@ const defaultLinkList: TNavigationDrawerLinkListItem[] = [
     label: 'Cart',
     prependIcon: 'user/cart',
     disabled: itemsIsDisabled.value,
-    link: { name: 'user-cart' },
+    link: { name: 'cart' },
   },
   {
     key: 'all-wishlist',

@@ -3,16 +3,16 @@
     <AppCartItemPreview
       :name="item.product.name"
       :image-url="productVariant.imageUrl"
+      class="app-configurable-cart-tile__info app-configurable-cart-tile__preview"
+    />
+    <AppCartItemPrice
+      :price="productVariant.price"
       class="app-configurable-cart-tile__info"
     />
-    <div
-      class="app-configurable-cart-tile__info app-configurable-cart-tile__price"
-    >
-      <span>
-        {{ productPrice }}
-      </span>
-    </div>
-    <AppCartItemQtyInput v-model:qty="item.qty" class="app-configurable-cart-tile__info" />
+    <AppCartItemQtyInput
+      v-model:qty="item.qty"
+      class="app-configurable-cart-tile__info"
+    />
     <AppCartItemTotalPrice
       :product-price="productVariant.price"
       :quantity="productIsAddedToCart ? productIsAddedToCart.qty : 1"
@@ -97,10 +97,12 @@ watch(qty, async newVal => await changeProductCartQty(newVal))
   position: relative;
   width: 100%;
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 16rem;
 
   &__info {
-    flex: 0 0 25%;
+    flex: 0 0 100%;
   }
 
   &__actions {
@@ -108,9 +110,23 @@ watch(qty, async newVal => await changeProductCartQty(newVal))
     right: 0;
 
     &-delete {
+      border-radius: 8rem;
+      padding: 6rem 13rem;
+      border: 2rem solid map-get($theme-colors, 'primary-color') !important;
+
       .ui-icon {
         font-size: 24rem !important;
       }
+    }
+  }
+
+  @media #{map-get($display-rules, 'md')} {
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+
+    &__info {
+      flex: 0 0 25%;
     }
   }
 }

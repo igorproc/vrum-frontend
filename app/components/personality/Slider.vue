@@ -5,18 +5,18 @@
     </h1>
 
     <div class="app-personality-slider__wrapper wrapper">
-      <Flicking
+      <swiper
         hide-before-init
-        :options="{ align: 'prev', circular: true,  }"
+        :slides-per-view="10"
         class="wrapper__slider"
       >
-        <AppPersonalityTile
-          v-for="personality in brands"
-          :key="personality.id"
-          is-link
-          :personality="personality"
-        />
-      </Flicking>
+        <swiper-slide v-for="personality in brands" :key="personality.id" class="wrapper__slider-slide">
+          <AppPersonalityTile
+            is-link
+            :personality="personality"
+          />
+        </swiper-slide>
+      </swiper>
     </div>
   </div>
 </template>
@@ -42,7 +42,10 @@ const { brands } = toRefs(props)
   justify-content: center;
 
   &__wrapper {
-    width: 100%;
+    .wrapper__slider-slide {
+      width: auto !important;
+      min-width: 220rem !important;
+    }
   }
 }
 </style>

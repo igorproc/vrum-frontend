@@ -84,7 +84,7 @@ const close = () => {
     position: absolute;
     top: 0;
     right: 0;
-    width: 360rem;
+    width: 330rem;
     height: 100%;
     background-color: #fff;
     box-sizing: border-box;

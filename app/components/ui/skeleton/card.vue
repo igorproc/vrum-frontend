@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .ui-card-skeleton {
   width: 100%;
   display: flex;

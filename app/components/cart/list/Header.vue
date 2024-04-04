@@ -1,9 +1,11 @@
 <template>
   <div class="app-cart-list-header">
-    <div v-for="title in headerTitles" :key="title.id" class="app-cart-list-header__item">
+    <div class="app-cart-list-header__wrapper">
+      <div v-for="title in headerTitles" :key="title.id" class="app-cart-list-header__item">
       <span class="app-cart-list-header__item-label">
         {{ title.label }}
       </span>
+      </div>
     </div>
   </div>
 </template>
@@ -27,15 +29,19 @@ const headerTitles = [
   {
     id: generateRandomId(),
     label: 'Subtotal',
-  }
+  },
 ]
 </script>
 
 <style lang="scss">
 .app-cart-list-header {
   padding: 10rem 20rem;
-  display: flex;
   background-color: map-get($theme-colors, 'secondary-color');
+
+  &__wrapper {
+    width: 100%;
+    display: flex;
+  }
 
   &__item {
     flex: 1 1 25%;
@@ -48,7 +54,7 @@ const headerTitles = [
     }
   }
 
-  @media #{map-get($display-rules, 'md')} {
+  @media #{map-get($display-rules, 'lg')} {
     padding: 25rem 35rem;
   }
 }

@@ -1,7 +1,7 @@
 interface ICartProduct {
   id: number,
   productId: number,
-  variantId: number,
+  variantId: number | null,
   qty: number,
 }
 

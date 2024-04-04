@@ -32,9 +32,10 @@ export const createCart = async () => {
 export const addItemToCart = async (productData: Omit<TCartAddProductInput, 'token'>) => {
   const cartStore = useCartStore()
 
-  const productIsAdded = await addProduct(
-    Object.assign(productData, { token: cartStore.token })
-  )
+  const productIsAdded = await addProduct({
+    token: cartStore.token,
+    ...productData,
+  })
   if (!productIsAdded) {
     return
   }
@@ -63,9 +64,16 @@ export const changeItemQty = async (productData: Omit<TChangeProductQtyInCartInp
     return null
   }
 
-  const cartCandidate = cartStore.idsList.find(item => item.id === cartData.item.id)
+  const cartCandidate = cartStore.idsList
+    .find(item => item.id === cartData.item.id)
   if (!cartCandidate) {
     return null
+  }
+
+  const productCandidate = cartStore.products
+    .find(item => item.product.id === cartData.item.id)
+  if (productCandidate) {
+    productCandidate.qty = cartData.item.qty
   }
 
   cartCandidate.qty = cartData.item.qty

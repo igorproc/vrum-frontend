@@ -103,7 +103,7 @@ const prevPage = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .ui-pagination {
   width: 100%;
   display: flex;

@@ -1,19 +1,21 @@
 <template>
-  <component
-    :is="rootTag"
-    v-bind="linkParams"
-    class="app-personality-tile"
-  >
-    <ui-image
-      :alt="personality.name"
-      :src="personality.image"
-      class="app-personality-tile__image"
-    />
+  <div class="app-personality-tile">
+    <component
+      :is="rootTag"
+      v-bind="linkParams"
+      class="app-personality-tile__wrapper"
+    >
+      <ui-image
+        :alt="personality.name"
+        :src="personality.image"
+        class="app-personality-tile__image"
+      />
 
-    <span class="app-personality-tile__title">
+      <span class="app-personality-tile__title">
       {{ personality.name }}
     </span>
-  </component>
+    </component>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -53,8 +55,11 @@ const linkParams = computed(() => {
 <style lang="scss">
 .app-personality-tile {
   padding: 15rem 20rem;
-  text-decoration: unset;
-  color: map-get($theme-colors, 'primary-color');
+
+  &__wrapper {
+    text-decoration: unset;
+    color: map-get($theme-colors, 'primary-color');
+  }
 
   &__image {
     user-select: none;

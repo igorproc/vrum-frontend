@@ -36,6 +36,7 @@ import type { TCartProduct } from '~/api/cart/getProducts'
 
 interface Emits {
   (name: 'productRemove', id: number): void,
+  (name: 'qtyUpdate', data: { id: number, qty: number }): void,
 }
 
 interface Props {

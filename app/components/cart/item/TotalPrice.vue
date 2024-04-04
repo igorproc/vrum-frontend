@@ -1,5 +1,8 @@
 <template>
   <div class="app-cart-item-total-price">
+    <span class="app-cart-item-total-price__label">
+      Total Price:
+    </span>
     <span class="app-cart-item-total-price__content">
       {{ totalPrice }}
     </span>
@@ -19,3 +22,18 @@ const { productPrice, quantity } = toRefs(props)
 
 const totalPrice = computed(() => formattedPrice(productPrice.value * quantity.value))
 </script>
+
+<style lang="scss">
+.app-cart-item-total-price {
+  &__label {
+    font-size: 20rem;
+    font-weight: bold;
+  }
+
+  @media #{map-get($display-rules, 'md')} {
+   &__label {
+     display: none;
+   }
+  }
+}
+</style>
