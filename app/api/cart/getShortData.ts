@@ -1,7 +1,7 @@
 interface ICartProduct {
   id: number,
   productId: number,
-  variantId: number,
+  variantId: number | null,
   qty: number,
 }
 
@@ -15,6 +15,6 @@ export async function getShortData(token: string) {
 
   return await asyncQuery<TCartProductIds>(
     'GET',
-    '/api/cart/shortData',
+    `/api/cart/shortData?token=${token}`,
   )
 }

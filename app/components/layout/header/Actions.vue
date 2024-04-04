@@ -72,7 +72,7 @@ const actionsList: ActionsListItem[] = reactive([
     icon: 'user/cart',
     action: {
       isLink: true,
-      link: { name: 'user-cart' }
+      link: { name: 'cart' }
     },
   },
 ])

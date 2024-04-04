@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .skeleton-image {
   position: relative;
   overflow: hidden;

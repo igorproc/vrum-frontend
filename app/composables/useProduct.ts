@@ -1,9 +1,10 @@
 // Pinia Methods
 import { addItemToWishlist, removeItemFromWishlist } from '~/store/wishlist/actions'
-import { addItemToCart, removeItemFromCart } from '~/store/cart/actions'
+import { addItemToCart, changeItemQty, removeItemFromCart } from '~/store/cart/actions'
 // Types & Interfaces
 import type { TProduct } from '~/api/product/shared.types'
 import type { TCartAddProductInput } from '~/api/cart/addProduct'
+import type { TChangeProductQtyInCartInput } from '~/api/cart/changeProductQty'
 
 export const useProduct = (product: TProduct) => {
   const wishlistStore = useWishlistStore()
@@ -69,10 +70,14 @@ export const useProduct = (product: TProduct) => {
   const addToCart = async (qty?: number) => {
     operationWithWishlistIsProcessing.value = true
 
+    if (productIsAddedToCart.value) {
+      await changeProductCartQty(qty)
+      return
+    }
+
     const payload: Omit<TCartAddProductInput, 'token'> = {
       id: product.id,
-      qty: !qty && productIsAddedToCart.value ?
-        productIsAddedToCart.value.qty + 1 : 1
+      qty: qty ? qty : 1,
     }
 
     if (product.__typename === 'CONFIGURABLE' && configurableProductVariant.value) {
@@ -83,6 +88,23 @@ export const useProduct = (product: TProduct) => {
     notificationStore.openSuccessNotification('Product successfully added to cart')
     operationWithWishlistIsProcessing.value = false
   }
+
+  const changeProductCartQty = async (qty?: number) => {
+    if (!productIsAddedToCart.value) {
+      return
+    }
+
+    operationWithWishlistIsProcessing.value = true
+    const payload: Omit<TChangeProductQtyInCartInput, 'token'> = {
+      id: productIsAddedToCart.value.id,
+      qty: qty ? qty : productIsAddedToCart.value.qty + 1,
+    }
+
+    await changeItemQty(payload)
+    notificationStore.openSuccessNotification('successfully change product qty')
+    operationWithWishlistIsProcessing.value = false
+  }
+
   const removeFromCart = async () => {
     if (!productIsAddedToCart.value) {
       return
@@ -105,5 +127,6 @@ export const useProduct = (product: TProduct) => {
     removeFromWishlist,
     addToCart,
     removeFromCart,
+    changeProductCartQty,
   }
 }

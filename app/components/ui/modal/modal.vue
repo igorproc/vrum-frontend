@@ -94,7 +94,7 @@ onMounted(() => {
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .ui-modal {
   position: fixed;
   top: 0;
