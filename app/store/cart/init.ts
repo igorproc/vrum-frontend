@@ -13,7 +13,7 @@ export const initializeCart = async () => {
     {
       watch: 'shallow',
       maxAge: COOKIE_MAX_LIFE,
-    }
+    },
   )
 
   if (!cartToken.value) {

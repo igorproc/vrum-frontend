@@ -35,7 +35,7 @@
 // Node Deps
 import { useField } from 'vee-validate'
 
-export type TDropdownOption = {
+export type TUiDropdownOption = {
   label: string | number,
   value: string | number,
 }
@@ -43,7 +43,7 @@ export type TDropdownOption = {
 interface Props {
   path: string,
   label: string,
-  options: TDropdownOption[]
+  options: TUiDropdownOption[]
 }
 
 const selectId = useId()

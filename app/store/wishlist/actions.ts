@@ -16,7 +16,7 @@ export async function wishlistCreateCart() {
   const wishlistStore = useWishlistStore()
   const wishlistToken = useCookie(
     'cart-token',
-    { maxAge: COOKIE_MAX_LIFE }
+    { maxAge: COOKIE_MAX_LIFE },
   )
 
   const cartData = await create()

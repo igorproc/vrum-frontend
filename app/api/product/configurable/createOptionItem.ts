@@ -10,12 +10,12 @@ export type TCreateOptionItem = {
   item: TConfigurableProductOptionValue
 }
 
-export async function createOptionItem (data: TCreateOptionItemInput) {
+export async function createOptionItem(data: TCreateOptionItemInput) {
   const asyncQuery = useAsyncQuery()
 
   return await asyncQuery<TCreateOptionItem>(
     'POST',
     '/api/product/configurable/createOptionItem',
-    { data }
+    { data },
   )
 }

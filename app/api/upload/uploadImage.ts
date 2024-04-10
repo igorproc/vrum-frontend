@@ -18,6 +18,6 @@ export async function uploadImage(type: string, image: File) {
     'POST',
     `/api/product/uploadImage?type=${type}`,
     formData,
-    { 'Content-Type': 'multipart/form-data' }
+    { 'Content-Type': 'multipart/form-data' },
   )
 }

@@ -17,7 +17,7 @@ export const useCartStore = defineStore('cart-store', {
     }
   },
   getters: {
-    totalPrice () {
+    totalPrice() {
       let totalPrice = 0
       this.products.forEach(item => {
         if (!item.selectedVariant) {
@@ -41,6 +41,6 @@ export const useCartStore = defineStore('cart-store', {
         totalPrice += variantCandidate.product.price * item.qty
       })
       return Number(totalPrice.toFixed(2))
-    }
+    },
   },
 })

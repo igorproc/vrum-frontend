@@ -31,7 +31,7 @@ import type {
   TConfigurableProductOptions,
   TConfigurableProductVariantAttribute
 } from '~/api/product/configurable/shred.types'
-import type { TDropdownOption } from '~/components/ui/dropdown/dropdown.vue'
+import type { TUiDropdownOption } from '~/components/ui/dropdown/dropdown.vue'
 import { number, object } from 'yup'
 import { createVariantItem } from '~/api/product/configurable/createVariantItem'
 
@@ -63,7 +63,7 @@ const { id, variants, options } = toRefs(props)
 const isLoading = ref(false)
 
 const optionGroups = computed(() => {
-  const groups: TDropdownOption[] = []
+  const groups: TUiDropdownOption[] = []
 
   options.value.forEach(option => {
     groups.push({ label: option.name, value: option.id })
@@ -75,7 +75,7 @@ const availableOptionsBySelectedGroup = computed(() => {
   if (!form.values.optionGroupId) {
     return []
   }
-  let groups: TDropdownOption[] = []
+  let groups: TUiDropdownOption[] = []
   const optionGroupCandidate = options.value.find(option => option.id === form.values.optionGroupId)
   if (!optionGroupCandidate) {
     return groups

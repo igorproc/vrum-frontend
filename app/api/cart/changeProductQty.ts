@@ -16,6 +16,6 @@ export async function changeProductQty(data: TChangeProductQtyInCartInput) {
   return await asyncQuery<TChangeProductQtyInCart>(
     'POST',
     '/api/cart/changeQuantity',
-    { data }
+    { data },
   )
 }

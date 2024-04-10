@@ -32,7 +32,7 @@ export const useAsyncQuery = () => {
 
     let prettyError = ''
     for (const [key, item] of Object.entries(errorData.error.message)) {
-      if (! Array.isArray(item)) {
+      if (!Array.isArray(item)) {
         continue
       }
 
@@ -40,7 +40,7 @@ export const useAsyncQuery = () => {
     }
     return {
       title: errorData.error.code,
-      description: prettyError
+      description: prettyError,
     }
   }
 
@@ -82,7 +82,7 @@ export const useAsyncQuery = () => {
       response => response,
       error => {
         showError(error.response.data as TResponseError)
-      }
+      },
     )
 
     return instance

@@ -11,12 +11,12 @@ export type TCreateVariant = {
   group: TConfigurableProductVariants,
 }
 
-export async function createVariant (data: TCreateVariantInput) {
+export async function createVariant(data: TCreateVariantInput) {
   const asyncQuery = useAsyncQuery()
 
   return await asyncQuery<TCreateVariant>(
     'POST',
     '/api/product/configurable/createVariantGroup',
-    { data }
+    { data },
   )
 }

@@ -34,7 +34,6 @@
     "vite-plugin-eslint": "^1.8.1"
   },
   "dependencies": {
-    "@egjs/vue3-flicking": "^4.11.2",
     "@pinia/nuxt": "^0.5.1",
     "@vee-validate/nuxt": "^4.12.2",
     "@vee-validate/yup": "^4.12.2",

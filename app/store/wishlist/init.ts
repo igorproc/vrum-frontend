@@ -13,7 +13,7 @@ export const initializeWishlist = async () => {
     {
       watch: 'shallow',
       maxAge: COOKIE_MAX_LIFE,
-    }
+    },
   )
 
   if (!wishlistToken.value) {

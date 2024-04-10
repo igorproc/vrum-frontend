@@ -7,11 +7,11 @@ export type TCartProduct = {
   qty: number
 }
 
-export async function getCartProducts (token: string) {
+export async function getCartProducts(token: string) {
   const asyncQuery = useAsyncQuery()
 
   return await asyncQuery<{ items: TCartProduct[] }>(
     'GET',
-    `/api/cart/list?token=${token}`
+    `/api/cart/list?token=${token}`,
   )
 }
