@@ -14,12 +14,12 @@ export type TDeleteProductAttribute = {
   successDelete: boolean,
 }
 
-export async function deleteConfigurableAttribute (data: TDeleteProductAttributeInput) {
+export async function deleteConfigurableAttribute(data: TDeleteProductAttributeInput) {
   const asyncQuery = useAsyncQuery()
 
   return await asyncQuery<TDeleteProductAttribute>(
     'POST',
     '/api/product/configurable/deleteByType',
-    { data }
+    { data },
   )
 }

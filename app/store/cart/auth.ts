@@ -10,7 +10,7 @@ export const cartOnLoginUser = async (cartData: TCartProductIds) => {
     const cartStore = useCartStore()
     const cartToken = useCookie(
       'cart-token',
-      { maxAge: COOKIE_MAX_LIFE }
+      { maxAge: COOKIE_MAX_LIFE },
     )
 
     cartToken.value = cartData.token

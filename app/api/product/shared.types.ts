@@ -3,7 +3,7 @@ import type {
   TConfigurableProductVariants,
 } from '~/api/product/configurable/shred.types'
 import type {
-  TProductBrand
+  TProductBrand,
 } from '~/api/brand/shared.types'
 
 export enum EAddProductTypes {

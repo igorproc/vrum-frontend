@@ -10,12 +10,12 @@ export type TCreateVariantItem = {
   item: TConfigurableProductVariantAttribute,
 }
 
-export async function createVariantItem (data: TCreateVariantItemInput) {
+export async function createVariantItem(data: TCreateVariantItemInput) {
   const asyncQuery = useAsyncQuery()
 
   return await asyncQuery<TCreateVariantItem>(
     'POST',
     '/api/product/configurable/createVariantItem',
-    { data }
+    { data },
   )
 }

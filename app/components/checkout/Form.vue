@@ -75,7 +75,7 @@ const validationSchema = object({
   country: string().required(),
   city: string().required(),
   address: string().required(),
-  email: string().email().required()
+  email: string().email().required(),
 })
 
 const form = useForm<Form>({ validationSchema })
@@ -83,21 +83,22 @@ const form = useForm<Form>({ validationSchema })
 const countriesList: TUiDropdownOption[] = [
   {
     label: 'Russia',
-    value: 'ru_RU'
+    value: 'ru_RU',
   },
   {
     label: 'Belarus',
-    value: 'ru_BE'
+    value: 'ru_BE',
   },
   {
     label: 'Kazakhstan',
     value: 'ru_KZ',
-  }
+  },
 ]
 
 const submitFields = form.handleSubmit(values => values)
+const resetForm = form.resetForm()
 
-defineExpose({ submitFields })
+defineExpose({ submitFields, resetForm })
 </script>
 
 <style lang="scss">

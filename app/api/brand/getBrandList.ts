@@ -14,14 +14,14 @@ type TBrandResponse = {
   brands: TBrand[]
 }
 
-export async function getBrandList (
+export async function getBrandList(
   page?: number,
-  size?: number
+  size?: number,
 ) {
   const asyncQuery = useAsyncQuery()
 
   return await asyncQuery<TBrandResponse>(
     'GET',
-    `/api/brand/list?page=${page || DEFAULT_PAGE_NUMBER}&size=${size || DEFAULT_PAGE_SIZE}`
+    `/api/brand/list?page=${page || DEFAULT_PAGE_NUMBER}&size=${size || DEFAULT_PAGE_SIZE}`,
   )
 }

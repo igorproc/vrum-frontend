@@ -16,6 +16,6 @@ export async function createOptionGroup(data: TCreateOptionGroupInput) {
   return await asyncQuery<TCreateOptionGroup>(
     'POST',
     '/api/product/configurable/createOptionGroup',
-    { data }
+    { data },
   )
 }

@@ -9,6 +9,6 @@ export async function create() {
 
   return await asyncQuery<TCartData>(
     'POST',
-    '/api/cart/createCart'
+    '/api/cart/createCart',
   )
 }

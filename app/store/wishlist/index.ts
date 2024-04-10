@@ -1,6 +1,5 @@
 // Types & Interfaces
 import type { IWishlistDataProductId } from '~/api/wishlist/shared.types'
-import type { TWishlistProduct } from '~/api/wishlist/getProducts'
 
 interface IWishlistStoreState {
   token: string,

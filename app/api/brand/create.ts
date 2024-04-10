@@ -10,12 +10,12 @@ export type TCreateBrand = {
   data: TBrand
 }
 
-export async function createBrand (brandData: TCreateBrandInput) {
+export async function createBrand(brandData: TCreateBrandInput) {
   const asyncQuery = useAsyncQuery()
 
   return await asyncQuery<TCreateBrand>(
     'POST',
     '/api/brand/create',
-    { data: brandData }
+    { data: brandData },
   )
 }

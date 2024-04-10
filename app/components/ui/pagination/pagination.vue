@@ -2,7 +2,7 @@
   <div class="ui-pagination">
     <button
       v-if="prevPageAction"
-      :class="{ '--is-disabled':  (currentPage === 1) || disabled }"
+      :class="{ '--is-disabled': (currentPage === 1) || disabled }"
       aria-label="Route to next page"
       class="ui-pagination__item item --prev-page"
       @click="prevPage"
@@ -21,9 +21,9 @@
         class="ui-pagination__item item"
         @click="selectPage(item.value)"
       >
-      <span class="item__label">
-        {{ item.text }}
-      </span>
+        <span class="item__label">
+          {{ item.text }}
+        </span>
       </button>
     </div>
 
@@ -42,11 +42,10 @@
 </template>
 
 <script setup lang="ts">
-// Util
-import { getDefaultPagination } from '~/utils/getTotalPages.util'
-import { generateRandomId } from '~/utils/generate.util'
 // Types & Interfaces
 import type { IPaginationItem } from '~/utils/getTotalPages.util'
+// Util
+import { generateRandomId } from '~/utils/generate.util'
 
 interface Props {
   items?: IPaginationItem[],
@@ -78,7 +77,7 @@ const paginationItems = computed(() => {
     return props.items
   }
 
-  return getDefaultPagination(props.totalPages, props.currentPage)
+  return []
 })
 const selectPage = (value: number) => {
   if (props.currentPage === value || props.disabled) {
