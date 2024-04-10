@@ -7,7 +7,6 @@
     </div>
 
     <div v-else class="app-header__content content">
-      <LayoutHeaderLinks class="content__link-list" />
       <LayoutHeaderActions class="content__actions-list" />
     </div>
   </header>
@@ -37,26 +36,13 @@ const isTablet = computed(() => width.value <= DEFAULT_BREAKPOINT_SIZES.lg)
     padding: 25rem 65rem;
 
     &__content {
-      max-width: 78%;
-      width: 100%;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
 
-      .content__link-list {
-        width: 450rem;
-      }
-
       .content__actions-list {
         width: 150rem;
       }
-    }
-  }
-
-  @media #{map-get($display-rules, 'xl')} {
-    &__content {
-      max-width: 66%;
     }
   }
 

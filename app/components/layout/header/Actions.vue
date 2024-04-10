@@ -1,9 +1,9 @@
 <template>
   <div class="app-header-actions-list">
     <component
+      :is="actionComponent(item.action)"
       v-for="item in actionsList"
       :key="item.id"
-      :is="actionComponent(item.action)"
       :to="getRoute(item.action)"
       aria-label="user action"
       class="app-header-actions-list__item"
@@ -18,7 +18,6 @@
 // Components
 import UiIcon from '~/components/ui/icon/icon.vue'
 // Pinia Stores
-import { useUserStore } from '~/store/user'
 import { useConditionStore } from '~/store/condition'
 // Types & Interfaces
 import type { TUiIconNames } from '#build/types/ui-icon'
@@ -36,28 +35,16 @@ type ActionsListItem = {
   action: IListItemAction
 }
 
-const userStore = useUserStore()
 const conditionStore = useConditionStore()
-
-const userAction = computed<IListItemAction>(() => {
-  if (userStore.isGuest) {
-    return {
-      isLink: false,
-      action: conditionStore.openAuthModal
-    }
-  }
-
-  return {
-    isLink: false,
-    action: conditionStore.openNavigationDrawer
-  }
-})
 
 const actionsList: ActionsListItem[] = reactive([
   {
     id: 0,
     icon: 'user/user',
-    action: userAction.value
+    action: {
+      isLink: false,
+      action: conditionStore.openNavigationDrawer,
+    },
   },
   {
     id: 1,
@@ -72,7 +59,7 @@ const actionsList: ActionsListItem[] = reactive([
     icon: 'user/cart',
     action: {
       isLink: true,
-      link: { name: 'cart' }
+      link: { name: 'cart' },
     },
   },
 ])
