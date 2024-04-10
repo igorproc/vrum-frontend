@@ -1,6 +1,6 @@
 <template>
   <div class="ui-drawer" :class="{ '--is-open': open }" @click="close">
-    <div ref="" v-bind="drawerContainerAttributes" class="ui-drawer__wrapper">
+    <div v-bind="drawerContainerAttributes" class="ui-drawer__wrapper">
       <div v-if="!withoutHeader" class="ui-drawer__header">
         <slot name="header">
           <h4>Drawer</h4>
@@ -18,11 +18,16 @@
         <slot />
       </div>
     </div>
-
   </div>
 </template>
 
 <script setup lang="ts">
+interface IDrawerContainerState {
+  'aria-describedby'?: string,
+  'aria-labelledby'?: string,
+  class?: string,
+}
+
 interface Props {
   open: boolean,
   withoutHeader?: boolean,
@@ -35,16 +40,20 @@ interface Emits {
   (name: 'update:open', open: boolean): void
 }
 
+const emit = defineEmits<Emits>()
 const props = withDefaults(
   defineProps<Props>(),
   {
     withoutHeader: false,
-  }
+    wrapClassName: '',
+    ariaLabel: '',
+    ariaDescription: '',
+  },
 )
-const emit = defineEmits<Emits>()
+const { withoutHeader } = toRefs(props)
 
 const drawerContainerAttributes = computed(() => {
-  const payload: any = {}
+  const payload: IDrawerContainerState = {}
 
   if (props.ariaDescription) {
     payload['aria-describedby'] = props.ariaDescription

@@ -34,6 +34,12 @@
 <script setup lang="ts">
 // Node Deps
 import { onClickOutside } from '@vueuse/core'
+
+interface IModalContainerState {
+  'aria-describedby'?: string
+  'aria-labelledby'?: string
+  class?: string
+}
 interface Props {
   open: boolean,
   withoutHeader?: boolean,
@@ -62,7 +68,7 @@ const emit = defineEmits<Emits>()
 const modal = ref(null)
 
 const modalContainerAttributes = computed(() => {
-  const payload: any = {}
+  const payload: IModalContainerState = {}
 
   if (props.ariaDescription) {
     payload['aria-describedby'] = props.ariaDescription
@@ -71,7 +77,7 @@ const modalContainerAttributes = computed(() => {
     payload['aria-labelledby'] = props.ariaLabel
   }
   if (props.wrapClassName) {
-    payload['class'] = props.wrapClassName
+    payload.class = props.wrapClassName
   }
   return payload
 })

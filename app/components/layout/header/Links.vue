@@ -32,7 +32,7 @@ const linkList = [
     id: 3,
     label: 'Contact',
     link: { name: 'index' },
-  }
+  },
 ]
 </script>
 

@@ -1,6 +1,7 @@
 <template>
   <ui-drawer
     v-model:open="conditionStore.navigationDrawerIsOpen"
+    with-backdrop
     wrap-class-name="app-navigation-drawer"
   >
     <template #header>
@@ -21,8 +22,19 @@
           {{ item.label }}
         </h5>
       </nuxt-link>
+      <button
+        v-if="userStore.isGuest"
+        class="drawer-container__item"
+        @click="conditionStore.openAuthModal"
+      >
+        <ui-icon name="user/user" class="drawer-container__item-icon" />
+        <h5 class="drawer-container__item-label">
+          Login
+        </h5>
+      </button>
 
       <AppLogout
+        v-if="!userStore.isGuest && userStore.userData"
         class="drawer-container__logout-action"
         @success-logout="conditionStore.closeNavigationDrawer"
       />
@@ -96,7 +108,7 @@ const drawerLinksList = computed(() => {
     return defaultLinkList
   }
 
-  if (userStore.userData.role === 'ADMIN') {
+  if (userStore.isAdmin) {
     return [...authorizeLinkList, ...adminLinkList]
   }
 
@@ -108,7 +120,9 @@ watch(navigationDrawerIsOpen, newVal => {
     return
   }
 
-  conditionStore.hideBackdrop()
+  if (!conditionStore.authModalIsOpen) {
+    conditionStore.hideBackdrop()
+  }
 })
 </script>
 
