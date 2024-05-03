@@ -15,8 +15,6 @@
 </template>
 
 <script setup lang="ts">
-// Components
-import UiIcon from '~/components/ui/icon/icon.vue'
 // Pinia Stores
 import { useConditionStore } from '~/store/condition'
 // Types & Interfaces
