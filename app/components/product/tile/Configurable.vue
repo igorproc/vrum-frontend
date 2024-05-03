@@ -61,9 +61,9 @@ const shareProductUrl = () => {
       padding: 8rem;
       height: 300rem;
 
-      .ui-image {
-        height: 100%;
-      }
+      .ui-image .ui-lazy-image {
+          object-fit: contain;
+        }
     }
 
     &__price-container {

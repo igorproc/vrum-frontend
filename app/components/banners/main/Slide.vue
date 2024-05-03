@@ -95,6 +95,7 @@ defineProps<Props>()
       align-self: flex-end;
       cursor: pointer;
       border: none;
+      text-decoration: none;
 
       .action__label {
         font-family: $poppins-font-family;

@@ -77,7 +77,7 @@ const hoverCard = (value: boolean) => {
 .ui-card {
   width: 100%;
 
-  .ui-card__container {
+  &__container {
     color: map-get($theme-colors, 'primary-color');
     text-decoration: none;
     position: relative;
@@ -131,7 +131,7 @@ const hoverCard = (value: boolean) => {
     .card-container {
       &__content {
         padding: 16rem 20rem;
-        gap: unset;
+        gap: 5rem;
 
         &-title {
           font-size: 20rem;
@@ -139,12 +139,7 @@ const hoverCard = (value: boolean) => {
         }
 
         &-subtitle {
-          margin-top: 8rem;
           font-size: 14rem;
-        }
-
-        &-expand {
-          margin-top: 8rem;
         }
       }
     }

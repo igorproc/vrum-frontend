@@ -41,6 +41,10 @@ const { brands } = toRefs(props)
   align-items: center;
   justify-content: center;
 
+  &__title {
+    font-family: $poppins-font-family;
+  }
+
   &__wrapper {
     .wrapper__slider-slide {
       width: auto !important;

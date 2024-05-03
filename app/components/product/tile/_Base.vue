@@ -4,7 +4,7 @@
     :title="product.name"
     :subtitle="product.brand?.name || ''"
     class="app-product-tile --base base-product"
-    :link="{ path: 'product/' +  product.name.toLowerCase() }"
+    :link="{ path: 'product/' + product.name.toLowerCase() }"
   >
     <template #cover>
       <div class="base-product__image-container">
@@ -59,7 +59,6 @@ import { useNotificationStore } from '~/store/notification'
 import { formattedPrice } from '~/utils/getCurrencyFormat.util'
 // Types & Interfaces
 import type { TProduct } from '~/api/product/shared.types'
-import Button from '~/components/ui/button/button.vue'
 
 interface Props {
   product: TProduct
@@ -131,8 +130,8 @@ const shareProductUrl = () => {
       height: 300rem;
       padding: 8rem;
 
-      .ui-image {
-        height: 100%;
+      .ui-image .ui-lazy-image  {
+        object-fit: contain;
       }
     }
 
