@@ -9,7 +9,7 @@
       class="app-header-actions-list__item"
       @click="getAction(item.action)"
     >
-      <UiIcon :name="item.icon" />
+      <ui-icon :name="item.icon" />
     </component>
   </div>
 </template>
