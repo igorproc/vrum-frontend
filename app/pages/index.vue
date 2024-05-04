@@ -4,11 +4,17 @@
       <AppBannersMain />
     </div>
 
-    <div v-if="data?.brands" class="app-main-page__personality-slider">
+    <div
+      v-if="data?.brands && data.brands.length"
+      class="app-main-page__personality-slider"
+    >
       <AppPersonalitySlider :brands="data.brands" />
     </div>
 
-    <div v-if="data?.products" class="app-main-page__showcase">
+    <div
+      v-if="data?.products && data.products.length"
+      class="app-main-page__showcase"
+    >
       <AppProductShowcaseList :product-list="data.products" />
     </div>
   </div>
@@ -31,7 +37,7 @@ async function onLoad() {
   }
 }
 
-const { data } = useLazyAsyncData(
+const { data } = useAsyncData(
   'index-page-data',
   async () => await onLoad(),
 )
