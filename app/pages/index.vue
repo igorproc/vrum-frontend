@@ -5,14 +5,14 @@
     </div>
 
     <div
-      v-if="data?.brands && data.brands.length"
+      v-if="data?.brands.length"
       class="app-main-page__personality-slider"
     >
       <AppPersonalitySlider :brands="data.brands" />
     </div>
 
     <div
-      v-if="data?.products && data.products.length"
+      v-if="data?.products.length"
       class="app-main-page__showcase"
     >
       <AppProductShowcaseList :product-list="data.products" />
@@ -25,15 +25,15 @@
 import { getProductPage } from '~/api/product/getProductPage'
 import { getBrandList } from '~/api/brand/getBrandList'
 
-async function onLoad() {
+const onLoad = async () => {
   const [showcase, brands] = await Promise.all([
     getProductPage({ page: 1, size: 8 }),
     getBrandList(1, 12),
   ])
 
   return {
-    products: showcase?.products,
-    brands: brands?.brands,
+    products: showcase?.products || [],
+    brands: brands?.brands || [],
   }
 }
 

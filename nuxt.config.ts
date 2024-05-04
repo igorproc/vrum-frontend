@@ -46,7 +46,7 @@ export default defineNuxtConfig({
     public: {
       appUrl: process.env.APP_URL || '',
       proxyEnabled: proxyEnabled,
-      apiUrl: proxyEnabled ? '' : process.env.API_URL || '',
+      apiUrl: process.env.API_URL || '',
       isProduction: isProd,
     },
   },
@@ -82,7 +82,7 @@ export default defineNuxtConfig({
   ],
   // Modules
   googleFonts: TypographyConfig,
-  devtools: { enabled: isProd },
+  devtools: { enabled: !isProd },
   pinia: {
     storesDirs: ['./app/store/**'],
   },
