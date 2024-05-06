@@ -75,7 +75,6 @@ export const useAsyncQuery = () => {
     const instance = axios.create()
 
     instance.defaults.withCredentials = true
-    instance.defaults.baseURL = apiUrl
     instance.defaults.headers['Content-Type'] = 'application/json'
     if (authToken.value) {
       instance.defaults.headers['Authorization'] = authToken.value
