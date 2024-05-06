@@ -20,7 +20,7 @@ interface Props {
 const props = defineProps<Props>()
 const { price } =  toRefs(props)
 
-const totalPrice = computed(() => formattedPrice(price.value))
+const totalPrice = computed(() => formattedPrice(price.value || 0))
 </script>
 
 <style lang="scss">
