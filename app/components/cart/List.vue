@@ -3,12 +3,17 @@
     <AppCartListHeader class="app-cart-list__header" />
 
     <div class="app-cart-list__items">
-      <AppCartItemResolver
+      <div
         v-for="item in cartStore.products"
-        :key-="item.product.id"
-        :product="item"
-        @product-remove="productRemove"
-      />
+        :key="item.product.id"
+        class="app-cart-list__items-item list-item"
+      >
+        <AppCartItemResolver
+          :product="item"
+          @product-remove="productRemove"
+        />
+        <div class="list-item__divider" />
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +38,15 @@ const productRemove = (id: number) => {
     align-items: center;
     justify-content: center;
     gap: 24rem;
+
+    .list-item {
+      width: 100%;
+
+      &__divider {
+        padding: 5rem 0;
+        border-bottom: 1rem solid map-get($theme-colors, 'primary-color');
+      }
+    }
   }
 
   @media #{map-get($display-rules, 'md')} {

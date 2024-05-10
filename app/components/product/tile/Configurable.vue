@@ -58,7 +58,6 @@ const shareProductUrl = () => {
 
   & .configurable-product {
     &__image-container {
-      padding: 8rem;
       height: 300rem;
 
       .ui-image .ui-lazy-image {

@@ -128,7 +128,6 @@ const shareProductUrl = () => {
   & .base-product {
     &__image-container {
       height: 300rem;
-      padding: 8rem;
 
       .ui-image .ui-lazy-image  {
         object-fit: contain;

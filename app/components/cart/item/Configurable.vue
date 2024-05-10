@@ -3,16 +3,10 @@
     <AppCartItemPreview
       :name="item.product.name"
       :image-url="productVariant.imageUrl"
-      class="app-configurable-cart-tile__info app-configurable-cart-tile__preview"
+      class="app-configurable-cart-tile__preview"
     />
-    <AppCartItemPrice
-      :price="productVariant.price"
-      class="app-configurable-cart-tile__info"
-    />
-    <AppCartItemQtyInput
-      v-model:qty="item.qty"
-      class="app-configurable-cart-tile__info"
-    />
+    <AppCartItemPrice :price="productVariant.price" class="app-configurable-cart-tile__price" />
+    <AppCartItemQtyInput v-model:qty="item.qty" class="app-configurable-cart-tile__info" />
     <AppCartItemTotalPrice
       :product-price="productVariant.price"
       :quantity="productIsAddedToCart ? productIsAddedToCart.qty : 1"
@@ -32,7 +26,6 @@
 
 <script setup lang="ts">
 // Utils
-import { formattedPrice } from '~/utils/getCurrencyFormat.util'
 // Types & Interfaces
 import type { TCartProduct } from '~/api/cart/getProducts'
 
@@ -54,7 +47,7 @@ const {
   operationWithCartIsProcessing,
   addProductVariant,
   removeFromCart,
-  changeProductCartQty
+  changeProductCartQty,
 } = useProduct(item.value.product)
 
 if (item.value.selectedVariant) {
@@ -82,8 +75,6 @@ const productVariant = computed(() => {
   }
 })
 
-const productPrice = computed(() => formattedPrice(productVariant.value.price))
-
 const removeProductFormCart = async () => {
   await removeFromCart()
   emit('productRemove', item.value.product.id)
@@ -98,22 +89,27 @@ watch(qty, async newVal => await changeProductCartQty(newVal))
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 16rem;
+  align-items: center;
+  gap: 8rem;
+
+  &__preview {
+    flex: 0 0 calc(75% - 8rem);
+  }
+
+  &__price {
+    flex: 0 0 calc(25% - 8rem);
+  }
 
   &__info {
-    flex: 0 0 100%;
+    flex: 0 0 calc(50% - 8rem);
   }
 
   &__actions {
     position: absolute;
+    top: 0;
     right: 0;
 
     &-delete {
-      border-radius: 8rem;
-      padding: 6rem 13rem;
-      border: 2rem solid map-get($theme-colors, 'primary-color') !important;
-
       .ui-icon {
         font-size: 24rem !important;
       }
@@ -121,12 +117,16 @@ watch(qty, async newVal => await changeProductCartQty(newVal))
   }
 
   @media #{map-get($display-rules, 'md')} {
-    flex-direction: row;
-    align-items: center;
-    gap: 0;
+    &__preview {
+      flex: 0 0 calc(25% - 8rem);
+    }
 
     &__info {
-      flex: 0 0 25%;
+      flex: 0 0 calc(25% - 8rem);
+    }
+
+    &__actions {
+      transform: translate(0, 50%);
     }
   }
 }

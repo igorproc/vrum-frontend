@@ -92,7 +92,7 @@ const optionItemAdded = (item: TConfigurableProductOptionValue & { groupId: numb
   optionGroupCandidate.values.push({
     id: item.id,
     value: item.value,
-    name: item.name
+    name: item.name,
   })
 }
 
@@ -109,15 +109,6 @@ const optionGroupAdded = (data: TConfigurableProductOptions) => {
   hideAddOptionGroupInput()
   options.value.push(data)
 }
-
-// watch(addOptionItemModalIsOpen, newVal => {
-//   if (newVal) {
-//     conditionStore.showBackdrop()
-//     return
-//   }
-//
-//   conditionStore.hideBackdrop()
-// })
 </script>
 
 <style lang="scss">

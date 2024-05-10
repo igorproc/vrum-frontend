@@ -15,17 +15,18 @@ interface Props {
 
 interface Emits {
   (name: 'loaded'): void
+  (name: 'error'): void
 }
 
-const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
+defineProps<Props>()
 </script>
 
 <style lang="scss">
 .ui-lazy-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 </style>
 

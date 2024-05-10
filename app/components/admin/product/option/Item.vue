@@ -108,8 +108,11 @@ const deleteOption = async (data: TConfigurableProductOptions) => {
     justify-content: space-between;
   }
 
-  &__table {
+  & &__table {
     margin-top: 16rem;
+  }
+
+  &__table {
 
     &-item-actions {
       display: flex;

@@ -79,7 +79,7 @@ const formattedTotalPrice = computed(() => formattedPrice(cartStore.totalPrice))
     border-radius: 8rem;
 
     .button-content__label {
-      color: map-get($white-color-palette, 'white-5');
+      color: map-get($white-color-palette, 'white-5') !important;
     }
   }
 }

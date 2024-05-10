@@ -12,6 +12,7 @@
 <script setup lang="ts">
 // Utils
 import { formattedPrice } from '~/utils/getCurrencyFormat.util'
+
 interface Props {
   productPrice: number,
   quantity: number,
@@ -26,7 +27,7 @@ const totalPrice = computed(() => formattedPrice(productPrice.value * quantity.v
 <style lang="scss">
 .app-cart-item-total-price {
   &__label {
-    font-size: 20rem;
+    font-size: 16rem;
     font-weight: bold;
   }
 

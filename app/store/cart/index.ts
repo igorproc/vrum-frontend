@@ -1,6 +1,7 @@
 // Types & Interfaces
 import type { TCartProductIds } from '~/api/cart/getShortData'
 import type { TCartProduct } from '~/api/cart/getProducts'
+import { EAddProductTypes } from '~/api/product/shared.types'
 
 interface ICartStoreState {
   token: string,
@@ -19,13 +20,11 @@ export const useCartStore = defineStore('cart-store', {
   getters: {
     totalPrice() {
       let totalPrice = 0
-      this.products.forEach(item => {
-        if (!item.selectedVariant) {
-          totalPrice += item.qty * item.product.price
-          return
-        }
 
-        if (item.selectedVariant && !item.product?.configurable) {
+      this.products.forEach(item => {
+        const basePrice = item.qty * item.product.price
+        if (item.product.__typename === EAddProductTypes.base || !item.product?.configurable) {
+          totalPrice += basePrice
           return
         }
 
@@ -35,6 +34,7 @@ export const useCartStore = defineStore('cart-store', {
           ?.variants
           ?.find(variant => variant.product.id === item.selectedVariant)
         if (!variantCandidate) {
+          totalPrice += basePrice
           return
         }
 

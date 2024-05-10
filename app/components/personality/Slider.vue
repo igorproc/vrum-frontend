@@ -7,7 +7,8 @@
     <div class="app-personality-slider__wrapper wrapper">
       <swiper
         hide-before-init
-        :slides-per-view="10"
+        centered-slides
+        space-between="16"
         class="wrapper__slider"
       >
         <swiper-slide v-for="personality in brands" :key="personality.id" class="wrapper__slider-slide">
@@ -46,6 +47,8 @@ const { brands } = toRefs(props)
   }
 
   &__wrapper {
+    width: 100%;
+
     .wrapper__slider-slide {
       width: auto !important;
       min-width: 220rem !important;

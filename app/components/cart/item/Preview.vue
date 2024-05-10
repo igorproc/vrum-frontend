@@ -1,7 +1,9 @@
 <template>
   <div class="app-cart-item-preview">
     <ui-image :alt="name" :src="imageUrl" class="app-cart-item-preview__image" />
-    <h5 class="app-cart-item-preview__name">{{ name }}</h5>
+    <h5 class="app-cart-item-preview__name">
+      {{ name }}
+    </h5>
   </div>
 </template>
 
@@ -33,11 +35,16 @@ const { name, imageUrl } = toRefs(props)
   &__name {
     width: 60%;
     font-weight: bold;
+    text-align: right;
   }
 
   @media #{map-get($display-rules, 'md')} {
     flex-direction: column;
     align-items: flex-start;
+
+    &__name {
+      text-align: left;
+    }
   }
 
   @media #{map-get($display-rules, 'xl')} {
