@@ -20,7 +20,7 @@ import { getBrandList } from '~/api/brand/getBrandList'
 const { $listen } = useNuxtApp()
 const { data, refresh } = useAsyncData(
   'admin-brands',
-  async () => await getBrandList(1, 999)
+  async () => await getBrandList(1, 999),
 )
 
 onMounted(() => {

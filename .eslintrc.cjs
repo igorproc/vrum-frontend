@@ -77,6 +77,6 @@ module.exports = {
 
     // Others
     'filename-rules/match': 'off',
-    'no-relative-path/no-relative-path': 2,
+    'no-relative-path/no-relative-path': 1,
   },
 }

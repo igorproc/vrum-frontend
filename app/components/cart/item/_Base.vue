@@ -68,10 +68,12 @@ watch(qty, async newVal => await changeProductCartQty(newVal))
   gap: 8rem;
 
   &__preview {
+    margin-top: 24rem;
     flex: 0 0 calc(75% - 8rem);
   }
 
   &__price {
+    margin-top: 24rem;
     flex: 0 0 calc(25% - 8rem);
   }
 
@@ -93,15 +95,20 @@ watch(qty, async newVal => await changeProductCartQty(newVal))
 
   @media #{map-get($display-rules, 'md')} {
     &__preview {
+      margin-top: 0;
       flex: 0 0 calc(25% - 8rem);
+    }
+
+    &__price {
+      margin-top: 0;
     }
 
     &__info {
-      flex: 0 0 calc(25% - 8rem);
+      flex: 0 0 calc(25% - 24rem);
     }
 
     &__actions {
-      transform: translate(0, 50%);
+      top: unset;
     }
   }
 }

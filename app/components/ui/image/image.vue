@@ -1,13 +1,19 @@
 <template>
   <div class="ui-image">
-    <ui-skeleton-image class="ui-image__skeleton" />
+    <Suspense>
+      <template #default>
+        <img
+          ref="image"
+          :src="src"
+          :alt="alt"
+          class="ui-image__image"
+        >
+      </template>
 
-    <img
-      ref="image"
-      :src="src"
-      :alt="alt"
-      class="ui-image__image"
-    >
+      <template #fallback>
+        <ui-skeleton-image class="ui-image__skeleton" />
+      </template>
+    </Suspense>
   </div>
 </template>
 

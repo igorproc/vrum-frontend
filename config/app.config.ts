@@ -37,11 +37,6 @@ export default {
         property: 'og:description',
         content: pwaConfig.description,
       },
-      {
-        hid: 'og:image',
-        property: 'og:image',
-        content: pwaConfig.image,
-      },
       //Twitter
       { name: 'twitter:card', content: 'summary_large_image' },
       {

@@ -1,10 +1,6 @@
-import type {
-  TConfigurableProductOptions,
-  TConfigurableProductVariants,
-} from '~/api/product/configurable/shred.types'
-import type {
-  TProductBrand,
-} from '~/api/brand/shared.types'
+import type { TConfigurableProductOptions, TConfigurableProductVariants } from '~/api/product/configurable/shred.types'
+import type { TProductBrand } from '~/api/brand/shared.types'
+import type { TTimes } from '~/api/shared.types'
 
 export enum EAddProductTypes {
   'base' = 'BASE',
@@ -23,8 +19,5 @@ export type TProduct = {
     options?: TConfigurableProductOptions[]
     variants?: TConfigurableProductVariants[]
   }
-  times: {
-    updatedAt: string
-    createdAt: string
-  }
+  times: TTimes
 }

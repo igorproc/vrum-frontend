@@ -28,7 +28,7 @@
     <template #item-append="{ item }">
       <div class="app-products-table__item-actions">
         <ui-button
-          prepend-icon="user/share"
+          prepend-icon="user/edit"
           variant="text"
           :link="`product/${item.id}`"
           class="app-products-table__item-actions-route"
@@ -85,8 +85,8 @@ const tableRows: TUiTableRow<TProduct>[] = [
     'target': 'price',
   },
   {
-    label: 'Actions'
-  }
+    label: 'Actions',
+  },
 ]
 
 defineProps<Props>()
