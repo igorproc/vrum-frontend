@@ -1,24 +1,30 @@
 import type { TTimes } from '~/api/shared.types'
 
+export enum EOrderStatusSet {
+  'pending' = 'PENDING',
+  'shipping' = 'SHIPPING',
+  'received' = 'RECEIVED',
+}
+
 export type TGetOrderPageInput = {
   page: number,
 }
 
-type TOrder = {
-  id: number;
-  token: string;
-  status: string;
-  payment: string;
-  times: TTimes;
+export type TOrder = {
+  id: number,
+  token: string,
+  status: EOrderStatusSet,
+  payment: string,
+  times: TTimes,
 }
 
 export type TGetOrderPage = {
-  orders: TOrder[];
-  totalPages: number;
-  totalOrders: number;
+  orders: TOrder[],
+  totalPages: number,
+  totalOrders: number,
 }
 
-export async function getCheckoutPage (data: TGetOrderPageInput) {
+export async function getCheckoutPage(data: TGetOrderPageInput) {
   const asyncQuery = useAsyncQuery()
 
   return await asyncQuery<TGetOrderPage>(

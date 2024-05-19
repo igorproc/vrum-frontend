@@ -14,13 +14,13 @@
 
         <ui-image
           v-else-if="key === 'productImage'"
-          :alt="value"
-          :src="value"
+          :alt="value.name"
+          :src="value.productImage"
           class="app-products-table__item-image"
         />
 
         <span v-else class="app-products-table__item-text">
-          {{ value }}
+          {{ value[key] }}
         </span>
       </div>
     </template>
