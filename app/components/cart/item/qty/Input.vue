@@ -4,13 +4,13 @@
       :for="inputId"
       class="app-cart-item-quantity-input__label"
     >
-      Product Qty:
+      Qty:
     </label>
     <input
       :value="qty"
       class="app-cart-item-quantity-input__field"
       @input="throttleChangeQuantity"
-    />
+    >
   </div>
 </template>
 
@@ -47,7 +47,7 @@ const throttleChangeQuantity = useDebounceFn((e: Event) => changeQuantity(e), 30
 <style lang="scss">
 .app-cart-item-quantity-input {
   &__label {
-    font-size: 20rem;
+    font-size: 16rem;
     font-weight: bold;
   }
 

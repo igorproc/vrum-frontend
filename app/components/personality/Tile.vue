@@ -12,8 +12,8 @@
       />
 
       <span class="app-personality-tile__title">
-      {{ personality.name }}
-    </span>
+        {{ personality.name }}
+      </span>
     </component>
   </div>
 </template>
@@ -30,8 +30,8 @@ interface Props {
 const props = withDefaults(
   defineProps<Props>(),
   {
-    isLink: false
-  }
+    isLink: false,
+  },
 )
 const { personality, isLink } = toRefs(props)
 
@@ -45,7 +45,7 @@ const rootTag = computed(() => {
 const linkParams = computed(() => {
   if (isLink.value) {
     return {
-      to: { name: 'products', query: { brand: personality.value.id } }
+      to: { name: 'products', query: { brand: personality.value.id } },
     }
   }
   return {}
@@ -64,7 +64,7 @@ const linkParams = computed(() => {
   &__image {
     user-select: none;
     width: 180rem;
-    height: 80rem;
+    height: 80rem !important;
     margin-bottom: 12rem;
 
     .ui-lazy-image {

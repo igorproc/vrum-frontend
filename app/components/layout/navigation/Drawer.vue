@@ -76,16 +76,7 @@ const defaultLinkList: TNavigationDrawerLinkListItem[] = [
     link: { name: 'user-wishlist' },
   },
 ]
-const authorizeLinkList: TNavigationDrawerLinkListItem[] = [
-  ...defaultLinkList,
-  {
-    key: 'user-orders',
-    label: 'Orders',
-    prependIcon: 'user/orders',
-    disabled: itemsIsDisabled.value,
-    link: { name: 'user-orders' },
-  },
-]
+const authorizeLinkList: TNavigationDrawerLinkListItem[] = [...defaultLinkList]
 const adminLinkList: TNavigationDrawerLinkListItem[] = [
   {
     key: 'admin-brands-list',
@@ -100,6 +91,13 @@ const adminLinkList: TNavigationDrawerLinkListItem[] = [
     prependIcon: 'user/admin-settings',
     disabled: itemsIsDisabled.value,
     link: { name: 'admin-products' },
+  },
+  {
+    key: 'admin-orders',
+    label: '(Admin) Orders',
+    prependIcon: 'user/admin-settings',
+    disabled: itemsIsDisabled.value,
+    link: { name: 'admin-orders' },
   },
 ]
 

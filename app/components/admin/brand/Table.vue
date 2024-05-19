@@ -10,13 +10,13 @@
       <div class="app-brands-table__item">
         <ui-image
           v-if="key === 'image'"
-          :alt="value"
-          :src="value"
+          :alt="value.name"
+          :src="value.image"
           class="app-brands-table__item-image"
         />
 
         <span v-else class="app-brands-table__item-text">
-          {{ value }}
+          {{ value[key] }}
         </span>
       </div>
     </template>
@@ -53,7 +53,7 @@ interface Emits {
 const tableRows: TUiTableRow<TBrand>[] = [
   {
     label: 'ID',
-    target: 'id'
+    target: 'id',
   },
   {
     label: 'Name',
@@ -61,8 +61,8 @@ const tableRows: TUiTableRow<TBrand>[] = [
   },
   {
     label: 'image',
-    target: 'image'
-  }
+    target: 'image',
+  },
 ]
 
 defineProps<Props>()

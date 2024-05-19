@@ -63,9 +63,16 @@ const selectOption = () => {
     color: map-get($theme-colors, 'primary-color');
   }
 
-  &[disabled] {
-    backdrop-filter: brightness(0.8);
-    opacity: 0.6;
+  &.--is-color {
+    padding: 0;
+    width: 40rem;
+    height: 40rem;
+    background-color: var(--select-color);
+    border-radius: 50%;
+
+    &.--is-active {
+      border: 3rem solid map-get($gray-color-palette, 'gray-3');
+    }
   }
 
   &.--is-active {
@@ -76,15 +83,9 @@ const selectOption = () => {
     }
   }
 
-  &.--is-color {
-    padding: 0;
-    width: 40rem;
-    height: 40rem;
-    background-color: var(--select-color);
-
-    &.--is-active {
-      border: 3rem solid map-get($gray-color-palette, 'gray-3');
-    }
+  &[disabled] {
+    backdrop-filter: brightness(0.8);
+    opacity: 0.6;
   }
 }
 </style>

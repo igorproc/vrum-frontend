@@ -30,8 +30,8 @@ const { data, refresh, pending } = useAsyncData(
   'admin-product-list',
   async () => await getProductPage({
     page: currentPage.value,
-    size: 16
-  })
+    size: 16,
+  }),
 )
 
 $listen('product:add', () => refresh())

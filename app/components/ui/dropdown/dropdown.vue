@@ -6,14 +6,17 @@
 
     <select
       :id="selectId"
+      :disabled="disabled"
       v-model="field.value.value"
       class="ui-dropdown__select"
+      @change="onSelectChange"
     >
       <option
         v-for="option in options"
         :key="option.value"
         :value="option.value"
         class="ui-dropdown__select-option"
+        :class="{ '--hidden': option.value === field.value.value }"
       >
         {{ option.label }}
       </option>
@@ -39,18 +42,32 @@ export type TUiDropdownOption = {
   label: string | number,
   value: string | number,
 }
-
 interface Props {
+  disabled?: boolean
   path: string,
   label: string,
   options: TUiDropdownOption[]
 }
 
+interface Emits {
+  (name: 'change'): void
+}
+
 const selectId = useId()
-const props = defineProps<Props>()
-const { path, options } = toRefs(props)
+const props = withDefaults(
+  defineProps<Props>(),
+  {
+    disabled: false
+  }
+)
+const { disabled, path, label, options } = toRefs(props)
+const emit = defineEmits<Emits>()
 
 const field = useField<string | number>(path, undefined)
+
+const onSelectChange = () => {
+  emit('change')
+}
 </script>
 
 <style lang="scss">
@@ -82,6 +99,10 @@ const field = useField<string | number>(path, undefined)
     &-option {
       color: map-get($theme-colors, 'primary-color');
       font-size: 16rem;
+
+      &.--hidden {
+        display: none;
+      }
     }
   }
 

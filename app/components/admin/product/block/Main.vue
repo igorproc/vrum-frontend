@@ -15,14 +15,27 @@
       />
 
       <div class="block-info__item">
-        <span v-if="!isForm" class="block-info__item-label">Name: </span>
-        <span v-if="!isForm" class="block-info__item-value">{{ product.name }}</span>
-        <ui-input v-else label="name" path="name" class="block-info__item-input" />
+        <span v-if="!isForm" class="block-info__item-label">
+          Name:
+        </span>
+        <span v-if="!isForm" class="block-info__item-value">
+          {{ product.name }}
+        </span>
+        <ui-input
+          v-else
+          label="name"
+          path="name"
+          class="block-info__item-input"
+        />
       </div>
 
       <div class="block-info__item">
-        <span v-if="!isForm" class="block-info__item-label">Type: </span>
-        <span v-if="!isForm" class="block-info__item-value">{{ product.__typename }}</span>
+        <span v-if="!isForm" class="block-info__item-label">
+          Type:
+        </span>
+        <span v-if="!isForm" class="block-info__item-value">
+          {{ product.__typename }}
+        </span>
         <ui-dropdown
           v-else
           :options="productTypesDropdownItems"
@@ -33,9 +46,18 @@
       </div>
 
       <div class="block-info__item">
-        <span v-if="!isForm" class="block-info__item-label">Price: </span>
-        <span v-if="!isForm" class="block-info__item-value">{{ productPrice }}</span>
-        <ui-input v-else label="price" path="price" class="block-info__item-input" />
+        <span v-if="!isForm" class="block-info__item-label">
+          Price:
+        </span>
+        <span v-if="!isForm" class="block-info__item-value">
+          {{ productPrice }}
+        </span>
+        <ui-input
+          v-else
+          label="price"
+          path="price"
+          class="block-info__item-input"
+        />
       </div>
 
       <ui-button
@@ -61,10 +83,10 @@ import type { TProduct } from '~/api/product/shared.types'
 import { EAddProductTypes } from '~/api/product/shared.types'
 
 interface Form {
-  typename?: keyof typeof EAddProductTypes,
-  name?: string,
-  description?: string,
-  price?: number,
+  typename: keyof typeof EAddProductTypes,
+  name: string,
+  description: string,
+  price: number,
 }
 
 interface Props {
@@ -119,6 +141,13 @@ const form = useForm<Form>({
 
 const productPrice = computed(() => formattedPrice(product.value.price))
 
+const setCurrentValues = () => {
+  form.setFieldValue('typename', defaultType.value)
+  form.setFieldValue('name', product.value.name)
+  form.setFieldValue('description', product.value.description)
+  form.setFieldValue('price', product.value.price)
+}
+
 const submit = form.handleSubmit(async values => {
   isLoading.value = true
 
@@ -132,6 +161,8 @@ const submit = form.handleSubmit(async values => {
   isLoading.value = false
   isForm.value = false
 })
+
+defineExpose({ setCurrentValues })
 </script>
 
 <style lang="scss">

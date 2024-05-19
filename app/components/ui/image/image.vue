@@ -2,21 +2,22 @@
   <div class="ui-image">
     <Suspense>
       <template #default>
-        <LazyImage
+        <img
+          ref="image"
           :src="src"
-          :alt="alt || ''"
-        />
+          :alt="alt"
+          class="ui-image__image"
+        >
       </template>
+
       <template #fallback>
-        <ui-skeleton-image />
+        <ui-skeleton-image class="ui-image__skeleton" />
       </template>
     </Suspense>
   </div>
 </template>
 
 <script setup lang="ts">
-// Components
-import LazyImage from '~/components/ui/image/lazyImage.vue'
 
 interface Props {
   src: string,
@@ -24,10 +25,22 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const { src, alt } = toRefs(props)
 </script>
 
 <style lang="scss">
 .ui-image {
   height: 100%;
+
+  &__skeleton {
+    display: none;
+    height: 100%;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 </style>

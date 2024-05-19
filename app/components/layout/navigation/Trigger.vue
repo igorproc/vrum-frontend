@@ -4,7 +4,7 @@
       class="trigger__action"
       @click="conditionStore.openNavigationDrawer"
     >
-      <UiIcon name="common/menu-horizontal" class="action__icon" />
+      <ui-icon name="common/menu-horizontal" class="action__icon" />
     </button>
   </div>
 </template>

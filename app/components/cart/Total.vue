@@ -9,7 +9,7 @@
           Total
         </h4>
         <span class="app-cart-total__price-content">
-          {{ cartStore.totalPrice }}
+          {{ formattedTotalPrice }}
         </span>
       </div>
       <div class="app-cart-total__actions">
@@ -26,7 +26,12 @@
 </template>
 
 <script setup lang="ts">
+// Utils
+import { formattedPrice } from '~/utils/getCurrencyFormat.util'
+
 const cartStore = useCartStore()
+
+const formattedTotalPrice = computed(() => formattedPrice(cartStore.totalPrice))
 </script>
 
 <style lang="scss">
@@ -74,7 +79,7 @@ const cartStore = useCartStore()
     border-radius: 8rem;
 
     .button-content__label {
-      color: map-get($white-color-palette, 'white-5');
+      color: map-get($white-color-palette, 'white-5') !important;
     }
   }
 }

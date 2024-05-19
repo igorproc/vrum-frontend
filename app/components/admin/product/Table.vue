@@ -9,18 +9,18 @@
     <template #item="{ key, value }">
       <div class="app-products-table__item">
         <span v-if="key === 'price'" class="app-products-table__item-text">
-          {{ getFormattedPrice(Number(value)) }}
+          {{ getFormattedPrice(Number(value.price)) }}
         </span>
 
         <ui-image
           v-else-if="key === 'productImage'"
-          :alt="value"
-          :src="value"
+          :alt="value.name"
+          :src="value.productImage"
           class="app-products-table__item-image"
         />
 
         <span v-else class="app-products-table__item-text">
-          {{ value }}
+          {{ value[key] }}
         </span>
       </div>
     </template>
@@ -28,7 +28,7 @@
     <template #item-append="{ item }">
       <div class="app-products-table__item-actions">
         <ui-button
-          prepend-icon="user/share"
+          prepend-icon="user/edit"
           variant="text"
           :link="`product/${item.id}`"
           class="app-products-table__item-actions-route"
@@ -85,8 +85,8 @@ const tableRows: TUiTableRow<TProduct>[] = [
     'target': 'price',
   },
   {
-    label: 'Actions'
-  }
+    label: 'Actions',
+  },
 ]
 
 defineProps<Props>()

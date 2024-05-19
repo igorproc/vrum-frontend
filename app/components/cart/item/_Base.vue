@@ -1,27 +1,23 @@
 <template>
-  <div class="app-configurable-cart-tile --configurable">
+  <div class="app-base-cart-tile --base">
     <AppCartItemPreview
       :name="item.product.name"
       :image-url="item.product.productImage"
-      class="app-configurable-cart-tile__info"
+      class="app-base-cart-tile__preview"
     />
-    <div class="app-configurable-cart-tile__info">
-      <span>
-        {{ productPrice }}
-      </span>
-    </div>
-    <AppCartItemQtyInput v-model:qty="item.qty" class="app-configurable-cart-tile__info" />
+    <AppCartItemPrice :price="item.product.price" class="app-base-cart-tile__price" />
+    <AppCartItemQtyInput v-model:qty="item.qty" class="app-base-cart-tile__info" />
     <AppCartItemTotalPrice
       :product-price="item.product.price"
       :quantity="productIsAddedToCart ? productIsAddedToCart.qty : 1"
-      class="app-configurable-cart-tile__info"
+      class="app-base-cart-tile__info"
     />
-    <div class="app-configurable-cart-tile__actions">
+    <div class="app-base-cart-tile__actions">
       <ui-button
         :disabled="operationWithCartIsProcessing"
         variant="text"
         prepend-icon="user/trash"
-        class="app-configurable-cart-tile__actions-delete"
+        class="app-base-cart-tile__actions-delete"
         @click="removeProductFormCart"
       />
     </div>
@@ -30,7 +26,6 @@
 
 <script setup lang="ts">
 // Utils
-import { formattedPrice } from '~/utils/getCurrencyFormat.util'
 // Types & Interfaces
 import type { TCartProduct } from '~/api/cart/getProducts'
 
@@ -52,10 +47,8 @@ const {
   productIsAddedToCart,
   operationWithCartIsProcessing,
   removeFromCart,
-  changeProductCartQty
+  changeProductCartQty,
 } = useProduct(item.value.product)
-
-const productPrice = computed(() => formattedPrice(item.value.product.price))
 
 const removeProductFormCart = async () => {
   await removeFromCart()
@@ -66,24 +59,56 @@ watch(qty, async newVal => await changeProductCartQty(newVal))
 </script>
 
 <style lang="scss">
-.app-configurable-cart-tile {
+.app-base-cart-tile {
   position: relative;
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  gap: 8rem;
+
+  &__preview {
+    margin-top: 24rem;
+    flex: 0 0 calc(75% - 8rem);
+  }
+
+  &__price {
+    margin-top: 24rem;
+    flex: 0 0 calc(25% - 8rem);
+  }
 
   &__info {
-    flex: 0 0 25%;
+    flex: 0 0 calc(50% - 8rem);
   }
 
   &__actions {
     position: absolute;
+    top: 0;
     right: 0;
 
     &-delete {
       .ui-icon {
         font-size: 24rem !important;
       }
+    }
+  }
+
+  @media #{map-get($display-rules, 'md')} {
+    &__preview {
+      margin-top: 0;
+      flex: 0 0 calc(25% - 8rem);
+    }
+
+    &__price {
+      margin-top: 0;
+    }
+
+    &__info {
+      flex: 0 0 calc(25% - 24rem);
+    }
+
+    &__actions {
+      top: unset;
     }
   }
 }

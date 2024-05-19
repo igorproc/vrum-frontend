@@ -61,8 +61,6 @@ defineProps<Props>()
   }
 
   @media #{map-get($display-rules, 'xl')} {
-    margin-top: 32rem;
-
     &__title {
       font-size: 40rem;
     }

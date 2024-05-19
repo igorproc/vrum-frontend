@@ -9,3 +9,8 @@ export type TResponseError = {
     message: TResponseErrorMessageItem[] | string;
   }
 }
+
+export type TTimes = {
+  createdAt: string;
+  updatedAt: string;
+}

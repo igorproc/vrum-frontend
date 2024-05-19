@@ -1,19 +1,18 @@
 // Node Deps
+import type { AxiosHeaders, AxiosInstance, Method } from 'axios'
 import axios from 'axios'
-import type { AxiosInstance, Method } from 'axios'
 import { effect } from 'vue'
 import consola from 'consola'
 // Pinia Stores
 import { useNotificationStore } from '~/store/notification'
 // Types & Interfaces
 import type { TResponseError } from '~/api/shared.types'
-import type { AxiosHeaders } from 'axios'
 
 export const useAsyncQuery = () => {
   const runtimeConfig = useRuntimeConfig()
   const notificationStore = useNotificationStore()
 
-  const apiUrl = ref(runtimeConfig.public.apiUrl)
+  const apiUrl = runtimeConfig.public.apiUrl
   const requestInstance = ref<AxiosInstance | null>(null)
   const authToken = useCookie(
     'authorization',
@@ -59,20 +58,23 @@ export const useAsyncQuery = () => {
   }
 
   const getApiUrl = (path: string) => {
-    if (runtimeConfig.public.proxyEnabled) {
-      return import.meta.server ?
-        process.env.API_URL + path.replace('/api', '') :
-        path
+    const defaultPath = apiUrl + path.replace('/api', '')
+
+    if (!runtimeConfig.public.proxyEnabled) {
+      return defaultPath
     }
 
-    return runtimeConfig.public.apiUrl + path.replace('/api', '')
+    if (import.meta.server) {
+      return defaultPath
+    }
+
+    return path
   }
 
   const createInstance = () => {
     const instance = axios.create()
 
     instance.defaults.withCredentials = true
-    instance.defaults.baseURL = apiUrl.value
     instance.defaults.headers['Content-Type'] = 'application/json'
     if (authToken.value) {
       instance.defaults.headers['Authorization'] = authToken.value

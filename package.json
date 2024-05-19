@@ -38,6 +38,7 @@
     "@vee-validate/nuxt": "^4.12.2",
     "@vee-validate/yup": "^4.12.2",
     "@vueuse/core": "^10.7.0",
+    "dayjs": "^1.11.11",
     "lodash-es": "^4.17.21",
     "mitt": "^3.0.1",
     "nuxt-icons": "^3.2.1",

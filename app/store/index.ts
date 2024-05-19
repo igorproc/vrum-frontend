@@ -20,9 +20,9 @@ export const useIndexStore = defineStore('index-store', {
     },
     async serverInit() {
       await Promise.all([
-        await initializeUser(),
-        await initializeWishlist(),
-        await initializeCart(),
+        initializeUser(),
+        initializeWishlist(),
+        initializeCart(),
       ])
     },
   },

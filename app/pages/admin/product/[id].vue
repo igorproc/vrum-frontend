@@ -2,9 +2,10 @@
   <div class="app-admin-product-page">
     <AppAdminProductBlockMain
       v-if="data"
+      ref="edit"
       :product="data"
-      @product-update="refresh"
       class="app-admin-product-page__main"
+      @product-update="productUpdateHandler"
     />
 
     <AppAdminProductOptionTabs
@@ -45,6 +46,13 @@ const { data, refresh } = useAsyncData(
   `admin-product-${router.currentRoute.value.params.id}`,
   async () => await onLoad(),
 )
+
+const edit = ref<{ setCurrentValues: () => void } | null>(null)
+
+const productUpdateHandler = async () => {
+  await refresh()
+  edit.value?.setCurrentValues()
+}
 </script>
 
 <style lang="scss">

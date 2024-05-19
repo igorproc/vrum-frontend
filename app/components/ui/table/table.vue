@@ -30,7 +30,7 @@
         >
           <slot
             :key="row.target"
-            :value="getValueByKey(item, row.target)"
+            :value="item"
             name="item"
           >
             {{ getValueByKey(item, row.target) }}
@@ -50,6 +50,8 @@
 </template>
 
 <script setup lang="ts">
+import { generateRandomId } from '~/utils/generate.util'
+
 export type TUiTableRow<T> = {
   label: string,
   target?: keyof T

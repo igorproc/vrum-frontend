@@ -1,9 +1,5 @@
 <template>
   <div class="app-cart-item-price">
-    <span class="app-cart-item-price__label">
-      Price:
-    </span>
-
     <span class="app-cart-item-price__content">
       {{ productPrice }}
     </span>
@@ -25,15 +21,8 @@ const productPrice = computed(() => formattedPrice(price.value))
 
 <style lang="scss">
 .app-cart-item-price {
-  &__label {
+  &__content {
     font-size: 20rem;
-    font-weight: bold;
-  }
-
-  @media #{map-get($display-rules, 'md')} {
-    &__label {
-      display: none;
-    }
   }
 }
 </style>

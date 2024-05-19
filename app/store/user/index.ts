@@ -15,11 +15,11 @@ export const useUserStore = defineStore('user-store', {
     }
   },
   getters: {
-    isAdmin: state => {
+    isAdmin: (state): boolean => {
       if (!state.userData || state.isGuest) {
         return false
       }
-      return state.userData.role === 'ADMIN'
+      return ['ADMIN', 'OWNER'].includes(state.userData.role)
     },
   },
 })
