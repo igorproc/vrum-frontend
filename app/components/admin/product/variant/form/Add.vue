@@ -43,6 +43,7 @@ import { createVariant } from '~/api/product/configurable/CreateVariant'
 import type { TConfigurableProductVariants } from '~/api/product/configurable/shred.types'
 import type { TUploadImage } from '~/api/upload/uploadImage'
 import { EUploadTypes } from '~/api/upload/uploadImage'
+import type { TUiDropzoneExposes } from '~/components/ui/dropzone/dropzone.vue'
 
 interface Form {
   sku: string,
@@ -58,12 +59,12 @@ interface Emits {
   (name: 'variantAdded', group: TConfigurableProductVariants): void
 }
 
-const dropzone = ref<HTMLElement>()
+const dropzone = ref<TUiDropzoneExposes | null>()
 
 const validationSchema = object({
   sku: string().required(),
   imageUrl: string().required(),
-  price: number().required()
+  price: number().required(),
 })
 
 const emit = defineEmits<Emits>()
@@ -86,7 +87,7 @@ const submit = form.handleSubmit(async values => {
   const data = await createVariant({ id: id.value, ...values })
   if (!data?.group) {
     form.resetForm()
-
+    dropzone.value?.clearFiles()
     isLoading.value = false
     return
   }

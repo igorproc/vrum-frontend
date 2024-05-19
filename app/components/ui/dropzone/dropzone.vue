@@ -2,9 +2,9 @@
   <div class="ui-dropzone">
     <div v-if="state.files.length > 0" class="ui-dropzone__files">
       <div
-        class="ui-dropzone__files-item"
         v-for="(file, index) in state.files"
         :key="index"
+        class="ui-dropzone__files-item"
       >
         <span class="ui-dropzone__files-item-title">
           {{ file.name }}
@@ -12,7 +12,8 @@
 
         <span
           class="ui-dropzone__files-delete-action"
-          @click="handleClickDeleteFile(index)">
+          @click="handleClickDeleteFile(index)"
+        >
           Delete
         </span>
       </div>
@@ -20,7 +21,7 @@
 
     <div v-else class="ui-dropzone__blank" v-bind="getRootProps()">
       <div class="ui-dropzone__blank-wrapper">
-        <input v-bind="getInputProps()" />
+        <input v-bind="getInputProps()">
         <p>Drag and drop files here, or Click to select files</p>
       </div>
     </div>
@@ -30,11 +31,14 @@
 <script setup lang="ts">
 // Node Deps
 import { useDropzone } from 'vue3-dropzone'
-// Api Methods
-import { EUploadTypes, uploadImage } from '~/api/upload/uploadImage'
 // Types & interfaces
 import type { TUploadImage } from '~/api/upload/uploadImage'
+// Api Methods
+import { EUploadTypes, uploadImage } from '~/api/upload/uploadImage'
 
+export interface TUiDropzoneExposes {
+  clearFiles: () => void,
+}
 
 interface Props {
   typename: EUploadTypes
@@ -74,6 +78,8 @@ const handleClickDeleteFile = (index: number) => {
 const clearFiles = () => {
   state.files = []
 }
+
+defineExpose({ clearFiles })
 </script>
 
 <style lang="scss">

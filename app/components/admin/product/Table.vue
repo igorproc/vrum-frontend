@@ -9,7 +9,7 @@
     <template #item="{ key, value }">
       <div class="app-products-table__item">
         <span v-if="key === 'price'" class="app-products-table__item-text">
-          {{ getFormattedPrice(Number(value)) }}
+          {{ getFormattedPrice(Number(value.price)) }}
         </span>
 
         <ui-image

@@ -28,7 +28,7 @@
         label="Brand Id"
         class="app-add-product-form__field"
       />
-      <ui-dropzone :typename="EUploadTypes.product" @image-upload="uploadImage" />
+      <ui-dropzone ref="dropzone" :typename="EUploadTypes.product" @image-upload="uploadImage" />
     </div>
 
     <div class="app-add-product-form__actions">
@@ -49,8 +49,9 @@ import { number, object, string } from 'yup'
 import { createProduct } from '~/api/product/addProduct'
 // Types & Interfaces
 import { EAddProductTypes } from '~/api/product/shared.types'
-import { EUploadTypes } from '~/api/upload/uploadImage'
 import type { TUploadImage } from '~/api/upload/uploadImage'
+import { EUploadTypes } from '~/api/upload/uploadImage'
+import type { TUiDropzoneExposes } from '~/components/ui/dropzone/dropzone.vue'
 
 interface Form {
   name: string,
@@ -87,6 +88,7 @@ const validationSchema = object({
 })
 
 const isDisabled = ref(false)
+const dropzone = ref<TUiDropzoneExposes | null>(null)
 const form = useForm<Form>({ validationSchema })
 
 const uploadImage = (data: TUploadImage) => {
@@ -102,6 +104,7 @@ const submit = form.handleSubmit(async values => {
   const data = await createProduct(values)
   if (!data) {
     form.resetForm()
+    dropzone.value?.clearFiles()
     isDisabled.value = false
     return
   }
