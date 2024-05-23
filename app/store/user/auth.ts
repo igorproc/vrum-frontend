@@ -6,17 +6,17 @@ import { useCartStore } from '~/store/cart'
 import { createCart } from '~/store/cart/actions'
 import { wishlistOnLoginUser } from '~/store/wishlist/auth'
 import { cartOnLoginUser } from '~/store/cart/auth'
+// Types & Interfaces
+import type { TUserLogin, TUserLoginInput } from '~/api/user/login'
 // Api Methods
 import { loginUser as apiLoginUser } from '~/api/user/login'
+import type { TUserRegister, TUserRegisterInputWithoutTokens } from '~/api/user/create'
 import { createUser as apiCreateUser } from '~/api/user/create'
 import { logoutUser as apiLogoutUser } from '~/api/user/logout'
 // Utils
 import { prettyBearerToken } from '~/utils/bearer.util'
 // Constants
 import { COOKIE_MAX_LIFE } from '~/shared/const/cookies'
-// Types & Interfaces
-import type { TUserLogin, TUserLoginInput } from '~/api/user/login'
-import type { TUserRegister, TUserRegisterInputWithoutTokens } from '~/api/user/create'
 import { wishlistCreateCart } from '~/store/wishlist/actions'
 
 export const fillStoreData = (userData: TUserLogin | TUserRegister) => {
@@ -79,10 +79,11 @@ export const logoutUser = async () => {
   try {
     const userStore = useUserStore()
     const authToken = useCookie('authorization')
+    const router = useRouter()
 
     const isSuccessLogout = await apiLogoutUser()
 
-    if (!isSuccessLogout) {
+    if (!isSuccessLogout?.success) {
       return false
     }
 
@@ -94,6 +95,8 @@ export const logoutUser = async () => {
       createCart(),
       wishlistCreateCart(),
     ])
+
+    await router.push({ name: 'index' })
     return true
   } catch (error) {
     throw error
