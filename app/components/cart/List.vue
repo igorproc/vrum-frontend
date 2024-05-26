@@ -4,13 +4,13 @@
 
     <div class="app-cart-list__items">
       <div
-        v-for="item in cartStore.products"
-        :key="item.product.id"
+        v-for="item in cartStore.idsList"
+        :key="item.id"
         class="app-cart-list__items-item list-item"
       >
         <AppCartItemResolver
-          :product="item"
-          @product-remove="productRemove"
+          v-if="getProductByCartItem(item)"
+          :product="getProductByCartItem(item) as TCartProduct"
         />
         <div class="list-item__divider" />
       </div>
@@ -19,11 +19,24 @@
 </template>
 
 <script setup lang="ts">
+import type { TCartProductIds } from '~/api/cart/getShortData'
+import type { TCartProduct } from '~/api/cart/getProducts'
+
 const cartStore = useCartStore()
 
-const productRemove = (id: number) => {
-  cartStore.products = cartStore.products.filter(product => product.product.id !== id)
-}
+const getProductByCartItem = computed(() => {
+  return (item: TCartProductIds['items'][0]) => {
+    let productData: TCartProduct | null = null
+
+    if (!item.variantId) {
+      productData = cartStore.products.find(product => product.product.id === item.productId) || null
+    } else {
+      productData = cartStore.products.find(product => product.product.id === item.productId && product.selectedVariant === item.variantId) || null
+    }
+
+    return productData
+  }
+})
 </script>
 
 <style lang="scss">

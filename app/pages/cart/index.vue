@@ -1,7 +1,7 @@
 <template>
   <div class="app-cart-page">
     <AppCartList
-      v-if="data"
+      v-show="data"
       class="app-cart-page__product-list"
     />
 
@@ -30,7 +30,7 @@ const onLoad = async () => {
 
 const { data } = useAsyncData(
   'user-cart-products',
-  async () => await onLoad()
+  async () => await onLoad(),
 )
 </script>
 

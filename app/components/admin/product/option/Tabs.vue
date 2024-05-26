@@ -11,6 +11,7 @@
             class="app-product-option-tabs__add-group-action"
             @click="showAddOptionGroupInput"
           />
+
           <AppAdminProductOptionFormAddGroup
             v-else
             :product-id="id"

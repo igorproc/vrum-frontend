@@ -50,12 +50,15 @@ export const useProduct = (product: TProduct) => {
   const addToWishlist = async () => {
     operationWithWishlistIsProcessing.value = true
 
-    await addItemToWishlist(
+    const isAddedToWishlist = await addItemToWishlist(
       product,
       configurableProductVariant.value,
     )
-    notificationStore.openSuccessNotification('Product successfully added to wishlist')
     operationWithWishlistIsProcessing.value = false
+
+    if (isAddedToWishlist) {
+      notificationStore.openSuccessNotification('Product successfully added to wishlist')
+    }
   }
   const removeFromWishlist = async () => {
     if (!productIsAddedToWishlist.value) {
@@ -63,9 +66,12 @@ export const useProduct = (product: TProduct) => {
     }
     operationWithWishlistIsProcessing.value = true
 
-    await removeItemFromWishlist(productIsAddedToWishlist.value.id)
-    notificationStore.openSuccessNotification('Product successfully removed from wishlist')
+    const isRemovedFromWishlist = await removeItemFromWishlist(productIsAddedToWishlist.value.id)
     operationWithWishlistIsProcessing.value = false
+
+    if (isRemovedFromWishlist) {
+      notificationStore.openSuccessNotification('Product successfully removed from wishlist')
+    }
   }
   const addToCart = async (qty?: number) => {
     operationWithWishlistIsProcessing.value = true
@@ -84,11 +90,13 @@ export const useProduct = (product: TProduct) => {
       payload.variantId = configurableProductVariant.value
     }
 
-    await addItemToCart(payload)
-    notificationStore.openSuccessNotification('Product successfully added to cart')
+    const isAddedToCart = await addItemToCart(payload)
     operationWithWishlistIsProcessing.value = false
-  }
 
+    if (isAddedToCart) {
+      notificationStore.openSuccessNotification('Product successfully added to cart')
+    }
+  }
   const changeProductCartQty = async (qty?: number) => {
     if (!productIsAddedToCart.value) {
       return
@@ -100,20 +108,25 @@ export const useProduct = (product: TProduct) => {
       qty: qty ? qty : productIsAddedToCart.value.qty + 1,
     }
 
-    await changeItemQty(payload)
-    notificationStore.openSuccessNotification('successfully change product qty')
+    const isSuccess = await changeItemQty(payload)
     operationWithWishlistIsProcessing.value = false
-  }
 
+    if (isSuccess) {
+      notificationStore.openSuccessNotification('successfully change product qty')
+    }
+  }
   const removeFromCart = async () => {
     if (!productIsAddedToCart.value) {
       return
     }
 
     operationWithCartIsProcessing.value = true
-    await removeItemFromCart({ id: productIsAddedToCart.value.id })
-    notificationStore.openSuccessNotification('Product successfully added from cart')
+    const isRemoved = await removeItemFromCart({ id: productIsAddedToCart.value.id })
     operationWithCartIsProcessing.value = false
+
+    if (isRemoved) {
+      notificationStore.openSuccessNotification('Product successfully removed from cart')
+    }
   }
 
   return {

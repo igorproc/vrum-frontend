@@ -18,6 +18,10 @@ import { createOrder, EOrderPaymentType } from '~/api/checkout/createOrder'
 // Pinia Actions
 import { clearCartData } from '~/store/cart/actions'
 
+definePageMeta({
+  middleware: ['need-cart'],
+})
+
 const router = useRouter()
 const cartStore = useCartStore()
 const notificationStore = useNotificationStore()

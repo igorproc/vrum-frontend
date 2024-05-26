@@ -39,18 +39,6 @@ const { product } = toRefs(props)
 const productPrice = computed(() => {
   return formattedPrice(product.value.price)
 })
-
-const productUrl = computed(() => `${runtimeConfig.public.appUrl}/product/${product.value.name}`)
-
-const shareProductUrl = () => {
-  if (import.meta.server || !window) {
-    return
-  }
-
-  navigator
-    .clipboard
-    .writeText(productUrl.value)
-}
 </script>
 
 <style lang="scss">

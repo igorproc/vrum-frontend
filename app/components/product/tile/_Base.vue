@@ -113,7 +113,7 @@ const shareProductUrl = () => {
   if (import.meta.server || !window) {
     return
   }
-
+  
   navigator
     .clipboard
     .writeText(productUrl.value)

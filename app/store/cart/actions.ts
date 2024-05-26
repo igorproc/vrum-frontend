@@ -41,6 +41,7 @@ export const addItemToCart = async (productData: Omit<TCartAddProductInput, 'tok
   }
 
   cartStore.idsList.push(productIsAdded)
+  return true
 }
 
 export const removeItemFromCart = async (productData: Omit<TCartRemoveProductInput, 'token'>) => {
@@ -53,7 +54,8 @@ export const removeItemFromCart = async (productData: Omit<TCartRemoveProductInp
     return
   }
 
-  cartStore.idsList.filter(item => item.id !== productIsRemoved.id)
+  cartStore.idsList = cartStore.idsList.filter(item => item.id !== productIsRemoved.id)
+  return true
 }
 
 export const changeItemQty = async (productData: Omit<TChangeProductQtyInCartInput, 'token'>): Promise<TChangeProductQtyInCart | null> => {

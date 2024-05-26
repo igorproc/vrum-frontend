@@ -21,18 +21,25 @@ export const useCartStore = defineStore('cart-store', {
     totalPrice() {
       let totalPrice = 0
 
-      this.products.forEach(item => {
-        const basePrice = item.qty * item.product.price
-        if (item.product.__typename === EAddProductTypes.base || !item.product?.configurable) {
+      this.idsList.forEach(item => {
+        const productData = this.products.find(product => product.product.id === item.productId)
+        if (!productData) {
+          return
+        }
+
+        const basePrice = item.qty * productData.product.price
+        if (productData.product.__typename === EAddProductTypes.base ||
+          !productData.product?.configurable ||
+          !item.variantId) {
           totalPrice += basePrice
           return
         }
 
-        const variantCandidate = item
+        const variantCandidate = productData
           .product
           .configurable
           ?.variants
-          ?.find(variant => variant.product.id === item.selectedVariant)
+          ?.find(variant => variant.product.id === item.variantId)
         if (!variantCandidate) {
           totalPrice += basePrice
           return

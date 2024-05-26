@@ -13,6 +13,7 @@ export const initializeUser = async () => {
 
   const userData = await getUserData(authToken.value)
   if (!userData) {
+    authToken.value = ''
     return
   }
 
