@@ -1,6 +1,15 @@
 <template>
   <div class="app-product-option-tabs">
     <ui-tabs>
+      <template #header-tab-append="{ title }">
+        <ui-button
+          variant="text"
+          prepend-icon="common/close"
+          class="app-product-option-tabs__tab-append"
+          @click="onOptionGroupDelete(title)"
+        />
+      </template>
+
       <template #header-append>
         <div class="app-product-option-tabs__add-group">
           <ui-button
@@ -44,6 +53,7 @@
 </template>
 
 <script setup lang="ts">
+import { deleteConfigurableAttribute, EDeleteProductAttributeTypes } from '~/api/product/configurable/delete'
 // Types & Interfaces
 import type {
   TConfigurableProductOptions,
@@ -97,6 +107,23 @@ const optionItemAdded = (item: TConfigurableProductOptionValue & { groupId: numb
   })
 }
 
+const onOptionGroupDelete = async (title: string) => {
+  const groupCandidate = options.value.find(item => item.name === title)
+  if (!groupCandidate) {
+    return
+  }
+
+  const groupIsDeleted = await deleteConfigurableAttribute({
+    type: EDeleteProductAttributeTypes.optionGroup,
+    id: groupCandidate.id,
+  })
+  if (!groupIsDeleted?.successDelete) {
+    return
+  }
+
+  options.value = options.value.filter(item => item.id !== groupCandidate.id)
+}
+
 const optionItemDeleted = (data: { groupId: number, id: number }) => {
   const groupCandidate = options.value.find(item => item.id === data.groupId)
   if (!groupCandidate) {
@@ -114,9 +141,16 @@ const optionGroupAdded = (data: TConfigurableProductOptions) => {
 
 <style lang="scss">
 .app-product-option-tabs {
+  &__tab-append {
+    position: absolute;
+    top: -15rem;
+    right: -10rem;
+    padding: unset !important;
+  }
+
   &__add-group-action {
-    border-radius: 8rem;
-    padding: 8rem 12rem;
+    border-radius: 8rem !important;
+    padding: 8rem 12rem !important;
   }
 }
 </style>

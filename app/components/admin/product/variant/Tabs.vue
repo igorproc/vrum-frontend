@@ -1,6 +1,15 @@
 <template>
   <div class="app-product-variant-tabs">
     <ui-tabs :titles="tabsTitles">
+      <template #header-tab-append="{ title }">
+        <ui-button
+          variant="text"
+          prepend-icon="common/close"
+          class="app-product-variant-tabs__tab-append"
+          @click="onVariantGroupDeleted(title)"
+        />
+      </template>
+
       <template #header-append>
         <ui-button
           variant="outlined"
@@ -44,11 +53,12 @@
 </template>
 
 <script setup lang="ts">
+import { deleteConfigurableAttribute, EDeleteProductAttributeTypes } from '~/api/product/configurable/delete'
 // Types & Interfaces
 import type {
-  TConfigurableProductVariantAttribute,
   TConfigurableProductOptions,
-  TConfigurableProductVariants
+  TConfigurableProductVariantAttribute,
+  TConfigurableProductVariants,
 } from '~/api/product/configurable/shred.types'
 
 interface Props {
@@ -101,6 +111,23 @@ const variantIsAdded = (variant: TConfigurableProductVariants) => {
   closeAddVariantModal()
 }
 
+const onVariantGroupDeleted = async (title: string) => {
+  const variantGroupCandidate = variants.value.find(item => item.product.sku === title)
+  if (!variantGroupCandidate) {
+    return
+  }
+
+  const variantGroupDeleted = await deleteConfigurableAttribute({
+    type: EDeleteProductAttributeTypes.variantGroup,
+    id: variantGroupCandidate.product.id,
+  })
+  if (!variantGroupDeleted?.successDelete) {
+    return
+  }
+
+  variants.value = variants.value.filter(item => item.product.id !== variantGroupCandidate.product.id)
+}
+
 const variantOptionIsDeleted = (data: { id: number, optionId: number }) => {
   const variantCandidate = variants.value.find(variant => variant.product.id === data.id)
   if (!variantCandidate) {
@@ -127,9 +154,16 @@ const variantOptionIsAdded = (data: TConfigurableProductVariantAttribute & { gro
 
 <style lang="scss">
 .app-product-variant-tabs {
+  &__tab-append {
+    position: absolute;
+    top: -15rem;
+    right: -10rem;
+    padding: unset !important;
+  }
+
   &__add-group-action {
-    border-radius: 8rem;
-    padding: 8rem 12rem;
+    border-radius: 8rem !important;
+    padding: 8rem 12rem !important;
   }
 }
 </style>

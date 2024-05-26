@@ -1,17 +1,23 @@
 <template>
   <div class="ui-tabs">
     <ul class="ui-tabs__header">
-      <ui-button
+      <div
         v-for="tabTitle in tabTitles"
         :key="generateRandomId()"
-        variant="outlined"
-        :label="tabTitle"
-        :active="selectedTitle === tabTitle"
         class="ui-tabs__header-item"
-        @click="selectedTitle = tabTitle"
       >
-        {{ tabTitle }}
-      </ui-button>
+        <ui-button
+          variant="outlined"
+          :label="tabTitle"
+          :active="selectedTitle === tabTitle"
+          class="ui-tabs__header-tab"
+          @click="selectedTitle = tabTitle"
+        >
+          {{ tabTitle }}
+        </ui-button>
+
+        <slot name="header-tab-append" :title="tabTitle" />
+      </div>
 
       <slot name="header-append" />
     </ul>
@@ -24,7 +30,7 @@
 
 <script setup lang="ts">
 // Node Deps
-import { useSlots, provide } from 'vue'
+import { provide, useSlots } from 'vue'
 
 interface Props {
   titles?: string[]
@@ -83,8 +89,12 @@ provide('selectedTitle', selectedTitle)
     gap: 16rem;
 
     &-item {
-      border-radius: 8rem;
-      padding: 8rem 12rem;
+      position: relative;
+    }
+
+    &-tab {
+      border-radius: 8rem !important;
+      padding: 8rem 12rem !important;
     }
   }
 

@@ -22,10 +22,10 @@
         label="type"
         class="app-add-product-form__field"
       />
-      <ui-input
-        type="number"
+      <ui-dropdown
         path="brandId"
-        label="Brand Id"
+        :options="brandListForDropdown"
+        label="brand"
         class="app-add-product-form__field"
       />
       <ui-dropzone ref="dropzone" :typename="EUploadTypes.product" @image-upload="uploadImage" />
@@ -52,6 +52,8 @@ import { EAddProductTypes } from '~/api/product/shared.types'
 import type { TUploadImage } from '~/api/upload/uploadImage'
 import { EUploadTypes } from '~/api/upload/uploadImage'
 import type { TUiDropzoneExposes } from '~/components/ui/dropzone/dropzone.vue'
+import type { TBrand } from '~/api/brand/getBrandList'
+import { getBrandList } from '~/api/brand/getBrandList'
 
 interface Form {
   name: string,
@@ -89,7 +91,25 @@ const validationSchema = object({
 
 const isDisabled = ref(false)
 const dropzone = ref<TUiDropzoneExposes | null>(null)
+const brandData = ref<TBrand[]>([])
 const form = useForm<Form>({ validationSchema })
+
+const loadBrandData = async () => {
+  const brands = await getBrandList(1, 999)
+  if (!brands) {
+    return
+  }
+
+  brandData.value = brands.brands
+}
+await loadBrandData()
+
+const brandListForDropdown = computed(() => {
+  return brandData.value.map(brand => ({
+    label: brand.name,
+    value: brand.id,
+  }))
+})
 
 const uploadImage = (data: TUploadImage) => {
   form.setFieldValue('productImage', data.path)

@@ -1,7 +1,7 @@
 <template>
   <div class="app-product-header">
     <span class="app-product-header__total-products">
-     {{ totalProductsText }}
+      {{ totalProductsText }}
     </span>
 
     <AppAdminProductAddItemTrigger />
