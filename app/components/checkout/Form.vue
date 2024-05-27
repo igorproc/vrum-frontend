@@ -96,9 +96,15 @@ const countriesList: TUiDropdownOption[] = [
 ]
 
 const submitFields = form.handleSubmit(values => values)
-const resetForm = form.resetForm()
 
-defineExpose({ submitFields, resetForm })
+const resetForm = () => {
+  form.resetForm()
+}
+
+defineExpose({
+  submitFields,
+  resetForm,
+})
 </script>
 
 <style lang="scss">

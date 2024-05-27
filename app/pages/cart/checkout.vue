@@ -47,7 +47,8 @@ useLazyAsyncData(
 
 const checkoutForm = ref()
 const submitOrder = async () => {
-  const data = await checkoutForm.value.submitFields()
+  const data = await checkoutForm.value?.submitFields()
+  console.log(data)
   if (!data) {
     return
   }
@@ -58,7 +59,7 @@ const submitOrder = async () => {
     user: data,
   })
   if (!order?.status) {
-    checkoutForm.value.resetForm()
+    checkoutForm.value?.resetForm()
     return
   }
 

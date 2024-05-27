@@ -34,7 +34,7 @@
       </button>
 
       <AppLogout
-        v-if="!userStore.isGuest && userStore.userData"
+        v-if="!userStore.isGuest"
         class="drawer-container__logout-action"
         @success-logout="conditionStore.closeNavigationDrawer"
       />

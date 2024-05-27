@@ -2,6 +2,8 @@
 import { useUserStore } from '~/store/user/index'
 // Api Methods
 import { getUserData } from '~/api/user/userData'
+import { createCart } from '~/store/cart/actions'
+import { wishlistCreateCart } from '~/store/wishlist/actions'
 
 export const initializeUser = async () => {
   const userStore = useUserStore()
@@ -12,8 +14,12 @@ export const initializeUser = async () => {
   }
 
   const userData = await getUserData(authToken.value)
-  if (!userData) {
-    authToken.value = ''
+  if (!userData?.data) {
+    authToken.value = null
+    await Promise.all([
+      createCart(),
+      wishlistCreateCart(),
+    ])
     return
   }
 
