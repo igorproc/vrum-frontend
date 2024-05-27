@@ -2,13 +2,17 @@
   <ui-modal
     with-backdrop
     :open="open"
-    @close="onClose"
     class="app-product-option-add-modal"
+    @close="onClose"
   >
+    <template #header>
+      <h5>Добавление опции</h5>
+    </template>
+
     <AppAdminProductOptionFormAdd
       :group-id="groupId"
-      @option-created="optionCreated"
       class="app-product-option-add-modal__form"
+      @option-created="optionCreated"
     />
   </ui-modal>
 </template>

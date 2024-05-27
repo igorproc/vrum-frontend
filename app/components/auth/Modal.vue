@@ -1,12 +1,12 @@
 <template>
   <ui-modal
-    with-backdrop
     v-model:open="conditionStore.authModalIsOpen"
+    with-backdrop
     wrap-class-name="app-auth-modal"
   >
     <template #header>
       <h4>
-        Authorization
+        Авторизация
       </h4>
     </template>
 

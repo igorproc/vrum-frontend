@@ -1,5 +1,5 @@
 <template>
-  <div class="app-checkout-product-item">
+  <div v-if="name && qty" class="app-checkout-product-item">
     <div class="app-checkout-product-item__info">
       <span class="app-checkout-product-item__info-name">
         {{ name }}

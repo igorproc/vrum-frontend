@@ -20,16 +20,16 @@
     <div class="app-sign-in-form__actions">
       <ui-button
         tabindex="4"
-        label="Sing in"
-        variant="outlined"
+        label="есть аккаунт"
+        variant="text"
         class="app-sign-in-form__actions-auth"
         @click.prevent="emit('change-form')"
       />
       <ui-button
         tabindex="3"
         type="submit"
-        label="Authorize"
-        variant="outlined"
+        label="зарегестрироваться"
+        variant="text"
         class="app-sign-in-form__actions-login"
       />
     </div>
@@ -99,8 +99,7 @@ const submit = form.handleSubmit(async values => {
     align-items: center;
     justify-content: space-between;
 
-    &-auth {
-      border: none;
+    &-auth, &-login {
       padding: 0;
     }
   }

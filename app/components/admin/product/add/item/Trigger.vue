@@ -1,7 +1,7 @@
 <template>
   <ui-button
     variant="outlined"
-    label="Add"
+    label="Добавить"
     prepend-icon="common/plus"
     class="app-add-brand-modal-trigger"
     @click="conditionStore.openAdminAddProductModal"

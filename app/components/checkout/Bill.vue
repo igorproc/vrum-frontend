@@ -20,7 +20,7 @@
       <ui-button
         background-color="#000"
         variant="outlined"
-        label="Place order"
+        label="оформить"
         class="app-checkout-bill__actions-submit"
         @click="emit('proceedOrder')"
       />

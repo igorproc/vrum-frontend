@@ -1,11 +1,11 @@
 <template>
   <div class="app-checkout-bill-header">
-      <span class="app-checkout-bill-header__content">
-        Product
-      </span>
     <span class="app-checkout-bill-header__content">
-        Subtotal
-      </span>
+      Продукт
+    </span>
+    <span class="app-checkout-bill-header__content">
+      итого
+    </span>
   </div>
 </template>
 

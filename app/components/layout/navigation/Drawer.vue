@@ -63,14 +63,14 @@ const itemsIsDisabled = ref(false)
 const defaultLinkList: TNavigationDrawerLinkListItem[] = [
   {
     key: 'all-cart',
-    label: 'Cart',
+    label: 'Корзина',
     prependIcon: 'user/cart',
     disabled: itemsIsDisabled.value,
     link: { name: 'cart' },
   },
   {
     key: 'all-wishlist',
-    label: 'Wishlist',
+    label: 'Понравившиеся',
     prependIcon: 'user/heart',
     disabled: itemsIsDisabled.value,
     link: { name: 'user-wishlist' },
@@ -80,21 +80,21 @@ const authorizeLinkList: TNavigationDrawerLinkListItem[] = [...defaultLinkList]
 const adminLinkList: TNavigationDrawerLinkListItem[] = [
   {
     key: 'admin-brands-list',
-    label: '(Admin) Brands',
+    label: '(Админ) Бренды',
     prependIcon: 'user/admin-settings',
     disabled: itemsIsDisabled.value,
     link: { name: 'admin-brands' },
   },
   {
     key: 'admin-products-list',
-    label: '(Admin) Products',
+    label: '(Админ) продкуты',
     prependIcon: 'user/admin-settings',
     disabled: itemsIsDisabled.value,
     link: { name: 'admin-products' },
   },
   {
     key: 'admin-orders',
-    label: '(Admin) Orders',
+    label: '(Админ) заказы',
     prependIcon: 'user/admin-settings',
     disabled: itemsIsDisabled.value,
     link: { name: 'admin-orders' },

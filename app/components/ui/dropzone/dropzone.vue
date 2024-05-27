@@ -22,7 +22,7 @@
     <div v-else class="ui-dropzone__blank" v-bind="getRootProps()">
       <div class="ui-dropzone__blank-wrapper">
         <input v-bind="getInputProps()">
-        <p>Drag and drop files here, or Click to select files</p>
+        <p>Перетащите сюда файлы или щелкните, чтобы выбрать их.</p>
       </div>
     </div>
   </div>
@@ -128,6 +128,10 @@ defineExpose({ clearFiles })
       padding: 20rem;
       transition: all 0.3s ease;
       background: map-get($white-color-palette, 'white');
+
+      p {
+        text-align: center;
+      }
     }
   }
 }

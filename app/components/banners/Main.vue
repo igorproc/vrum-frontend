@@ -35,18 +35,18 @@ type TOfferItem = {
 const items: TOfferItem[] = [
   {
     id: 1,
-    title: 'Original winter wheel assembly',
-    description: 'safe on the road in the cold season. Buy winter wheel assemblies at favourable prices right now.',
+    title: 'Оригинальные зимние колеса в сборе',
+    description: 'безопасность на дороге в холодное время года. Купите зимние колеса в сборе по выгодным ценам прямо сейчас.',
     image: 'offers/slider-1.jpg',
-    actionTitle: 'buy now',
+    actionTitle: 'купить сейчас',
     link: { name: 'products', query: { page: 1, size: 12, brand: 1 } },
   },
   {
     id: 2,
-    title: 'Original autumn wheel',
-    description: 'drive on wet roads with complete confidence. Buy autumn wheel assemblies at favourable prices right now.',
+    title: 'Оригинальное осеннее колесо',
+    description: 'ездите по мокрым дорогам с полной уверенностью. Купите осенние колеса в сборе по выгодным ценам прямо сейчас.',
     image: 'offers/slider-2.jpg',
-    actionTitle: 'buy now',
+    actionTitle: 'купить сейчас',
     link: { name: 'products', query: { page: 1, size: 12, brand: 3 } },
   },
 ]

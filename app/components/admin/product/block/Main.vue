@@ -9,7 +9,7 @@
         v-if="!isForm"
         prepend-icon="user/edit"
         variant="outlined"
-        label="Edit"
+        label="изменить"
         class="block-info__edit"
         @click="isForm = true"
       />
@@ -62,7 +62,7 @@
 
       <ui-button
         v-if="isForm"
-        label="Confirm"
+        label="подтвердить"
         variant="outlined"
         class="block-info__submit"
         @click="submit"

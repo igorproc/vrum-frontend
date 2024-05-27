@@ -1,7 +1,7 @@
 <template>
   <ui-table
     has-append-column
-    title="Brands"
+    title="Бренды"
     :items="brands"
     :rows="tableRows"
     class="app-brands-table"
@@ -56,11 +56,11 @@ const tableRows: TUiTableRow<TBrand>[] = [
     target: 'id',
   },
   {
-    label: 'Name',
+    label: 'имя',
     target: 'name',
   },
   {
-    label: 'image',
+    label: 'изображение',
     target: 'image',
   },
 ]

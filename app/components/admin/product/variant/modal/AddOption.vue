@@ -6,7 +6,7 @@
     @close="onClose"
   >
     <template #header>
-      <h5>Variant Option {{ variantId }}</h5>
+      <h5>выбор возможной опции</h5>
     </template>
 
     <AppAdminProductVariantFormAddOption
@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import type {
   TConfigurableProductOptions,
-  TConfigurableProductVariantAttribute
+  TConfigurableProductVariantAttribute,
 } from '~/api/product/configurable/shred.types'
 
 interface Props {

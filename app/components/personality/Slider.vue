@@ -1,7 +1,7 @@
 <template>
   <div class="app-personality-slider">
     <h1 class="app-personality-slider__title">
-      Partner Brands
+      У Нас Есть
     </h1>
 
     <div class="app-personality-slider__wrapper wrapper">

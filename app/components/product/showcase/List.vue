@@ -1,7 +1,7 @@
 <template>
   <div class="app-product-showcase-list">
     <h1 class="app-product-showcase-list__title">
-      Our Products
+      Витрина
     </h1>
 
     <div class="app-product-showcase-list__products products">
@@ -15,7 +15,7 @@
 
     <div class="app-product-showcase-list__link">
       <ui-button
-        label="Show More"
+        label="ещё"
         :link="{ name: 'products', query: { page: 1, size: 12 } }"
         variant="outlined"
         title="Show More"

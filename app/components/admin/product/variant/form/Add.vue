@@ -6,13 +6,13 @@
     <div class="app-product-add-variant-form__fields">
       <ui-input
         path="sku"
-        label="sku"
+        label="идентификатор товарной позиции"
         required
         class="app-product-add-variant-form__field"
       />
       <ui-input
         path="price"
-        label="price"
+        label="цена"
         required
         class="app-product-add-variant-form__field"
       />
@@ -28,7 +28,7 @@
         :disabled="isLoading"
         type="submit"
         variant="outlined"
-        label="add"
+        label="добавить"
       />
     </div>
   </form>

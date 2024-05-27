@@ -1,13 +1,13 @@
 <template>
   <div class="ui-dropdown">
-    <label :for="selectId" class="ui-dropdown__label">
+    <label v-if="label" :for="selectId" class="ui-dropdown__label">
       {{ label }}
     </label>
 
     <select
       :id="selectId"
-      :disabled="disabled"
       v-model="field.value.value"
+      :disabled="disabled"
       class="ui-dropdown__select"
       @change="onSelectChange"
     >
@@ -42,10 +42,11 @@ export type TUiDropdownOption = {
   label: string | number,
   value: string | number,
 }
+
 interface Props {
   disabled?: boolean
+  label?: string,
   path: string,
-  label: string,
   options: TUiDropdownOption[]
 }
 
@@ -57,8 +58,8 @@ const selectId = useId()
 const props = withDefaults(
   defineProps<Props>(),
   {
-    disabled: false
-  }
+    disabled: false,
+  },
 )
 const { disabled, path, label, options } = toRefs(props)
 const emit = defineEmits<Emits>()

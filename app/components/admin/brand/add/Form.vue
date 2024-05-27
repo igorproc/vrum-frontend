@@ -2,7 +2,7 @@
   <form class="app-add-brand-form" @submit.prevent="submit">
     <div class="app-add-brand-form__fields-container">
       <ui-input
-        label="Name"
+        label="имя"
         path="name"
         class="app-add-brand-form__field"
       />
@@ -16,7 +16,7 @@
     <div class="app-add-brand-form__actions">
       <ui-button
         type="submit"
-        label="Create"
+        label="Добавить"
         variant="outlined"
         class="app-add-brand-form__actions-create"
       />
@@ -30,9 +30,9 @@ import { useForm } from 'vee-validate'
 import { object, string } from 'yup'
 // Api Methods
 import { createBrand } from '~/api/brand/create'
-import { EUploadTypes } from '~/api/upload/uploadImage'
 // Types & Interfaces
 import type { TUploadImage } from '~/api/upload/uploadImage'
+import { EUploadTypes } from '~/api/upload/uploadImage'
 
 interface Form {
   name: string,

@@ -8,7 +8,7 @@
       @click="prevPage"
     >
       <span class="item__label">
-        prev
+        пред.
       </span>
     </button>
 
@@ -35,20 +35,18 @@
       @click="nextPage"
     >
       <span class="item__label">
-        next
+        след.
       </span>
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-// Types & Interfaces
-import type { IPaginationItem } from '~/utils/getTotalPages.util'
 // Util
 import { generateRandomId } from '~/utils/generate.util'
 
 interface Props {
-  items?: IPaginationItem[],
+  items?: { id: number, value: string }[],
   disabled?: boolean,
   totalPages: number,
   currentPage: number,

@@ -12,7 +12,7 @@
           :for="changeSizeId"
           class="show-action__label"
         >
-          Show
+          Показать
         </label>
         <input
           :id="changeSizeId"
@@ -25,7 +25,7 @@
 
       <div class="filters__actions-sort sort-action">
         <label :for="changeSortId" class="sort-action__label">
-          Sort by
+          отсортировать
         </label>
 
         <ui-menu :id="changeSortId" :open="changeSortMenuIsOpen" class="sort-action__menu">
@@ -84,14 +84,14 @@ const changeSortMenuIsOpen = ref(false)
 const changeSortItems = [
   {
     id: generateRandomId(),
-    label: 'Asc',
+    label: 'убыванию',
     value: 'asc',
   },
   {
     id: generateRandomId(),
-    label: 'Desc',
+    label: 'возрастанию',
     value: 'desc',
-  }
+  },
 ]
 
 const productShowsText = computed(() => {
@@ -110,7 +110,7 @@ const productShowsText = computed(() => {
     endShowsProducts = totalProducts.value
   }
 
-  return `Showing ${startShowsProducts}–${endShowsProducts} of ${totalProducts.value} results`
+  return `Показано ${startShowsProducts}–${endShowsProducts} из ${totalProducts.value} результатов`
 })
 
 const labelForChangeSort = computed(() => {

@@ -26,7 +26,7 @@
     <template #hover-effect>
       <div class="base-product__hover-container hover-container">
         <ui-button
-          label="Add To Cart"
+          label="Добавить в корзину"
           class="hover-container__add-to-cart-action"
           @click.prevent="addProductToCart"
         />
@@ -34,13 +34,11 @@
         <div class="hover-container__additional-actions additional-actions">
           <ui-button
             variant="text"
-            label="Share"
             prepend-icon="user/share"
             @click.prevent="shareProductUrl"
           />
           <ui-button
             variant="text"
-            label="Like"
             prepend-icon="user/heart"
             @click.prevent="addProductToWishlist"
           />
@@ -113,7 +111,7 @@ const shareProductUrl = () => {
   if (import.meta.server || !window) {
     return
   }
-  
+
   navigator
     .clipboard
     .writeText(productUrl.value)

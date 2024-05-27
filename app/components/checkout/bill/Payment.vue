@@ -9,8 +9,8 @@
       >
         <div class="select-item__input-container">
           <input
-            type="radio"
             :id="type.id"
+            type="radio"
             :checked="type.id === selectedOption"
             class="select-item__input-field"
             @click="selectOption(type.id)"
@@ -32,8 +32,8 @@
 const paymentTypes = [
   {
     id: useId(),
-    title: 'Cash On Delivery',
-    description: `pay our courier when you pick up your order.`,
+    title: 'Наложенный платеж',
+    description: `заплатите нашему курьеру, когда будете забирать свой заказ.`,
   },
 ]
 

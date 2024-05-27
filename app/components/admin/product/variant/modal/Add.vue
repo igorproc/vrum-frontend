@@ -7,7 +7,7 @@
   >
     <template #header>
       <div class="app-product-add-variant-modal__header">
-        <h5>Add Variant</h5>
+        <h5>Добавить вариант</h5>
       </div>
     </template>
 

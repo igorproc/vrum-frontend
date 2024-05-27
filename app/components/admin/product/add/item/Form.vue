@@ -3,17 +3,17 @@
     <div class="app-add-product-form__fields-container">
       <ui-input
         path="name"
-        label="name"
+        label="имя"
         class="app-add-product-form__field"
       />
       <ui-input
         path="description"
-        label="description"
+        label="описание"
         class="app-add-product-form__field"
       />
       <ui-input
         path="price"
-        label="price"
+        label="цена"
         class="app-add-product-form__field"
       />
       <ui-dropdown
@@ -25,7 +25,7 @@
       <ui-dropdown
         path="brandId"
         :options="brandListForDropdown"
-        label="brand"
+        label="бренд"
         class="app-add-product-form__field"
       />
       <ui-dropzone ref="dropzone" :typename="EUploadTypes.product" @image-upload="uploadImage" />

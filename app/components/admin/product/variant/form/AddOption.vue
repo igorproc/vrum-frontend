@@ -3,13 +3,14 @@
     <div class="app-product-add-variant-option-form__container-fields">
       <ui-dropdown
         :options="optionGroups"
-        label="group"
+        label="группа"
         path="optionGroupId"
         class="app-product-add-variant-option-form__field"
       />
       <ui-dropdown
+        :disabled="!form.values.optionGroupId"
         :options="availableOptionsBySelectedGroup"
-        label="option"
+        label="опция"
         path="optionId"
         class="app-product-add-variant-option-form__field"
       />
@@ -29,7 +30,7 @@
 // Types & Interfaces
 import type {
   TConfigurableProductOptions,
-  TConfigurableProductVariantAttribute
+  TConfigurableProductVariantAttribute,
 } from '~/api/product/configurable/shred.types'
 import type { TUiDropdownOption } from '~/components/ui/dropdown/dropdown.vue'
 import { number, object } from 'yup'

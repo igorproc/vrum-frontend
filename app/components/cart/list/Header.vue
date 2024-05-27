@@ -2,9 +2,9 @@
   <div class="app-cart-list-header">
     <div class="app-cart-list-header__wrapper">
       <div v-for="title in headerTitles" :key="title.id" class="app-cart-list-header__item">
-      <span class="app-cart-list-header__item-label">
-        {{ title.label }}
-      </span>
+        <span class="app-cart-list-header__item-label">
+          {{ title.label }}
+        </span>
       </div>
     </div>
   </div>
@@ -16,19 +16,19 @@ import { generateRandomId } from '~/utils/generate.util'
 const headerTitles = [
   {
     id: generateRandomId(),
-    label: 'Product',
+    label: 'Продукт',
   },
   {
     id: generateRandomId(),
-    label: 'Price',
+    label: 'Цена',
   },
   {
     id: generateRandomId(),
-    label: 'Quantity',
+    label: 'Кол-во',
   },
   {
     id: generateRandomId(),
-    label: 'Subtotal',
+    label: 'стоимость',
   },
 ]
 </script>

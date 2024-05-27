@@ -7,7 +7,7 @@
   >
     <template #header>
       <h4 class="app-add-product-modal__title">
-        Add Product
+        Добавить в корзину
       </h4>
     </template>
 

@@ -1,7 +1,7 @@
 <template>
   <ui-button
     :disabled="isLoading"
-    label="logout"
+    label="выйти"
     variant="outlined"
     class="app-user-logout"
     @click="onUserLogout"

@@ -2,12 +2,12 @@
   <ui-table
     :items="orders"
     :rows="tableRows"
-    title="orders"
+    title="заказы"
     class="app-admin-orders-table"
   >
     <template #item="{ key, value }">
       <div
-        v-if="key === tableRows[1].label"
+        v-if="key === 'status'"
         class="app-admin-orders-table__status"
       >
         <AppAdminOrderChangeStatus :id="value.id" :selected-status="value.status" />
@@ -42,15 +42,15 @@ const tableRows: TUiTableRow<TOrder>[] = [
     target: 'token',
   },
   {
-    label: 'status',
+    label: 'статус',
     target: 'status',
   },
   {
-    label: 'payment',
+    label: 'оплатил',
     target: 'payment',
   },
   {
-    label: 'ordered at',
+    label: 'заказано',
     target: 'times',
   },
 ]

@@ -25,7 +25,7 @@
         background-color="#000"
         variant="outlined"
         prepend-icon="user/cart"
-        label="Add To Cart"
+        label="Добавить в корзину"
         class="actions-product__cart"
         @click="addProductToCart"
       />
@@ -36,8 +36,7 @@
 <script setup lang="ts">
 // Types & Interfaces
 import type { TProduct } from '~/api/product/shared.types'
-import AppConfigurableProductSwitchGroup
-  from '~/components/product/switch/Group.vue'
+import AppConfigurableProductSwitchGroup from '~/components/product/switch/Group.vue'
 
 interface Props {
   product: TProduct,

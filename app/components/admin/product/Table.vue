@@ -69,23 +69,23 @@ const tableRows: TUiTableRow<TProduct>[] = [
     target: 'id',
   },
   {
-    label: 'Name',
+    label: 'имя',
     target: 'name',
   },
   {
-    label: 'Type',
+    label: 'тип',
     target: '__typename',
   },
   {
-    label: 'image',
+    label: 'изображение',
     target: 'productImage',
   },
   {
-    label: 'Price',
+    label: 'цена',
     'target': 'price',
   },
   {
-    label: 'Actions',
+    label: 'действия',
   },
 ]
 

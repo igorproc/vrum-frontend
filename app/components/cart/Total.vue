@@ -2,11 +2,11 @@
   <div class="app-cart-total">
     <div class="app-cart-total__container">
       <h2 class="app-cart-total__title">
-        Cart Totals
+        Итоговая корзина
       </h2>
       <div class="app-cart-total__price-container">
         <h4 class="app-cart-total__price-label">
-          Total
+          итого
         </h4>
         <span class="app-cart-total__price-content">
           {{ formattedTotalPrice }}
@@ -17,7 +17,7 @@
           :link="{ name: 'cart-checkout' }"
           variant="outlined"
           background-color="#fff"
-          label="Check Out"
+          label="оформить"
           class="app-cart-total__actions-checkout"
         />
       </div>

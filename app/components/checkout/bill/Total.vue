@@ -1,7 +1,7 @@
 <template>
   <div class="app-checkout-total-price">
     <span class="app-checkout-total-price__label">
-      Total
+      Итого
     </span>
     <span class="app-checkout-total-price__content">
       {{ totalPrice }}

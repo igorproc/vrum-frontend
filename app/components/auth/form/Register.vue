@@ -20,16 +20,16 @@
     <div class="app-sign-up-form__actions">
       <ui-button
         tabindex="4"
-        label="Sing up"
-        variant="outlined"
+        label="зарегестрироваться"
+        variant="text"
         class="app-sign-in-form__actions-auth"
         @click="emit('change-form')"
       />
       <ui-button
         tabindex="3"
         type="submit"
-        label="Login"
-        variant="outlined"
+        label="войти"
+        variant="text"
         class="app-sign-in-form__actions-login"
       />
     </div>

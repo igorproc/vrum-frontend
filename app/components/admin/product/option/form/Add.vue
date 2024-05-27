@@ -5,14 +5,14 @@
         tabindex="1"
         required
         path="name"
-        label="Name"
+        label="имя"
         class="app-add-product-option-form__field"
       />
       <ui-input
         tabindex="2"
         required
         path="value"
-        label="Value"
+        label="значение"
         class="app-add-product-option-form__field"
       />
     </div>
@@ -22,7 +22,7 @@
         tabindex="3"
         :disabled="isLoading"
         variant="outlined"
-        label="add"
+        label="добавить"
         class="app-add-product-option-form__actions-submit"
       />
     </div>

@@ -1,7 +1,7 @@
 <template>
   <form class="app-checkout-form">
     <h4 class="app-checkout-form__title">
-      Billing Details
+      Детали счета
     </h4>
 
     <div class="app-checkout-form__fileds-container">
@@ -9,14 +9,14 @@
         <ui-input
           tabindex="1"
           path="name"
-          label="Name"
+          label="Имя"
           required
           class="app-checkout-form__field"
         />
         <ui-input
           tabindex="2"
           path="surname"
-          label="Surname"
+          label="Фамилия"
           required
           class="app-checkout-form__field"
         />
@@ -25,21 +25,21 @@
         tabindex="3"
         :options="countriesList"
         path="country"
-        label="Country"
+        label="Страна"
         class="app-checkout-form__field"
       />
       <ui-input
         tabindex="4"
         required
         path="city"
-        label="City"
+        label="Город"
         class="app-checkout-form__field"
       />
       <ui-input
         tabindex="5"
         required
         path="address"
-        label="Address"
+        label="Адресс"
         class="app-checkout-form__field"
       />
       <ui-input
@@ -82,15 +82,15 @@ const form = useForm<Form>({ validationSchema })
 
 const countriesList: TUiDropdownOption[] = [
   {
-    label: 'Russia',
+    label: 'Россия',
     value: 'ru_RU',
   },
   {
-    label: 'Belarus',
+    label: 'Беларусь',
     value: 'ru_BE',
   },
   {
-    label: 'Kazakhstan',
+    label: 'Казахстан',
     value: 'ru_KZ',
   },
 ]

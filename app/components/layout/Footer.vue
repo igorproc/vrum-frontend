@@ -1,7 +1,7 @@
 <template>
   <footer class="app-footer">
     <span class="app-footer__copyright">
-      2023 Specto. All rights reverved
+      2023 Specto. Все права защищены
     </span>
   </footer>
 </template>

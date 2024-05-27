@@ -1,12 +1,12 @@
 <template>
   <ui-modal
-    with-backdrop
     v-model:open="adminAddBrandModalIsOpen"
+    with-backdrop
     wrap-class-name="app-add-brand-modal"
   >
     <template #header>
       <h4 class="app-add-brand-modal__title">
-        Add Brand
+        добавление бренда
       </h4>
     </template>
 
